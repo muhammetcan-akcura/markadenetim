@@ -1,0 +1,119 @@
+/* ==========================================================================
+   MarkaDenetim — Tasarım token'ları
+   Tek kaynak: docs/BRIEF.md §03. Bu dosya dışında renk/ölçü yazılmaz.
+   ========================================================================== */
+
+/* Fontlar self-host: harici CDN'e IP aktarımı yok (KVKK), preload doğrudan çalışır.
+   Türkçe için iki alt küme şart: "ı" latin'de, "ğ ş İ" latin-ext'te. */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+  src: url('../assets/fonts/newsreader-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+  src: url('../assets/fonts/newsreader-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../assets/fonts/manrope-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../assets/fonts/manrope-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  /* --- Renk (BRIEF §03, kesin değerler) --- */
+  --navy-950: #070D1A;
+  --navy-900: #0B1426;
+  --navy-800: #101D36;
+  --navy-700: #1A2B4A;
+  --charcoal: #2A2F38;
+  --stone-500: #8A8F98;
+  --stone-300: #C9CCD1;
+  --warm-100: #F6F3EE;
+  --warm-50: #FBF9F6;
+  --ink: #0E1117;
+  --gold: #B89B6A;
+  --gold-soft: rgba(184, 155, 106, .35);
+
+  /* Türetilmiş: header zemini — brief "yarı opak, blur yok" diyor */
+  --navy-900-veil: rgba(11, 20, 38, .94);
+  /* Koyu zeminde yapıyı kuran 1px çizgi: stone-300'ün kısık hâli */
+  --rule-dark: rgba(201, 204, 209, .16);
+  /* Açık zeminde 1px çizgi */
+  --rule-light: rgba(14, 17, 23, .14);
+
+  /* --- Tipografi --- */
+  --font-serif: 'Newsreader', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+
+  --fs-display: clamp(3.5rem, 8vw, 9rem);
+  --fs-h2: clamp(2.25rem, 5vw, 5rem);
+  --fs-h3: clamp(1.5rem, 2.4vw, 2.25rem);
+  /* Marka beyanı: brief "dev serif ifade, 3–4 satır" istiyor; H2 ile display arası */
+  --fs-statement: clamp(2.625rem, 6vw, 6.75rem);
+  --fs-body: 1.0625rem;
+  --fs-small: .9375rem;
+  --fs-label: .75rem;
+
+  --lh-display: .98;
+  --lh-h2: 1.04;
+  --lh-body: 1.65;
+  --tracking-display: -.025em;
+  --tracking-label: .16em;
+  --measure: 62ch;
+
+  /* --- Boşluk: 8px baz --- */
+  --s-1: .5rem;   /* 8  */
+  --s-2: 1rem;    /* 16 */
+  --s-3: 1.5rem;  /* 24 */
+  --s-4: 2rem;    /* 32 */
+  --s-5: 3rem;    /* 48 */
+  --s-6: 4rem;    /* 64 */
+  --s-7: 6rem;    /* 96 */
+  --s-8: 10rem;   /* 160 */
+  --s-9: 15rem;   /* 240 */
+
+  /* Bölüm ritmi bilinçli olarak eşit değil (BRIEF §03) */
+  --section-tight: clamp(var(--s-6), 8vw, var(--s-7));
+  --section-mid: clamp(var(--s-7), 12vw, var(--s-8));
+  --section-wide: clamp(var(--s-8), 17vw, var(--s-9));
+
+  /* --- Grid --- */
+  --container: 1440px;
+  --gutter: clamp(20px, 5vw, 80px);
+  --cols: 4;
+  --col-gap: var(--s-2);
+
+  --header-h: 4.5rem;
+
+  /* --- Hareket --- */
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --t-hover: 200ms;
+  --t-reveal: 800ms;
+  --t-hero: 1200ms;
+}
+
+@media (min-width: 768px) {
+  :root { --cols: 12; --col-gap: var(--s-3); }
+}
+@media (min-width: 1280px) {
+  :root { --col-gap: var(--s-4); }
+}

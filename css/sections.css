@@ -1,0 +1,396 @@
+/* ==========================================================================
+   MarkaDenetim — Bölümler (BRIEF §04 sırasıyla)
+   ========================================================================== */
+
+/* --- Ortak UI parçaları --------------------------------------------------- */
+
+/* Çerçeveli dikdörtgen CTA. Altın dolgu yok (§03 altın kuralı); hover'da yalnızca
+   altta 1px altın çizgi soldan uzar. */
+.btn-frame {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: var(--s-3);
+  border: 1px solid var(--stone-500);
+  border-radius: 0;
+  font-size: .8125rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  transition: border-color var(--t-hover) var(--ease);
+}
+.btn-frame::after {
+  content: "";
+  position: absolute;
+  left: -1px; right: -1px; bottom: -1px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 400ms var(--ease);
+}
+.btn-frame:hover { border-color: var(--stone-300); }
+.btn-frame:hover::after { transform: scaleX(1); }
+
+/* Metin + ince ok. Kutu yok: CTA'nın ağırlığı tipografiden gelir. */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+.link-arrow__icon {
+  width: 48px;
+  height: 10px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  transition: transform var(--t-hover) var(--ease), stroke var(--t-hover) var(--ease);
+}
+.link-arrow:hover .link-arrow__icon { transform: translateX(6px); stroke: var(--gold); }
+
+
+/* ===================== 4.1 HEADER ===================== */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  color: var(--warm-100);
+  transition: transform 600ms var(--ease);
+}
+/* Zemin ayrı katmanda: geçiş yalnızca opaklıkla (layout değişmez) */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--navy-900-veil);
+  border-bottom: 1px solid var(--rule-dark);
+  opacity: 0;
+  transition: opacity 400ms var(--ease);
+}
+.site-header.is-scrolled::before { opacity: 1; }
+.site-header.is-hidden { transform: translateY(-100%); }
+
+/* Sayfa başında içerik 16px aşağıda durur; scroll'da yukarı oturur.
+   Yükseklik "küçülür" ama yalnızca transform ile. */
+.site-header__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  height: var(--header-h);
+  transform: translateY(var(--s-2));
+  transition: transform 600ms var(--ease);
+}
+.site-header.is-scrolled .site-header__inner { transform: none; }
+
+/* Wordmark: işaret yok, yalnızca geniş harf aralıklı sans */
+.wordmark {
+  margin-right: auto;
+  font-size: .875rem;
+  font-weight: 600;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding-block: var(--s-2);
+}
+
+.site-nav { display: none; }
+.site-nav__list { display: flex; gap: var(--s-5); }
+.site-nav a {
+  position: relative;
+  display: inline-block;
+  padding-block: var(--s-1);
+  font-size: .875rem;
+  font-weight: 500;
+  color: var(--stone-300);
+  transition: color var(--t-hover) var(--ease);
+}
+.site-nav a:hover { color: var(--warm-100); }
+
+.site-header__cta { display: none; }
+
+.menu-toggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: calc(var(--s-1) * -1.25);
+}
+/* İki çizgi: hamburger'in üç çizgisinden daha sakin */
+.menu-toggle__lines,
+.menu-close__lines {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 8px;
+}
+.menu-toggle__lines::before,
+.menu-toggle__lines::after,
+.menu-close__lines::before,
+.menu-close__lines::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+}
+.menu-toggle__lines::before { top: 0; }
+.menu-toggle__lines::after { bottom: 0; }
+.menu-close__lines::before,
+.menu-close__lines::after { top: 50%; }
+.menu-close__lines::before { transform: rotate(45deg); }
+.menu-close__lines::after { transform: rotate(-45deg); }
+
+@media (min-width: 768px) {
+  .site-header__cta { display: inline-flex; }
+}
+@media (min-width: 1100px) {
+  .site-nav { display: block; }
+  .menu-toggle { display: none; }
+}
+
+/* --- Mobil menü --- */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  background: var(--navy-950);
+  color: var(--warm-100);
+  overflow-y: auto;
+  opacity: 0;
+  transition: opacity 400ms var(--ease);
+}
+.mobile-menu.is-open { opacity: 1; }
+
+.mobile-menu__top {
+  display: flex;
+  align-items: center;
+  height: var(--header-h);
+  transform: translateY(var(--s-2));
+}
+.menu-close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: calc(var(--s-1) * -1.25);
+}
+
+.mobile-menu__nav {
+  flex: 1;
+  padding-top: var(--s-6);
+}
+.mobile-menu__nav li { border-bottom: 1px solid var(--rule-dark); }
+.mobile-menu__nav li:first-child { border-top: 1px solid var(--rule-dark); }
+.mobile-menu__nav a {
+  display: block;
+  padding-block: var(--s-2);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2rem, 9vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -.015em;
+  transform: translateY(var(--s-2));
+  opacity: 0;
+  transition: transform 600ms var(--ease), opacity 600ms var(--ease);
+}
+.mobile-menu.is-open .mobile-menu__nav a { transform: none; opacity: 1; }
+.mobile-menu.is-open li:nth-child(2) a { transition-delay: 40ms; }
+.mobile-menu.is-open li:nth-child(3) a { transition-delay: 80ms; }
+.mobile-menu.is-open li:nth-child(4) a { transition-delay: 120ms; }
+.mobile-menu.is-open li:nth-child(5) a { transition-delay: 160ms; }
+
+.mobile-menu__foot {
+  display: grid;
+  gap: var(--s-4);
+  padding-block: var(--s-5) max(var(--s-5), env(safe-area-inset-bottom));
+}
+.mobile-menu__foot .btn-frame { justify-self: start; min-height: 52px; }
+.mobile-menu__contact { display: grid; gap: var(--s-2); margin: 0; }
+.mobile-menu__contact dt { color: var(--stone-500); }
+.mobile-menu__contact dd { margin: 0; font-size: var(--fs-small); color: var(--stone-300); }
+
+
+/* ===================== 4.2 HERO ===================== */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+
+/* Cephe header'ın altından başlar: çizgiler gezinme metninin arkasına girmez.
+   Mobilde üst bölümü doldurur, başlık altta tek başına okunur. */
+.hero__art {
+  position: absolute;
+  z-index: -1;
+  top: calc(var(--header-h) + var(--s-3));
+  right: 0;
+  width: 100%;
+  height: 38%;
+}
+@media (min-width: 768px) {
+  .hero__art { height: calc(100% - var(--header-h) - var(--s-3)); width: 62%; }
+}
+@media (min-width: 1280px) {
+  .hero__art { width: 52%; }
+}
+
+/* non-scaling-stroke: SVG hangi ölçekte olursa olsun çizgiler gerçek 1px kalır */
+.hero__art line { vector-effect: non-scaling-stroke; stroke-width: 1; }
+.plane--a { fill: var(--navy-800); }
+.plane--b {
+  fill: var(--navy-700);
+  fill-opacity: .42;
+  stroke: var(--stone-300);
+  stroke-opacity: .14;
+  vector-effect: non-scaling-stroke;
+}
+.hero__slabs line { stroke: var(--stone-300); stroke-opacity: .07; }
+.hero__fins line { stroke: var(--stone-300); stroke-opacity: .2; }
+.hero__trace line { stroke: var(--gold); }
+.hero__trace rect { fill: var(--gold); }
+
+.hero__inner {
+  padding-top: calc(var(--header-h) + var(--s-7));
+  padding-bottom: var(--s-4);
+}
+
+/* Brief mobilde de 3 satır istiyor; en uzun satır ("Sürdürülebilir yapı.") 360px'te
+   ancak ~11vw ile sığar. Bu yüzden dar ekranda display ölçeğinin tabanı vw'ye bırakılır. */
+.hero__title {
+  margin-bottom: var(--s-5);
+  font-size: min(var(--fs-display), 11.2vw);
+}
+.hero__title .line { white-space: nowrap; }
+
+/* Satır maskesi: descender (ş, ç, ğ, y) ve aksanlar (Ü, İ) kesilmesin diye
+   maske dikeyde genişletilip negatif margin ile ritim korunur. */
+.line {
+  display: block;
+  overflow: hidden;
+  padding-block: .1em .18em;
+  margin-block: -.1em -.18em;
+}
+.line__inner { display: block; }
+
+.hero__foot {
+  align-items: end;
+  row-gap: var(--s-4);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--rule-dark);
+}
+.hero__lead { grid-column: 1 / -1; }
+.hero__lead p {
+  max-width: 34ch;
+  color: var(--stone-300);
+}
+.hero__lead .link-arrow { margin-top: var(--s-3); }
+
+.hero__tag { grid-column: 1 / -1; color: var(--stone-500); }
+
+/* 1px dikey çizgi; içinde yavaşça aşağı akan ikinci bir çizgi */
+.hero__scroll { display: none; }
+
+@media (min-width: 768px) {
+  .hero__inner { padding-bottom: var(--s-5); }
+  .hero__title { margin-bottom: var(--s-7); }
+  .hero__tag { grid-column: 1 / span 4; order: -1; }
+  .hero__lead { grid-column: 7 / span 6; }
+}
+@media (min-width: 1100px) {
+  .hero__lead { grid-column: 7 / span 4; }
+  .hero__scroll {
+    display: block;
+    grid-column: 12;
+    justify-self: end;
+    position: relative;
+    width: 1px;
+    height: var(--s-7);
+    overflow: hidden;
+    background: var(--rule-dark);
+  }
+  .hero__scroll span {
+    position: absolute;
+    inset: 0;
+    background: var(--stone-300);
+    transform: translateY(-100%);
+    animation: scroll-cue 2.8s var(--ease) infinite 1.4s;
+  }
+}
+@keyframes scroll-cue {
+  0%   { transform: translateY(-100%); }
+  60%  { transform: translateY(100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* --- Hero girişi. Bölümde iki hareket türü: satır maskesi + çizgi uzaması (§08) ---
+   Toplam ≤ 1.2s: satırlar 0/90/180ms gecikmeyle 1000ms. */
+.js .hero .line__inner { transform: translateY(110%); }
+.js .hero__fins,
+.js .hero__trace { transform-box: fill-box; }
+.js .hero__fins { transform: scaleY(0); transform-origin: 50% 100%; }
+.js .hero__trace { transform: scaleX(0); transform-origin: 0 50%; }
+
+.js .hero.is-in .line__inner {
+  transform: none;
+  transition: transform 1000ms var(--ease);
+}
+.js .hero.is-in .line:nth-child(2) .line__inner { transition-delay: 90ms; }
+.js .hero.is-in .line:nth-child(3) .line__inner { transition-delay: 180ms; }
+.js .hero.is-in .hero__fins { transform: none; transition: transform var(--t-hero) var(--ease); }
+.js .hero.is-in .hero__trace { transform: none; transition: transform 800ms var(--ease) 400ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .hero .line__inner,
+  .js .hero__fins,
+  .js .hero__trace { transform: none; }
+  .hero__scroll span { animation: none; transform: none; }
+}
+
+
+/* ===================== 4.3 MARKA BEYANI ===================== */
+/* Sayfanın en geniş nefesi: tek ifade, tek not. Başka öğe yok. */
+.statement {
+  --focus-ring: var(--ink);
+  padding-block: var(--section-wide);
+  background: var(--warm-100);
+  color: var(--ink);
+}
+/* Ölçü bilinçli olarak dar: ifade masaüstünde 3 satıra kırılır, her satır bir nefes */
+.statement__text { grid-column: 1 / -1; max-width: 13.5em; }
+/* Not, ifadenin altına sağa kaydırılır: okuma ifadeden aşağı-sağa akar.
+   Mobilde de bir kolon içeriden başlar; aynı fikir, küçük ölçekte. */
+.statement__note {
+  grid-column: 2 / -1;
+  margin-top: var(--s-6);
+  max-width: 40ch;
+  color: var(--charcoal);
+}
+@media (min-width: 768px) {
+  .statement__text { grid-column: 1 / span 11; }
+  .statement__note { grid-column: 6 / span 7; margin-top: var(--s-7); }
+}
+@media (min-width: 1100px) {
+  .statement__note { grid-column: 8 / span 4; }
+}
+
+/* Kelime kelime opaklık: değer JS'ten scroll ilerlemesine göre gelir */
+.js .statement__text .w { opacity: .25; }
+@media (prefers-reduced-motion: reduce) {
+  .js .statement__text .w { opacity: 1 !important; }
+}
