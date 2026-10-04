@@ -73,8 +73,17 @@ export function HeroStage({
       if (entry.isIntersecting) video.play().catch(() => {});
       else video.pause();
     });
-    io.observe(video);
+    // Video ilk boyamayla yarışmasın: sayfa yüklenip tarayıcı boşa çıkınca başlar
+    let idleId = 0;
+    const start = () => {
+      const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 300));
+      idleId = idle(() => io.observe(video));
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
     return () => {
+      window.removeEventListener('load', start);
+      if (idleId) (window.cancelIdleCallback ?? window.clearTimeout)(idleId);
       io.disconnect();
       video.removeEventListener('play', onPlay);
       video.removeEventListener('pause', onPause);
