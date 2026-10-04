@@ -1,10 +1,9 @@
-/* ===================== 4.2 HERO ===================== */
+/* ===================== 4.2 HERO — bölünmüş editoryal ===================== */
 .hero {
   position: relative;
   isolation: isolate;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   min-height: 100vh;
   min-height: 100svh;
   overflow: hidden;
@@ -12,88 +11,165 @@
   color: var(--warm-100);
 }
 
-/* Cephe header'ın altından başlar: çizgiler gezinme metninin arkasına girmez.
-   Mobilde üst bölümü doldurur, başlık altta tek başına okunur. */
-.art {
-  position: absolute;
-  z-index: -1;
-  top: calc(var(--header-h) + var(--s-3));
-  right: 0;
-  width: 100%;
-  height: 38%;
+/* --- Video paneli ---
+   Mobil: üstte tam genişlikte bant; başlık panelin alt kenarına biner.
+   Masaüstü: sağda, ekranın üstünden altına ve sağ kenara taşan dikey pencere. */
+.panel {
+  position: relative;
+  height: 54svh;
+  min-height: 22rem;
+  flex: none;
 }
-@media (min-width: 768px) {
-  .art { height: calc(100% - var(--header-h) - var(--s-3)); width: 62%; }
-}
-@media (min-width: 1280px) {
-  .art { width: 52%; }
-}
-
-/* SVG ve pencere aynı kutuyu paylaşır; SVG videonun üstünde çizilir */
-.art svg {
+.panelInner {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* Pencere. Mobilde cephe bandının içinde oransal durur. Geniş ekranda alt kenarı
-   hero'nun alt satırının üstünde biter: küçük metin hiçbir zaman videonun üstüne düşmez. */
-.window {
-  position: absolute;
-  left: 12.5%;
-  top: 18%;
-  width: 62.5%;
-  height: 68%;
   overflow: hidden;
   background: var(--navy-800);
-  outline: 1px solid var(--rule-dark);
 }
-/* Düz navy perde (gradient değil): başlık videonun üstüne bindiğinde kontrast korunur */
-.window::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--navy-900);
-  opacity: .3;
-}
-@media (min-width: 768px) {
-  .window { top: 12%; height: auto; bottom: 17.5rem; }
-}
-@media (min-width: 1100px) {
-  .window { bottom: 16.5rem; }
-}
-.windowInner { width: 100%; height: 100%; }
 .video {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
-/* non-scaling-stroke: SVG hangi ölçekte olursa olsun çizgiler gerçek 1px kalır */
-.art line,
-.plane { vector-effect: non-scaling-stroke; stroke-width: 1; }
-/* Kesişen düzlem pencerenin sağ yarısını örter: video bir camın arkasında gibi durur */
-.plane {
-  fill: var(--navy-700);
-  fill-opacity: .38;
+/* Düz navy perde (gradient değil): üstüne binen başlık ve header her karede okunur kalır */
+.veil {
+  position: absolute;
+  inset: 0;
+  background: var(--navy-900);
+  opacity: .38;
+}
+.fins {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.fins line {
   stroke: var(--stone-300);
-  stroke-opacity: .14;
+  stroke-opacity: .16;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
-.slabs line { stroke: var(--stone-300); stroke-opacity: .07; }
-.fins line { stroke: var(--stone-300); stroke-opacity: .2; }
-.trace line { stroke: var(--gold); }
-.trace rect { fill: var(--gold); }
 
-.inner {
-  padding-top: calc(var(--header-h) + var(--s-7));
-  padding-bottom: var(--s-4);
+/* --- Sahne göstergesi --- */
+.scenes {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  top: calc(var(--header-h) + var(--s-3));
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    "count name toggle"
+    "bars bars bars";
+  align-items: center;
+  column-gap: var(--s-2);
+  row-gap: var(--s-1);
+  font-size: var(--fs-label);
 }
+.count {
+  grid-area: count;
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  color: var(--warm-100);
+}
+.count span { color: var(--stone-300); font-weight: 400; }
+.sceneName {
+  grid-area: name;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--stone-300);
+}
+.bars {
+  grid-area: bars;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-1);
+}
+.bar {
+  position: relative;
+  height: 1px;
+  overflow: hidden;
+  background: var(--rule-dark);
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--warm-100);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.toggle {
+  grid-area: toggle;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  min-height: 44px;
+  color: var(--stone-300);
+  transition: color var(--t-hover) var(--ease);
+}
+.toggle:hover { color: var(--warm-100); }
+.glyph { display: block; width: 8px; height: 10px; }
+.pause { border-inline: 1.5px solid currentColor; width: 7px; }
+.play {
+  width: 0;
+  height: 0;
+  border-left: 8px solid currentColor;
+  border-block: 5px solid transparent;
+}
+
+/* --- Altın iz: ikinci satırın sonundan sağa, panelin içine uzanan 1px çizgi.
+   Yalnızca masaüstü: dar ekranda panel başlığın üstünde olduğu için iz anlamını yitirir. --- */
+.trace {
+  display: none;
+  position: relative;
+  vertical-align: .32em;
+  width: 40vw;
+  height: 1px;
+  margin-left: .25em;
+  background: var(--gold);
+  transform-origin: left;
+}
+.traceMark {
+  position: absolute;
+  left: 0;
+  top: -2.5px;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+}
+
+.scroll { display: none; }
+
+/* --- Metin katmanı --- */
+.inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  align-content: start;
+  padding-bottom: var(--s-5);
+}
+
+.tag {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-5);
+  color: var(--stone-300);
+}
+.tagRule { width: var(--s-4); height: 1px; background: var(--gold); flex: none; }
 
 /* Brief mobilde de 3 satır istiyor; en uzun satır ("Sürdürülebilir yapı.") 360px'te
-   ancak ~11vw ile sığar. Bu yüzden dar ekranda display ölçeğinin tabanı vw'ye bırakılır. */
+   ancak ~11vw ile sığar. Başlık panelin alt kenarına biner (negatif üst boşluk). */
 .title {
-  margin-bottom: var(--s-5);
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin-top: -1.55em;
   font-size: min(var(--fs-display), 11.2vw);
 }
 
@@ -108,108 +184,132 @@
 }
 .lineInner { display: block; }
 
-.foot {
-  align-items: end;
-  row-gap: var(--s-4);
-  padding-top: var(--s-3);
+.lead {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-top: var(--s-4);
+}
+.lead p { max-width: 40ch; color: var(--stone-300); }
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-4);
+  margin-top: var(--s-4);
+}
+
+/* Uzmanlık dizini: yalnızca tablet ve üstü (mobilde hizmetler bir kaydırma ötede) */
+.index { display: none; }
+.index ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   border-top: 1px solid var(--rule-dark);
 }
-.lead { grid-column: 1 / -1; grid-row: 2; }
-.lead p {
-  max-width: 34ch;
-  color: var(--stone-300);
-}
-.lead :global(.link-arrow) { margin-top: var(--s-3); }
-
-.tag { grid-column: 1 / -1; grid-row: 1; color: var(--stone-500); }
-
-/* Video kontrolü: kutu yok, küçük işaret + etiket. Videoya ait olduğu için sağda.
-   Mobilde CTA ile aynı hizada, açıklama hücresinin sağ alt köşesinde durur. */
-.toggle {
-  position: relative;
-  grid-column: 4;
-  grid-row: 2;
-  justify-self: end;
-  align-self: end;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-1);
+.index li + li { border-left: 1px solid var(--rule-dark); }
+.index a {
+  display: block;
   min-height: 44px;
-  color: var(--stone-500);
+  padding: var(--s-2) var(--s-2) var(--s-1);
+  font-size: .8125rem;
+  line-height: 1.35;
+  color: var(--stone-300);
   transition: color var(--t-hover) var(--ease);
 }
-.toggle:hover { color: var(--stone-300); }
-.glyph { display: block; width: 8px; height: 10px; }
-.pause { border-inline: 1.5px solid currentColor; width: 7px; }
-.play {
-  width: 0;
-  height: 0;
-  border-left: 8px solid currentColor;
-  border-block: 5px solid transparent;
+.index li:first-child a { padding-left: 0; }
+.index a:hover { color: var(--warm-100); }
+.indexNum {
+  display: block;
+  margin-bottom: var(--s-1);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  color: var(--gold);
 }
-
-/* 1px dikey çizgi; içinde yavaşça aşağı akan ikinci bir çizgi */
-.scroll { display: none; }
 
 @media (min-width: 768px) {
-  .inner { padding-bottom: var(--s-5); }
-  .title { margin-bottom: var(--s-7); }
-  .tag { grid-column: 1 / span 5; }
-  .lead { grid-column: 7 / span 5; grid-row: 1; }
-  .toggle { grid-column: 12; grid-row: 1; }
+  .panel { height: 58svh; }
+  .tag { grid-row: auto; order: -1; margin: 0 0 var(--s-4); grid-column: 1 / span 8; }
+  .title { grid-row: auto; margin-top: 0; }
+  .inner { margin-top: calc(var(--s-7) * -1); }
+  .lead { grid-row: auto; grid-column: 1 / span 8; }
+  .index { display: block; grid-column: 1 / -1; margin-top: var(--s-6); }
 }
-@media (min-width: 1100px) {
-  .lead { grid-column: 7 / span 4; }
-  .toggle { grid-column: 11; }
+
+/* --- Masaüstü: panel sağda, tam yükseklik --- */
+@media (min-width: 1024px) {
+  .panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 42vw;
+    height: auto;
+  }
+  .scenes {
+    top: auto;
+    left: var(--s-4);
+    right: var(--gutter);
+    bottom: var(--s-4);
+    grid-template-columns: auto auto 1fr auto;
+    grid-template-areas: "count name bars toggle";
+    column-gap: var(--s-3);
+  }
+  .bars { min-width: 8rem; }
+
+  .trace { display: inline-block; }
+
   .scroll {
     display: block;
-    grid-column: 12;
-    grid-row: 1;
-    justify-self: end;
-    position: relative;
+    position: absolute;
+    left: 0;
+    bottom: 0;
     width: 1px;
-    height: var(--s-7);
+    height: var(--s-8);
     overflow: hidden;
     background: var(--rule-dark);
   }
   .scroll span {
     position: absolute;
     inset: 0;
-    background: var(--stone-300);
+    background: var(--warm-100);
     transform: translateY(-100%);
     animation: scrollCue 2.8s var(--ease) infinite 1.4s;
   }
+
+  .inner {
+    margin-top: 0;
+    flex: 1;
+    grid-template-rows: auto 1fr auto auto;
+    padding-top: calc(var(--header-h) + var(--s-5));
+    padding-bottom: var(--s-4);
+  }
+  .tag { grid-column: 1 / span 6; margin: 0; }
+  /* Başlık sol kolonda başlar ama sınırlanmaz: son satır panelin üstüne taşar */
+  .title { grid-column: 1 / -1; align-self: center; margin-block: var(--s-5); font-size: var(--fs-display); }
+  .lead { grid-column: 1 / span 5; margin: 0; }
+  .index { grid-column: 1 / span 7; margin-top: var(--s-6); }
 }
+
 @keyframes scrollCue {
   0%   { transform: translateY(-100%); }
   60%  { transform: translateY(100%); }
   100% { transform: translateY(100%); }
 }
 
-/* --- Giriş. Bölümde iki hareket türü: maske (satırlar, pencere) + çizgi uzaması (§08) ---
-   Toplam ≤ 1.2s: satırlar 0/90/180ms gecikmeyle 1000ms. */
+/* --- Giriş. İki hareket türü (§08): maske (satırlar, panel) + çizgi uzaması (iz) ---
+   Toplam ≤ 1.2s. */
 :global(.js) .lineInner { transform: translateY(110%); }
-/* Pencere de aynı maske tekniğiyle açılır: aynı hareket türü, yeni bir tür eklenmez */
-:global(.js) .windowInner { transform: translateY(101%); }
-.fins,
-.trace { transform-box: fill-box; }
-:global(.js) .fins { transform: scaleY(0); transform-origin: 50% 100%; }
-:global(.js) .trace { transform: scaleX(0); transform-origin: 0 50%; }
+:global(.js) .panelInner { clip-path: inset(0 0 0 100%); }
+:global(.js) .trace { transform: scaleX(0); }
 
-:global(.js) .entered .lineInner {
-  transform: none;
-  transition: transform 1000ms var(--ease);
-}
+:global(.js) .entered .lineInner { transform: none; transition: transform 1000ms var(--ease); }
 :global(.js) .entered .line:nth-child(2) .lineInner { transition-delay: 90ms; }
 :global(.js) .entered .line:nth-child(3) .lineInner { transition-delay: 180ms; }
-:global(.js) .entered .windowInner { transform: none; transition: transform var(--t-hero) var(--ease); }
-:global(.js) .entered .fins { transform: none; transition: transform var(--t-hero) var(--ease); }
+:global(.js) .entered .panelInner { clip-path: inset(0 0 0 0); transition: clip-path var(--t-hero) var(--ease); }
 :global(.js) .entered .trace { transform: none; transition: transform 800ms var(--ease) 400ms; }
 
 @media (prefers-reduced-motion: reduce) {
   :global(.js) .lineInner,
-  :global(.js) .windowInner,
-  :global(.js) .fins,
   :global(.js) .trace { transform: none; }
+  :global(.js) .panelInner { clip-path: none; }
   .scroll span { animation: none; transform: none; }
 }

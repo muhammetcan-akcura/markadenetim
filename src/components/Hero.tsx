@@ -1,77 +1,102 @@
 import type { Dictionary } from '@/content/tr';
 import { HeroStage } from './HeroStage';
-import { HeroVideo, HeroVideoToggle } from './HeroVideo';
+import { HeroScenes, HeroVideo } from './HeroVideo';
 import { ArrowIcon } from './ArrowIcon';
 import styles from './Hero.module.css';
 
-// Cephe kanatlarının x konumları: sağa doğru geometrik olarak sıklaşır (r = 0.86),
-// perspektifte geri çekilen bir cephe hissi verir.
-const FINS = [24, 117.8, 198.4, 267.7, 327.4, 378.7, 422.8, 460.7, 493.3, 521.4, 545.5, 566.3, 584.1, 599.5, 612.6, 624];
-const SLABS = [296, 404, 620, 728];
+// Panelin üstündeki cephe kanatları: sağa doğru geometrik olarak sıklaşır (r = 0.86),
+// video bir cephenin ardından izleniyormuş gibi durur. Değerler yüzde (0–100).
+const FINS = [6, 20.6, 33.1, 43.9, 53.2, 61.2, 68.1, 74, 79.1, 83.4, 87.2, 90.4, 93.2, 95.6, 97.6];
 
+/*
+  4.2 Hero — bölünmüş editoryal kompozisyon.
+  Sol: dev serif başlık, açıklama, iki CTA ve uzmanlık dizini.
+  Sağ: ekranın üstünden altına, sağ kenara taşan dikey video paneli; üstünde cephe
+  kanatları ve sahne göstergesi. Başlığın son satırı panelin üstüne taşar: çerçeveyi
+  kıran tek jest. Altın: panele giren 1px "denetim izi" ve dizindeki numaralar.
+*/
 export function Hero({ t }: { t: Dictionary }) {
   return (
     <HeroStage id="hero" className={styles.hero} enteredClassName={styles.entered} labelledBy="hero-title">
-      {/*
-        Görsel kompozisyon: bir cephe kesiti. Dikey kanatlar ve kesişen düzlem SVG ile çizilir;
-        cephenin "penceresinden" renklendirilmiş video görünür. Kanatlar videonun üstünden
-        kayıt gibi geçer, tek altın çizgi yapının içinden "denetim izi" olarak uzanır.
-        SVG preserveAspectRatio="none": cephe her oranda kutuyu doldurur, çizgiler 1px kalır.
-      */}
-      <div className={styles.art}>
-        <div className={styles.window}>
-          <div className={styles.windowInner}>
-            <HeroVideo className={styles.video} />
-          </div>
-        </div>
-        <svg viewBox="0 0 640 820" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          <polygon className={styles.plane} points="300,118 600,176 600,592 300,520" />
-          <g className={styles.slabs}>
-            {SLABS.map((y) => (
-              <line key={y} x1="24" y1={y} x2="624" y2={y} />
-            ))}
-          </g>
-          <g className={styles.fins}>
+      <div className={styles.panel}>
+        <div className={styles.panelInner}>
+          <HeroVideo className={styles.video} />
+          <span className={styles.veil} aria-hidden="true" />
+          <svg className={styles.fins} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             {FINS.map((x) => (
-              <line key={x} x1={x} y1="72" x2={x} y2="820" />
+              <line key={x} x1={x} y1="0" x2={x} y2="100" />
             ))}
-          </g>
-          {/* Sayfadaki altının büyük kısmı: 1px çizgi ve 5px'lik işaret. Çizgi yalnızca
-              cephenin sağ yarısında; hiçbir kırılımda başlığın altından geçmez. */}
-          <g className={styles.trace}>
-            <line x1="300" y1="380" x2="640" y2="380" />
-            <rect x="458.2" y="377.5" width="5" height="5" />
-          </g>
-        </svg>
+          </svg>
+        </div>
+        <HeroScenes
+          t={t}
+          classes={{
+            root: styles.scenes,
+            count: styles.count,
+            name: styles.sceneName,
+            bars: styles.bars,
+            bar: styles.bar,
+            fill: styles.fill,
+            toggle: styles.toggle,
+            pause: `${styles.glyph} ${styles.pause}`,
+            play: `${styles.glyph} ${styles.play}`,
+          }}
+        />
+        {/* İnce scroll göstergesi: panelin sol kenarında akan 1px çizgi */}
+        <span className={styles.scroll} aria-hidden="true">
+          <span />
+        </span>
       </div>
 
       <div className={`container ${styles.inner}`}>
+        <p className={`label ${styles.tag}`}>
+          <span className={styles.tagRule} aria-hidden="true" />
+          {t.hero.tag}
+        </p>
+
         <h1 className={`t-display ${styles.title}`} id="hero-title">
-          {t.hero.lines.map((line) => (
+          {t.hero.lines.map((line, i) => (
             <span className={styles.line} key={line}>
-              <span className={styles.lineInner}>{line}</span>
+              <span className={styles.lineInner}>
+                {line}
+                {/* Altın "denetim izi": en kısa satırın (2.) bittiği yerden panele uzanır.
+                    Metne bağlı olduğu için hiçbir genişlikte harflere değmez. */}
+                {i === 1 && (
+                  <span className={styles.trace} aria-hidden="true">
+                    <span className={styles.traceMark} />
+                  </span>
+                )}
+              </span>
             </span>
           ))}
         </h1>
 
-        <div className={`grid ${styles.foot}`}>
-          <p className={`label ${styles.tag}`}>{t.hero.tag}</p>
-          <div className={styles.lead}>
-            <p>{t.hero.lead}</p>
+        <div className={styles.lead}>
+          <p>{t.hero.lead}</p>
+          <div className={styles.actions}>
+            <a className="btn-frame" href={t.hero.cta.href}>
+              {t.hero.cta.label}
+            </a>
             <a className="link-arrow" href={t.hero.link.href}>
               <span>{t.hero.link.label}</span>
               <ArrowIcon />
             </a>
           </div>
-          <HeroVideoToggle
-            t={t}
-            className={styles.toggle}
-            glyphClassNames={{ pause: `${styles.glyph} ${styles.pause}`, play: `${styles.glyph} ${styles.play}` }}
-          />
-          <span className={styles.scroll} aria-hidden="true">
-            <span />
-          </span>
         </div>
+
+        {/* Uzmanlık dizini: hero'dan doğrudan hizmetlere giden numaralı içindekiler */}
+        <nav className={styles.index} aria-label={t.hero.indexLabel}>
+          <ol>
+            {t.services.items.map((item, i) => (
+              <li key={item.title}>
+                <a href={t.hero.link.href}>
+                  <span className={styles.indexNum}>{String(i + 1).padStart(2, '0')}</span>
+                  {item.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
       </div>
     </HeroStage>
   );

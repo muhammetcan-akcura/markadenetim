@@ -39,7 +39,11 @@ export const tr = {
     lead: 'Bağımsız denetim, vergi ve finansal danışmanlıkla işletmelerin kararlarını sağlam bir mali zemine oturtuyoruz.',
     link: { label: 'Uzmanlık alanlarımız', href: '/#hizmetler' },
     tag: 'Yeminli Mali Müşavirlik ve Denetim',
+    cta: { label: 'Görüşme talep edin', href: '/#iletisim' },
     video: { pause: 'Durdur', play: 'Oynat' },
+    // Videodaki üç sahnenin adları (sahne göstergesi). Sıra videodaki sırayla aynıdır.
+    scenes: ['Kent dokusu', 'Enerji', 'Üretim'],
+    indexLabel: 'Uzmanlık alanları',
   },
   statement: {
     text: 'Rakamların ötesinde, işletmelerin geleceğine daha net bakmak.',
