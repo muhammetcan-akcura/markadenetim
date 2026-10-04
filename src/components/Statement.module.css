@@ -1,65 +1,238 @@
-/* ===================== 4.3 MARKA BEYANI ===================== */
+/* ===================== 4.3 MARKA BEYANI & STRATEJİK PERSPEKTİF ===================== */
 .statement {
   --focus-ring: var(--ink);
-  padding-top: var(--section-wide);
-  padding-bottom: var(--section-wide);
-  background: var(--warm-100);
+  position: relative;
+  padding-top: calc(var(--section-wide) * 0.85);
+  padding-bottom: calc(var(--section-wide) * 0.95);
+  background: linear-gradient(180deg, var(--warm-50) 0%, var(--warm-100) 100%);
   color: var(--ink);
-}
-/* Ölçü bilinçli olarak dar: ifade masaüstünde 3 satıra kırılır, her satır bir nefes */
-.text { grid-column: 1 / -1; max-width: 11.5em; }
-/* Not, ifadenin altına sağa kaydırılır: okuma ifadeden aşağı-sağa akar.
-   Mobilde de bir kolon içeriden başlar; aynı fikir, küçük ölçekte. */
-.note {
-  grid-column: 2 / -1;
-  margin-top: var(--s-6);
-  max-width: 40ch;
-  color: var(--charcoal);
-}
-@media (min-width: 768px) {
-  .text { grid-column: 1 / span 11; }
-  .note { grid-column: 6 / span 7; margin-top: var(--s-7); }
-}
-@media (min-width: 1100px) {
-  .note { grid-column: 8 / span 4; }
+  overflow: hidden;
 }
 
-/* Kelime kelime opaklık: değer JS'ten scroll ilerlemesine göre gelir */
-:global(.js) .word { opacity: .25; }
+/* Arka plan zarif ızgara / ışık detayı */
+.statement::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--container);
+  height: 100%;
+  background-image: 
+    radial-gradient(ellipse at 80% 20%, rgba(184, 155, 106, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(16, 29, 54, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Üst Kategori Etiketi */
+.headerBar {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-bottom: var(--s-5);
+  position: relative;
+  z-index: 1;
+}
+
+.tagRule {
+  flex: none;
+  width: var(--s-4);
+  height: 2px;
+  background: var(--gold);
+}
+
+.tag {
+  color: var(--charcoal);
+  letter-spacing: var(--tracking-label);
+  opacity: 0.85;
+}
+
+/* Ana Yerleşim: Masaüstünde 2 Kolon */
+.mainGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-5);
+}
+
+@media (min-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: var(--s-7);
+    align-items: flex-start;
+  }
+}
+
+/* Sol Kolon: Dev İfade ve Mühür */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.text {
+  margin: 0;
+  font-size: clamp(2.25rem, 4.4vw, 4.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+/* Kelime kelime opaklık (ScrollWords) */
+:global(.js) .word { opacity: 0.25; }
 @media (prefers-reduced-motion: reduce) {
   :global(.js) .word { opacity: 1 !important; }
 }
 
-/* Panorama: açık zeminden koyu hizmetlere geçişi taşır. Alt yarısı bir sonraki bölümün
-   zeminine taşar (negatif alt boşluk): iki bölüm arasında dikiş yeri görünmez. */
-.panoramaWrap {
-  position: relative;
-  z-index: 1;
-  margin-top: var(--section-mid);
-  margin-bottom: calc(var(--s-8) * -1);
-}
-.panorama {
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background: var(--navy-800);
-}
-.panoramaInner {
-  position: relative;
-  /* Paralaks payı: ±%4 kayma için her iki yanda %6 taşma */
-  height: 112%;
-  margin-top: -6%;
-}
-.panoramaInner img { object-fit: cover; }
-@media (min-width: 768px) {
-  .panorama { aspect-ratio: 21 / 9; }
+.signatureBadge {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-5);
+  padding: var(--s-2) var(--s-3);
+  background: rgba(184, 155, 106, 0.08);
+  border: 1px solid rgba(184, 155, 106, 0.25);
+  border-radius: 4px;
+  max-width: fit-content;
 }
 
-/* Perde: soldan sağa açılır (BRIEF §08 görsel reveal) */
-:global(.js) .panorama {
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path 1300ms var(--ease);
+.badgeLine {
+  width: 3px;
+  height: 24px;
+  background: var(--gold);
+  border-radius: 2px;
+  flex: none;
 }
-:global(.js) [data-in='true'] .panorama { clip-path: inset(0 0 0 0); }
-@media (prefers-reduced-motion: reduce) {
-  :global(.js) .panorama { clip-path: none; transition: none; }
+
+.badgeText {
+  font-size: var(--fs-small);
+  color: var(--charcoal);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Sağ Kolon: Açıklama ve Değer Odakları */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+
+.note {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.68;
+  color: var(--charcoal);
+  border-left: 2px solid var(--rule-light);
+  padding-left: var(--s-3);
+}
+
+/* Sütun / Değer Kartları */
+.pillars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.pillarCard {
+  background: var(--warm-50);
+  border: 1px solid var(--rule-light);
+  border-radius: 6px;
+  padding: var(--s-3) var(--s-4);
+  transition: transform 250ms var(--ease), border-color 250ms var(--ease), box-shadow 250ms var(--ease);
+}
+
+.pillarCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(184, 155, 106, 0.5);
+  box-shadow: 0 8px 24px -8px rgba(11, 20, 38, 0.08);
+}
+
+.pillarHeader {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  margin-bottom: var(--s-1);
+}
+
+.pillarNum {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--gold);
+}
+
+.pillarTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.pillarDesc {
+  margin: 0;
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: #4A505C;
+}
+
+/* ==================== Alt Metrik & Değer Şeridi ==================== */
+.metricsBar {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-3);
+  margin-top: var(--s-7);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--rule-light);
+}
+
+@media (min-width: 640px) {
+  .metricsBar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-4);
+  }
+}
+
+@media (min-width: 1024px) {
+  .metricsBar {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-5);
+  }
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-3);
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 4px;
+  border-left: 2px solid var(--gold);
+}
+
+.metricValue {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  font-weight: 400;
+  color: var(--navy-900);
+  line-height: 1;
+  margin-bottom: var(--s-1);
+  letter-spacing: -0.02em;
+}
+
+.metricLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.metricSub {
+  font-size: 0.8rem;
+  color: #5A606D;
+  line-height: 1.4;
 }

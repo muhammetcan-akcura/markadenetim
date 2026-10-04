@@ -23,6 +23,7 @@ export const tr = {
   nav: [
     { href: '/#hakkimizda', label: 'Hakkımızda' },
     { href: '/#hizmetler', label: 'Hizmetler' },
+    { href: '/#ekip', label: 'Ekibimiz' },
     { href: '/#yaklasim', label: 'Yaklaşımımız' },
     { href: '/#guncel', label: 'Güncel' },
     { href: '/#iletisim', label: 'İletişim' },
