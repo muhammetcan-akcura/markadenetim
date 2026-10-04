@@ -1,0 +1,147 @@
+/* ===================== 4.1 HEADER ===================== */
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  color: var(--warm-100);
+  transition: transform 600ms var(--ease);
+}
+/* Zemin ayrı katmanda: geçiş yalnızca opaklıkla (layout değişmez) */
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--navy-900-veil);
+  border-bottom: 1px solid var(--rule-dark);
+  opacity: 0;
+  transition: opacity 400ms var(--ease);
+}
+.scrolled::before { opacity: 1; }
+.hidden { transform: translateY(-100%); }
+
+/* Sayfa başında içerik 16px aşağıda durur; scroll'da yukarı oturur.
+   Yükseklik "küçülür" ama yalnızca transform ile. */
+.inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  height: var(--header-h);
+  transform: translateY(var(--s-2));
+  transition: transform 600ms var(--ease);
+}
+.scrolled .inner { transform: none; }
+.inner > :global(.wordmark) { margin-right: auto; }
+
+.nav { display: none; }
+.navList { display: flex; gap: var(--s-5); }
+.navList a {
+  display: inline-block;
+  padding-block: var(--s-1);
+  font-size: .875rem;
+  font-weight: 500;
+  color: var(--stone-300);
+  transition: color var(--t-hover) var(--ease);
+}
+.navList a:hover { color: var(--warm-100); }
+
+.cta { display: none; }
+
+.toggle,
+.close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: calc(var(--s-1) * -1.25);
+}
+/* İki çizgi: hamburger'in üç çizgisinden daha sakin */
+.lines,
+.closeLines {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 8px;
+}
+.lines::before,
+.lines::after,
+.closeLines::before,
+.closeLines::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+}
+.lines::before { top: 0; }
+.lines::after { bottom: 0; }
+.closeLines::before,
+.closeLines::after { top: 50%; }
+.closeLines::before { transform: rotate(45deg); }
+.closeLines::after { transform: rotate(-45deg); }
+
+@media (min-width: 768px) {
+  .cta { display: inline-flex; }
+}
+@media (min-width: 1100px) {
+  .nav { display: block; }
+  .toggle { display: none; }
+}
+
+/* --- Mobil menü --- */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  background: var(--navy-950);
+  color: var(--warm-100);
+  overflow-y: auto;
+  opacity: 0;
+  transition: opacity 400ms var(--ease);
+}
+.open { opacity: 1; }
+
+.menuTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  transform: translateY(var(--s-2));
+}
+
+.menuNav {
+  flex: 1;
+  padding-top: var(--s-6);
+}
+.menuNav li { border-bottom: 1px solid var(--rule-dark); }
+.menuNav li:first-child { border-top: 1px solid var(--rule-dark); }
+.menuNav a {
+  display: block;
+  padding-block: var(--s-2);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2rem, 9vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -.015em;
+  transform: translateY(var(--s-2));
+  opacity: 0;
+  transition: transform 600ms var(--ease), opacity 600ms var(--ease);
+}
+.open .menuNav a { transform: none; opacity: 1; }
+.open .menuNav li:nth-child(2) a { transition-delay: 40ms; }
+.open .menuNav li:nth-child(3) a { transition-delay: 80ms; }
+.open .menuNav li:nth-child(4) a { transition-delay: 120ms; }
+.open .menuNav li:nth-child(5) a { transition-delay: 160ms; }
+
+.menuFoot {
+  display: grid;
+  gap: var(--s-4);
+  padding-block: var(--s-5) max(var(--s-5), env(safe-area-inset-bottom));
+}
+.menuFoot :global(.btn-frame) { justify-self: start; min-height: 52px; }
+.contact { display: grid; gap: var(--s-2); margin: 0; }
+.contact dt { color: var(--stone-500); }
+.contact dd { margin: 0; font-size: var(--fs-small); color: var(--stone-300); }

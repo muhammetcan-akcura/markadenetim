@@ -1,5 +1,6 @@
 /* ==========================================================================
-   MarkaDenetim — Temel katman: reset, tipografi, grid, erişilebilirlik
+   MarkaDenetim — Global katman: reset, tipografi, grid, erişilebilirlik, ortak UI
+   Bölüme özel stiller ilgili bileşenin *.module.css dosyasındadır.
    ========================================================================== */
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -121,4 +122,64 @@ section[id] { scroll-margin-top: var(--header-h); }
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
   }
+}
+
+/* --- Ortak UI parçaları (header, iletişim, footer) ------------------------ */
+/* Çerçeveli dikdörtgen CTA. Altın dolgu yok (§03 altın kuralı); hover'da yalnızca
+   altta 1px altın çizgi soldan uzar. */
+.btn-frame {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: var(--s-3);
+  border: 1px solid var(--stone-500);
+  border-radius: 0;
+  font-size: .8125rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  transition: border-color var(--t-hover) var(--ease);
+}
+.btn-frame::after {
+  content: "";
+  position: absolute;
+  left: -1px; right: -1px; bottom: -1px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 400ms var(--ease);
+}
+.btn-frame:hover { border-color: var(--stone-300); }
+.btn-frame:hover::after { transform: scaleX(1); }
+
+/* Metin + ince ok. Kutu yok: CTA'nın ağırlığı tipografiden gelir. */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+.link-arrow__icon {
+  width: 48px;
+  height: 10px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  transition: transform var(--t-hover) var(--ease), stroke var(--t-hover) var(--ease);
+}
+.link-arrow:hover .link-arrow__icon { transform: translateX(6px); stroke: var(--gold); }
+
+/* Wordmark: işaret yok, yalnızca geniş harf aralıklı sans */
+.wordmark {
+  font-size: .875rem;
+  font-weight: 600;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding-block: var(--s-2);
 }

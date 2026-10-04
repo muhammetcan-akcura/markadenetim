@@ -3,14 +3,14 @@
 // Kullanım:
 //   node scripts/screenshot.mjs                      -> tüm sayfa, 390/768/1440
 //   node scripts/screenshot.mjs "#hero" hero         -> tek bölüm
-//   URL=http://localhost:3000 node scripts/screenshot.mjs
+//   URL=http://localhost:8000 node scripts/screenshot.mjs
 //
 // Çıktı: screenshots/<ad>-<genişlik>.png
 
 import { chromium } from 'playwright';
 import { mkdir } from 'node:fs/promises';
 
-const URL = process.env.URL || 'http://localhost:8000';
+const URL = process.env.URL || 'http://localhost:3000';
 const selector = process.argv[2] || null;
 const name = process.argv[3] || (selector ? 'bolum' : 'sayfa');
 

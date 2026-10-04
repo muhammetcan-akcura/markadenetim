@@ -1,0 +1,8 @@
+// Site genelindeki sabitler. Alan adı belli olunca yalnızca NEXT_PUBLIC_SITE_URL ayarlanır.
+// [BİLGİ GİRİLECEK] Gerçek alan adı
+export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ornek-alanadi.com.tr';
+
+export const legalName = 'MarkaDenetim Yeminli Mali Müşavirlik ve Denetim A.Ş.';
+export const brandName = 'MarkaDenetim';
+
+export const placeholder = '[BİLGİ GİRİLECEK]';
