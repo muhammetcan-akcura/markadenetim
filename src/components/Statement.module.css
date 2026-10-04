@@ -2,6 +2,7 @@
 .statement {
   --focus-ring: var(--ink);
   padding-top: var(--section-wide);
+  padding-bottom: var(--section-wide);
   background: var(--warm-100);
   color: var(--ink);
 }
