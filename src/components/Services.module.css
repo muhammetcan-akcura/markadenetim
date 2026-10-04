@@ -1,6 +1,7 @@
 /* ===================== 4.4 HİZMETLER ===================== */
 .services {
-  padding-block: var(--section-mid);
+  /* Üstte beyan panoramasının taşan kısmı (s-8) için ek boşluk */
+  padding-block: calc(var(--s-8) + var(--section-tight)) var(--section-mid);
   background: var(--navy-900);
   color: var(--warm-100);
 }
@@ -18,6 +19,42 @@
 
 .listWrap { grid-column: 1 / -1; }
 
+/* --- Hizmete göre değişen görsel (4:3 mobil, 4:5 masaüstü) ---
+   Görseller üst üste; yalnızca etkin olan opak. Tek hareket: opaklık geçişi. */
+.visual {
+  position: relative;
+  margin-top: var(--s-5);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--navy-800);
+}
+.visualImage {
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 700ms var(--ease);
+}
+.visualOn { opacity: 1; }
+.visualCount {
+  position: absolute;
+  left: var(--s-2);
+  bottom: var(--s-2);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  color: var(--warm-100);
+}
+.visualCount span { font-weight: 400; color: var(--stone-300); }
+/* Görselin sol alt köşesinde altın 1px köşebent: "işaretlenmiş belge" detayı */
+.visual::after {
+  content: "";
+  position: absolute;
+  left: var(--s-2);
+  bottom: calc(var(--s-2) + 1.5rem);
+  width: var(--s-4);
+  height: 1px;
+  background: var(--gold);
+}
+
 @media (min-width: 1100px) {
   /* Sol kolon liste boyunca sabit kalır: okurken bağlam kaybolmaz */
   .head {
@@ -27,6 +64,7 @@
     top: calc(var(--header-h) + var(--s-5));
   }
   .listWrap { grid-column: 6 / span 7; }
+  .visual { aspect-ratio: 4 / 5; max-width: 22rem; margin-top: var(--s-6); }
 }
 
 /* --- Liste --- */
@@ -91,6 +129,9 @@
 }
 /* Açık satırda ok aşağıyı gösterir: akordeon durumu */
 .open .arrow { transform: rotate(90deg); }
+/* Soldaki görselin ait olduğu satır: numara ve başlık tam beyaz, diğerleri bir ton geride */
+.rowTitle { color: var(--stone-300); }
+.current .rowTitle { color: var(--warm-100); }
 
 .panel { display: none; }
 .open .panel {
@@ -112,42 +153,8 @@
 @media (hover: hover) and (pointer: fine) {
   .row:hover::after,
   .row:focus-within::after { transform: scaleX(1); }
-  .row:hover .rowTitle { transform: translateX(14px); }
+  .row:hover .rowTitle,
+  .current .rowTitle { transform: translateX(14px); }
   .row:hover .arrow { stroke: var(--gold); }
   .row:hover:not(.open) .arrow { transform: translateX(6px); }
-}
-
-/* --- İmleci izleyen önizleme (yalnızca ince imleç) --- */
-.preview { display: none; }
-@media (hover: hover) and (pointer: fine) {
-  .preview {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 40;
-    width: 17.5rem;
-    padding: var(--s-3);
-    background: var(--warm-100);
-    color: var(--ink);
-    font-size: var(--fs-small);
-    line-height: 1.55;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 300ms var(--ease);
-  }
-  .previewOn { opacity: 1; }
-}
-.previewNum {
-  display: block;
-  margin-bottom: var(--s-1);
-  font-size: var(--fs-label);
-  letter-spacing: var(--tracking-label);
-  color: var(--charcoal);
-  border-bottom: 1px solid var(--gold);
-  padding-bottom: var(--s-1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .preview { display: none; }
 }

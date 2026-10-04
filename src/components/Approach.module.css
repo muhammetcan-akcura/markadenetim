@@ -11,6 +11,7 @@
 
 .body { position: relative; }
 .rail { display: none; }
+.bigNum { display: none; }
 
 .step {
   padding-block: var(--s-4);
@@ -112,6 +113,35 @@
     transition: opacity 600ms var(--ease);
   }
   :global(.js) .active .stepText { opacity: 1; }
+
+  /* Dev numara: sağ kolonun üstünde, açıklamanın üzerinde. Değişince maskeden yükselir. */
+  :global(.js) .bigNum {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-2);
+    position: absolute;
+    right: 0;
+    top: calc(var(--s-8) * -1);
+    width: calc((100% - 3 * var(--col-gap)) / 3);
+    overflow: hidden;
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(6rem, 11vw, 11rem);
+    line-height: .9;
+    letter-spacing: -.04em;
+    color: var(--ink);
+  }
+  :global(.js) .bigNumInner { display: block; animation: numIn 700ms var(--ease); }
+  :global(.js) .bigNumTotal {
+    font-family: var(--font-sans);
+    font-size: var(--fs-label);
+    letter-spacing: var(--tracking-label);
+    color: var(--charcoal);
+  }
+}
+@keyframes numIn {
+  from { transform: translateY(100%); }
+  to { transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -16,9 +16,11 @@
 }
 /* Paralaks payı: iç kutu %6 uzun, kayma kenar boşluğu göstermez */
 .media {
+  position: relative;
   height: 106%;
   margin-top: -3%;
 }
+.media img { object-fit: cover; }
 
 .body { grid-column: 1 / -1; }
 
@@ -63,18 +65,19 @@
 @media (min-width: 768px) {
   .figure { grid-column: 1 / span 5; align-self: start; }
   .body { grid-column: 7 / span 6; }
-  .principle { grid-template-columns: var(--s-6) 12rem 1fr; align-items: baseline; }
-  .num { grid-row: auto; }
 }
 @media (min-width: 1100px) {
-  /* Görsel bir kolon içeriden başlar, metin bir kolon önce biter: bilinçli kayma.
+  /* Görsel sol kenardan geniş başlar, metin bir kolon önce biter: bilinçli asimetri.
      İlkeler okunurken görsel sabit kalır; sol kolonda boşluk oluşmaz. */
   .figure {
-    grid-column: 2 / span 4;
+    grid-column: 1 / span 5;
     position: sticky;
     top: calc(var(--header-h) + var(--s-5));
   }
   .body { grid-column: 7 / span 5; padding-top: var(--s-8); }
+  /* Üç kolonlu ilke satırı yalnızca geniş ekranda; tablette metin sütunu buna dar kalır */
+  .principle { grid-template-columns: var(--s-6) 10rem 1fr; align-items: baseline; }
+  .num { grid-row: auto; }
 }
 
 /* --- Perde: görsel aşağıdan yukarı açılır (clip-path, BRIEF §08 "görsel reveal") --- */

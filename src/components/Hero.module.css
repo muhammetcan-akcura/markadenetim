@@ -298,7 +298,11 @@
 /* --- Giriş. İki hareket türü (§08): maske (satırlar, panel) + çizgi uzaması (iz) ---
    Toplam ≤ 1.2s. */
 :global(.js) .lineInner { transform: translateY(110%); }
-:global(.js) .panelInner { clip-path: inset(0 0 0 100%); }
+/* Panel perdesi yalnızca masaüstünde: mobilde panel sayfanın en büyük öğesi (LCP),
+   ilk boyamada beklemeden görünür. */
+@media (min-width: 1024px) {
+  :global(.js) .panelInner { clip-path: inset(0 0 0 100%); }
+}
 :global(.js) .trace { transform: scaleX(0); }
 
 :global(.js) .entered .lineInner { transform: none; transition: transform 1000ms var(--ease); }

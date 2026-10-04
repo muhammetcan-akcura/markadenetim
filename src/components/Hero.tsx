@@ -1,3 +1,4 @@
+import { preload } from 'react-dom';
 import type { Dictionary } from '@/content/tr';
 import { HeroStage } from './HeroStage';
 import { HeroScenes, HeroVideo } from './HeroVideo';
@@ -16,6 +17,8 @@ const FINS = [6, 20.6, 33.1, 43.9, 53.2, 61.2, 68.1, 74, 79.1, 83.4, 87.2, 90.4,
   kıran tek jest. Altın: panele giren 1px "denetim izi" ve dizindeki numaralar.
 */
 export function Hero({ t }: { t: Dictionary }) {
+  // Video afişi ilk ekranın en büyük görseli: yüksek öncelikle erkenden yüklenir
+  preload('/img/hero-poster.webp', { as: 'image', fetchPriority: 'high' });
   return (
     <HeroStage id="hero" className={styles.hero} enteredClassName={styles.entered} labelledBy="hero-title">
       <div className={styles.panel}>

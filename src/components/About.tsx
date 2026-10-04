@@ -1,5 +1,5 @@
 import type { Dictionary } from '@/content/tr';
-import { ImagePlaceholder } from './ImagePlaceholder';
+import Image from 'next/image';
 import { InView } from './InView';
 import { Parallax } from './Parallax';
 import styles from './About.module.css';
@@ -13,8 +13,7 @@ export function About({ t }: { t: Dictionary }) {
         <InView as="figure" className={styles.figure} threshold={0.2}>
           <Parallax className={styles.parallax}>
             <div className={styles.media}>
-              {/* [GÖRSEL GİRİLECEK] Yer tutucu; görsel gelince next/image ile değiştirilir */}
-              <ImagePlaceholder label={t.about.image.placeholder} note={t.about.image.note} variant="stairs" />
+              <Image src={t.about.image.src} alt={t.about.image.alt} fill sizes="(min-width: 1100px) 30vw, 75vw" quality={72} />
             </div>
           </Parallax>
         </InView>

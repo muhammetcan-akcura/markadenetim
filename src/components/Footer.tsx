@@ -23,6 +23,10 @@ export function Footer({ t }: { t: Dictionary }) {
           </ul>
         </nav>
       </div>
+      {/* Kapanış imzası: wordmark sayfa genişliğinde. Dekoratif; marka adı yukarıda zaten var. */}
+      <div className={`container ${styles.giant}`} aria-hidden="true">
+        <span>MarkaDenetim</span>
+      </div>
       <div className={`container ${styles.bottom}`}>
         <p>
           © {year} {t.footer.copyright}

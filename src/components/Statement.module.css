@@ -1,7 +1,7 @@
 /* ===================== 4.3 MARKA BEYANI ===================== */
 .statement {
   --focus-ring: var(--ink);
-  padding-block: var(--section-wide);
+  padding-top: var(--section-wide);
   background: var(--warm-100);
   color: var(--ink);
 }
@@ -27,4 +27,38 @@
 :global(.js) .word { opacity: .25; }
 @media (prefers-reduced-motion: reduce) {
   :global(.js) .word { opacity: 1 !important; }
+}
+
+/* Panorama: açık zeminden koyu hizmetlere geçişi taşır. Alt yarısı bir sonraki bölümün
+   zeminine taşar (negatif alt boşluk): iki bölüm arasında dikiş yeri görünmez. */
+.panoramaWrap {
+  position: relative;
+  z-index: 1;
+  margin-top: var(--section-mid);
+  margin-bottom: calc(var(--s-8) * -1);
+}
+.panorama {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--navy-800);
+}
+.panoramaInner {
+  position: relative;
+  /* Paralaks payı: ±%4 kayma için her iki yanda %6 taşma */
+  height: 112%;
+  margin-top: -6%;
+}
+.panoramaInner img { object-fit: cover; }
+@media (min-width: 768px) {
+  .panorama { aspect-ratio: 21 / 9; }
+}
+
+/* Perde: soldan sağa açılır (BRIEF §08 görsel reveal) */
+:global(.js) .panorama {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1300ms var(--ease);
+}
+:global(.js) [data-in='true'] .panorama { clip-path: inset(0 0 0 0); }
+@media (prefers-reduced-motion: reduce) {
+  :global(.js) .panorama { clip-path: none; transition: none; }
 }

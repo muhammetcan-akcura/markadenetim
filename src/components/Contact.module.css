@@ -3,8 +3,30 @@
   padding-block: var(--section-mid) var(--section-tight);
   min-height: 92vh;
   min-height: 92svh;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background: var(--navy-900);
   color: var(--warm-100);
+}
+
+/* Cephe yankısı: başlığın sağında, formun üstünde biter; metnin arkasına girmez */
+.fins {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  width: 42vw;
+  height: 34rem; /* başlık bloğunun boyu: form alanlarının arkasına inmez */
+}
+.fins line {
+  stroke: var(--stone-300);
+  stroke-opacity: .1;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+@media (max-width: 1099px) {
+  .fins { width: 60vw; height: 18rem; }
 }
 
 .layout { row-gap: var(--s-7); }

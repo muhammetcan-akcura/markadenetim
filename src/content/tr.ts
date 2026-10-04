@@ -1,6 +1,6 @@
 // Türkçe metinler. EN eklenecekse aynı şekle sahip content/en.ts yazılır;
 // bileşenler metni bu sözlükten alır, kendi içinde metin tutmaz.
-import { placeholder, realDataPlaceholder, imagePlaceholder, legalPlaceholder } from '@/lib/site';
+import { placeholder, realDataPlaceholder, legalPlaceholder } from '@/lib/site';
 
 export const tr = {
   meta: {
@@ -46,6 +46,7 @@ export const tr = {
     indexLabel: 'Uzmanlık alanları',
   },
   statement: {
+    panorama: '/img/statement-fields.jpg',
     text: 'Rakamların ötesinde, işletmelerin geleceğine daha net bakmak.',
     note: 'MarkaDenetim, yeminli mali müşavirlik ve bağımsız denetim alanında işletmelere eşlik eder. Her çalışmayı mevzuata uygunluk, belgelendirme ve açık iletişim üzerine kurarız. Amacımız, sayıların arkasındaki yapıyı yönetim için okunur hâle getirmek.',
   },
@@ -56,18 +57,22 @@ export const tr = {
       {
         title: 'Yeminli Mali Müşavirlik',
         text: 'Tam tasdik, KDV iadesi tasdiki ve özel amaçlı raporlar. Her tasdik, belgelendirilmiş bir inceleme sürecine dayanır.',
+        image: '/img/service-1.jpg',
       },
       {
         title: 'Denetim',
         text: 'Finansal tabloların bağımsız denetimi ve sınırlı denetimi. Mesleki şüphecilik ve bağımsızlık ilkesiyle yürütülür.',
+        image: '/img/service-2.jpg',
       },
       {
         title: 'Vergi Danışmanlığı',
         text: 'Vergi planlaması, mevzuat değişikliklerinin etkisinin değerlendirilmesi ve vergi incelemelerinde süreç desteği.',
+        image: '/img/service-3.jpg',
       },
       {
         title: 'Finansal Danışmanlık',
         text: 'Finansal yapı analizi, raporlama düzeninin kurulması ve yatırım kararlarına yönelik değerlendirme.',
+        image: '/img/service-4.jpg',
       },
     ],
   },
@@ -84,10 +89,9 @@ export const tr = {
       { title: 'Disiplin', text: 'Her çalışmayı tanımlı bir yöntem ve kontrol adımlarıyla yürütürüz.' },
       { title: 'Şeffaflık', text: 'Kapsamı, takvimi ve ücretlendirmeyi işin başında paylaşırız.' },
     ],
-    image: {
-      placeholder: imagePlaceholder,
-      note: 'Dikey 4:5 · beton merdiven detayı · yumuşak kuzey ışığı · navy ton · insansız',
-    },
+    // Geçici görsel: hero videosundan üretilmiş kent dokusu (scripts/make-stills.sh).
+    // [GÖRSEL GİRİLECEK] Önerilen kalıcı çekim: dikey 4:5, beton merdiven detayı, kuzey ışığı, navy ton.
+    image: { src: '/img/about-skyline.jpg', alt: 'Gece, yukarıdan görülen kent dokusu: cam kuleler ve aydınlık bulvar' },
   },
   break: {
     text: 'Doğru kararlar, doğru finansal perspektifle başlar.',
@@ -150,21 +154,21 @@ export const tr = {
         excerpt: 'Yıllık raporun hazırlanmasında karşılaştırılabilirlik analizi ve belge düzeni neden belirleyicidir?',
         date: '[TARİH]',
         readingTime: '[OKUMA SÜRESİ]',
-        image: 'Yatay 3:2 · kâğıt ve mürekkep makro · sert yan ışık · navy ton',
+        image: '/img/insight-1.jpg',
       },
       {
         category: 'Denetim',
         title: 'Sınırlı denetim ile bağımsız denetim arasındaki farklar',
         date: '[TARİH]',
         readingTime: '[OKUMA SÜRESİ]',
-        image: 'Kare · cam cephe detayı · yansıma · navy ton',
+        image: '/img/insight-2.jpg',
       },
       {
         category: 'Finans',
         title: 'Enflasyon düzeltmesi sonrası finansal tabloları okumak',
         date: '[TARİH]',
         readingTime: '[OKUMA SÜRESİ]',
-        image: 'Kare · arşiv klasörleri sırtı · düşük doygunluk · navy ton',
+        image: '/img/insight-3.jpg',
       },
     ],
   },

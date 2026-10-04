@@ -1,17 +1,16 @@
 import type { Dictionary } from '@/content/tr';
 import { ArrowIcon } from './ArrowIcon';
-import { ImagePlaceholder } from './ImagePlaceholder';
-import { imagePlaceholder } from '@/lib/site';
+import Image from 'next/image';
 import styles from './Insights.module.css';
 
 /*
   4.9 Güncel. Blog ızgarası değil, dergi düzeni: solda tek manşet, sağda üst üste iki kısa yazı.
   Kategori metni mürekkep renginde; altın yalnızca önündeki kısa çizgide (açık zeminde altın
-  metin AA kontrastı sağlamaz). İçerikler yayın sistemi kurulana kadar örnektir.
+  metin AA kontrastı sağlamaz). İçerikler yayın sistemi kurulana kadar örnektir; görseller hero videosundan üretilmiş
+  geçicilerdir ve dekoratiftir (alt=""), anlam başlıkta.
 */
 export function Insights({ t }: { t: Dictionary }) {
   const [lead, ...rest] = t.insights.items;
-  const variants = ['grid', 'arch'] as const;
 
   return (
     <section id="guncel" className={styles.insights} aria-labelledby="insights-title">
@@ -31,7 +30,7 @@ export function Insights({ t }: { t: Dictionary }) {
           <article className={`${styles.article} ${styles.lead}`}>
             <div className={styles.media}>
               <div className={styles.mediaInner}>
-                <ImagePlaceholder label={imagePlaceholder} note={lead.image} variant="stairs" />
+                <Image src={lead.image} alt="" fill sizes="(min-width: 1100px) 55vw, 100vw" quality={70} />
               </div>
             </div>
             <p className={styles.category}>{lead.category}</p>
@@ -49,7 +48,7 @@ export function Insights({ t }: { t: Dictionary }) {
           </article>
 
           <div className={styles.side}>
-            {rest.map((item, i) => (
+            {rest.map((item) => (
               <article key={item.title} className={`${styles.article} ${styles.small}`}>
                 <div className={styles.smallText}>
                   <p className={styles.category}>{item.category}</p>
@@ -65,7 +64,7 @@ export function Insights({ t }: { t: Dictionary }) {
                 </div>
                 <div className={`${styles.media} ${styles.thumb}`}>
                   <div className={styles.mediaInner}>
-                    <ImagePlaceholder label={imagePlaceholder} note={item.image} variant={variants[i % 2]} compact />
+                    <Image src={item.image} alt="" fill sizes="(min-width: 768px) 160px, 1px" quality={70} />
                   </div>
                 </div>
               </article>

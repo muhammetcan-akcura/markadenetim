@@ -46,11 +46,13 @@
   margin-bottom: var(--s-3);
 }
 .mediaInner {
+  position: relative;
   width: 100%;
   height: 100%;
   transition: transform 700ms var(--ease);
 }
 .article:hover .mediaInner { transform: scale(1.03); }
+.mediaInner img { object-fit: cover; }
 
 /* Kategori: kısa altın çizgi + mürekkep etiket */
 .category {

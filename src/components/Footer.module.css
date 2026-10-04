@@ -30,6 +30,25 @@
 .nav a:hover,
 .legal a:hover { color: var(--warm-100); }
 
+/* Dev wordmark: container genişliğini dolduracak boyutta (12 harf + geniş aralık).
+   Rengi zeminden bir ton açık: imza gibi okunur, metin hiyerarşisini bozmaz. */
+.giant {
+  overflow: hidden;
+  padding-bottom: var(--s-4);
+}
+.giant span {
+  display: block;
+  font-size: calc((min(100vw, var(--container)) - 2 * var(--gutter)) / 8.8);
+  margin-right: -.08em; /* son harfin izleme boşluğu satır sonunu taşırmasın */
+  font-weight: 600;
+  /* İ'nin noktası kırpılmasın: satır yüksekliği aksan payıyla */
+  line-height: 1.1;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--navy-800);
+}
+
 .bottom {
   display: flex;
   flex-wrap: wrap;

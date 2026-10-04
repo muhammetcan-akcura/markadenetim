@@ -62,6 +62,13 @@ export function ApproachSteps({ title, steps }: { title: string; steps: Step[] }
         </h2>
 
         <div className={styles.body}>
+          {/* Masaüstü: aktif aşamanın numarası dev serif rakamla; dekoratif (başlıkta zaten var) */}
+          <span className={styles.bigNum} aria-hidden="true">
+            <span key={active} className={styles.bigNumInner}>
+              {String(active + 1).padStart(2, '0')}
+            </span>
+            <span className={styles.bigNumTotal}>/ {String(steps.length).padStart(2, '0')}</span>
+          </span>
           <span className={styles.rail} aria-hidden="true">
             <span ref={lineRef} className={styles.railFill} />
           </span>
