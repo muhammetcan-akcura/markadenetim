@@ -1,0 +1,89 @@
+/* ===================== 4.5 HAKKIMIZDA ===================== */
+.about {
+  --focus-ring: var(--ink);
+  padding-block: var(--section-mid) var(--section-wide);
+  background: var(--warm-100);
+  color: var(--ink);
+}
+
+.layout { row-gap: var(--s-6); }
+
+/* Mobilde görsel tam genişlik değil: sağa yaslı 3/4 kolon, dikey ritim korunur */
+.figure { grid-column: 2 / -1; margin: 0; }
+.parallax {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+/* Paralaks payı: iç kutu %6 uzun, kayma kenar boşluğu göstermez */
+.media {
+  height: 106%;
+  margin-top: -3%;
+}
+
+.body { grid-column: 1 / -1; }
+
+.title { margin-bottom: var(--s-4); }
+.paragraph {
+  max-width: var(--measure);
+  color: var(--charcoal);
+}
+.paragraph + .paragraph { margin-top: var(--s-2); }
+
+.principlesLabel {
+  margin-top: var(--s-7);
+  margin-bottom: var(--s-3);
+  color: var(--charcoal);
+}
+.principles { border-top: 1px solid var(--rule-light); }
+.principle {
+  display: grid;
+  grid-template-columns: var(--s-5) 1fr;
+  column-gap: var(--s-2);
+  row-gap: var(--s-1);
+  padding-block: var(--s-3);
+  border-bottom: 1px solid var(--rule-light);
+}
+.num {
+  grid-row: span 2;
+  padding-top: .35em;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  color: var(--charcoal);
+}
+.principleTitle {
+  font-family: var(--font-serif);
+  font-size: var(--fs-h3);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -.015em;
+}
+.principleText { color: var(--charcoal); max-width: 48ch; }
+
+@media (min-width: 768px) {
+  .figure { grid-column: 1 / span 5; align-self: start; }
+  .body { grid-column: 7 / span 6; }
+  .principle { grid-template-columns: var(--s-6) 12rem 1fr; align-items: baseline; }
+  .num { grid-row: auto; }
+}
+@media (min-width: 1100px) {
+  /* Görsel bir kolon içeriden başlar, metin bir kolon önce biter: bilinçli kayma.
+     İlkeler okunurken görsel sabit kalır; sol kolonda boşluk oluşmaz. */
+  .figure {
+    grid-column: 2 / span 4;
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-5));
+  }
+  .body { grid-column: 7 / span 5; padding-top: var(--s-8); }
+}
+
+/* --- Perde: görsel aşağıdan yukarı açılır (clip-path, BRIEF §08 "görsel reveal") --- */
+:global(.js) .parallax {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1100ms var(--ease);
+}
+:global(.js) [data-in='true'] .parallax { clip-path: inset(0 0 0 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.js) .parallax { clip-path: none; transition: none; }
+}

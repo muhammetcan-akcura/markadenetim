@@ -1,0 +1,28 @@
+/* ===================== 4.6 GÖRSEL KIRILMA ===================== */
+.break {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--navy-950);
+  color: var(--warm-100);
+}
+.image {
+  z-index: -1;
+  object-fit: cover;
+  opacity: .55;
+}
+.inner { text-align: center; }
+.text {
+  max-width: 14em;
+  margin-inline: auto;
+}
+
+:global(.js) .text { opacity: 0; transition: opacity 1400ms var(--ease); }
+:global(.js) [data-in='true'] .text { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  :global(.js) .text { opacity: 1; }
+}

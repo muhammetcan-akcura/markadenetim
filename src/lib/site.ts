@@ -6,3 +6,6 @@ export const legalName = 'MarkaDenetim Yeminli Mali Müşavirlik ve Denetim A.Ş
 export const brandName = 'MarkaDenetim';
 
 export const placeholder = '[BİLGİ GİRİLECEK]';
+export const realDataPlaceholder = '[GERÇEK VERİ GİRİLECEK]';
+export const imagePlaceholder = '[GÖRSEL GİRİLECEK]';
+export const legalPlaceholder = '[HUKUKİ METİN GİRİLECEK]';

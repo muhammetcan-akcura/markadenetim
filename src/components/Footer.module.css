@@ -1,0 +1,45 @@
+/* ===================== 4.11 FOOTER ===================== */
+.footer {
+  background: var(--navy-950);
+  color: var(--warm-100);
+  font-size: var(--fs-small);
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-5);
+  padding-block: var(--s-7) var(--s-6);
+}
+.legalName { margin-top: var(--s-1); color: var(--stone-500); }
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-4);
+}
+.nav a,
+.legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--stone-300);
+  transition: color var(--t-hover) var(--ease);
+}
+.nav a:hover,
+.legal a:hover { color: var(--warm-100); }
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s-2) var(--s-5);
+  padding-block: var(--s-2) var(--s-4);
+  border-top: 1px solid var(--rule-dark);
+  color: var(--stone-500);
+  font-size: .8125rem;
+}
+.legal { display: flex; flex-wrap: wrap; gap: 0 var(--s-4); }
+.legal a { font-size: .8125rem; }

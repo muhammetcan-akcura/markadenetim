@@ -1,0 +1,131 @@
+/* ===================== 4.9 GÜNCEL ===================== */
+.insights {
+  --focus-ring: var(--ink);
+  padding-block: var(--section-mid);
+  background: var(--warm-50);
+  color: var(--ink);
+  border-top: 1px solid var(--rule-light);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--s-3);
+  row-gap: var(--s-1);
+  margin-bottom: var(--s-6);
+}
+.sample { color: var(--charcoal); }
+.all { margin-left: auto; }
+
+.layout { row-gap: var(--s-5); }
+.lead,
+.side { grid-column: 1 / -1; }
+
+.article { position: relative; }
+
+/* Tüm kart tıklanabilir: başlık bağlantısı kartı örter (tek odak durağı) */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+.article:hover .link,
+.link:focus-visible { text-decoration-color: currentColor; }
+
+.media {
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  margin-bottom: var(--s-3);
+}
+.mediaInner {
+  width: 100%;
+  height: 100%;
+  transition: transform 700ms var(--ease);
+}
+.article:hover .mediaInner { transform: scale(1.03); }
+
+/* Kategori: kısa altın çizgi + mürekkep etiket */
+.category {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  margin-bottom: var(--s-1);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--charcoal);
+}
+.category::before {
+  content: "";
+  width: var(--s-2);
+  height: 1px;
+  background: var(--gold);
+}
+
+.leadTitle {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.75rem, 3.2vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  max-width: 20em;
+  text-wrap: balance;
+}
+.excerpt { margin-top: var(--s-2); max-width: 52ch; color: var(--charcoal); }
+
+.smallTitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  line-height: 1.15;
+  letter-spacing: -.015em;
+  text-wrap: balance;
+}
+
+.meta {
+  display: flex;
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+  font-size: .8125rem;
+  color: var(--charcoal);
+}
+
+/* Mobil: manşet + liste. Küçük yazıların görseli gizlenir, liste çizgilerle ayrılır */
+.small {
+  padding-block: var(--s-3);
+  border-top: 1px solid var(--rule-light);
+}
+.thumb { display: none; }
+
+@media (min-width: 768px) {
+  .small {
+    display: grid;
+    grid-template-columns: 1fr 7.5rem;
+    gap: var(--s-3);
+    align-items: start;
+  }
+  .thumb { display: block; aspect-ratio: 1; margin: 0; }
+}
+@media (min-width: 1100px) {
+  .lead { grid-column: 1 / span 7; }
+  .side {
+    grid-column: 9 / span 4;
+    display: grid;
+    align-content: start;
+  }
+  .small:first-child { border-top: 0; padding-top: 0; }
+  .small { grid-template-columns: 1fr 8.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article:hover .mediaInner { transform: none; }
+}

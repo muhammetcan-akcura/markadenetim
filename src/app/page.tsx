@@ -1,6 +1,14 @@
 import { SiteHeader } from '@/components/SiteHeader';
 import { Hero } from '@/components/Hero';
 import { Statement } from '@/components/Statement';
+import { Services } from '@/components/Services';
+import { About } from '@/components/About';
+import { Break } from '@/components/Break';
+import { Approach } from '@/components/Approach';
+import { Trust } from '@/components/Trust';
+import { Insights } from '@/components/Insights';
+import { Contact } from '@/components/Contact';
+import { Footer } from '@/components/Footer';
 import { tr } from '@/content/tr';
 import { legalName, brandName, siteUrl, placeholder } from '@/lib/site';
 
@@ -48,7 +56,15 @@ export default function Home() {
       <main id="main">
         <Hero t={t} />
         <Statement t={t} />
+        <Services t={t} />
+        <About t={t} />
+        <Break t={t} />
+        <Approach t={t} />
+        <Trust t={t} />
+        <Insights t={t} />
+        <Contact t={t} />
       </main>
+      <Footer t={t} />
     </>
   );
 }

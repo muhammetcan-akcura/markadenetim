@@ -1,0 +1,118 @@
+/* ===================== 4.10 İLETİŞİM ===================== */
+.contact {
+  padding-block: var(--section-mid) var(--section-tight);
+  min-height: 92vh;
+  min-height: 92svh;
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+
+.layout { row-gap: var(--s-7); }
+
+.head { grid-column: 1 / -1; }
+.title { max-width: 13em; margin-bottom: var(--s-5); }
+.cta { min-height: 52px; padding-inline: var(--s-4); }
+
+/* Bilgiler: iki kolonlu tanım listesi, işaret yok */
+.details {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4) var(--col-gap);
+  margin: 0;
+  align-content: start;
+}
+.details dt { color: var(--stone-500); margin-bottom: var(--s-1); }
+.details dd { margin: 0; color: var(--stone-300); }
+
+.form { grid-column: 1 / -1; }
+
+@media (min-width: 1100px) {
+  .details { grid-column: 1 / span 4; padding-top: var(--s-6); }
+  .form { grid-column: 6 / span 7; }
+}
+
+/* --- Form --- */
+.formTitle { margin-bottom: var(--s-3); color: var(--stone-500); }
+
+.fields {
+  display: grid;
+  gap: var(--s-4) var(--col-gap);
+}
+@media (min-width: 768px) {
+  .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .full { grid-column: 1 / -1; }
+}
+
+/* align-content: start — bir alanda hata mesajı çıkınca yandaki alanın çizgisi kaymaz */
+.field { display: grid; gap: var(--s-1); align-content: start; }
+.field label { font-size: .8125rem; color: var(--stone-300); }
+.optional { color: var(--stone-500); }
+
+/* Alt çizgili alanlar: kutu yok, yalnızca 1px taban çizgisi; odakta altın */
+.field input,
+.field textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: var(--s-1) 0;
+  border: 0;
+  border-bottom: 1px solid var(--stone-500);
+  border-radius: 0;
+  background: transparent;
+  color: var(--warm-100);
+  font: inherit;
+  transition: border-color var(--t-hover) var(--ease);
+}
+.field textarea { resize: vertical; min-height: 7rem; }
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: none;
+  border-bottom-color: var(--gold);
+  box-shadow: 0 1px 0 0 var(--gold);
+}
+.invalid input,
+.invalid textarea { border-bottom-color: var(--warm-100); }
+
+.error {
+  font-size: .8125rem;
+  color: var(--warm-100);
+}
+.error::before { content: "— "; color: var(--gold); }
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-2);
+  margin-top: var(--s-5);
+  font-size: .875rem;
+  color: var(--stone-300);
+}
+.consent input {
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: var(--gold);
+}
+.consent a { color: var(--warm-100); text-decoration: underline; text-underline-offset: .2em; }
+.consent .error { grid-column: 2; }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
+.actions button { min-height: 52px; padding-inline: var(--s-4); color: var(--warm-100); }
+.actions button:disabled { opacity: .6; cursor: progress; }
+.status { min-height: 1.5em; }
+.success { color: var(--warm-100); }
+.success::before { content: "— "; color: var(--gold); }

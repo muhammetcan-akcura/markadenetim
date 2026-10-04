@@ -1,0 +1,153 @@
+/* ===================== 4.4 HİZMETLER ===================== */
+.services {
+  padding-block: var(--section-mid);
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+
+.layout { row-gap: var(--s-6); }
+
+.head { grid-column: 1 / -1; }
+/* Başlık dar kolonda iki satır kalsın diye H2 ölçeği bu bölümde biraz kısılır */
+.title { font-size: clamp(2.25rem, 4.2vw + 1rem, 5rem); }
+.intro {
+  margin-top: var(--s-3);
+  max-width: 34ch;
+  color: var(--stone-300);
+}
+
+.listWrap { grid-column: 1 / -1; }
+
+@media (min-width: 1100px) {
+  /* Sol kolon liste boyunca sabit kalır: okurken bağlam kaybolmaz */
+  .head {
+    grid-column: 1 / span 4;
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-5));
+  }
+  .listWrap { grid-column: 6 / span 7; }
+}
+
+/* --- Liste --- */
+.list { border-top: 1px solid var(--rule-dark); }
+
+.row {
+  position: relative;
+  border-bottom: 1px solid var(--rule-dark);
+}
+/* Altın çizgi satırın alt kenarında soldan uzar: tek vurgu, 1px */
+.row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 700ms var(--ease);
+}
+
+.rowHeading { font: inherit; }
+
+.trigger {
+  display: grid;
+  grid-template-columns: var(--s-6) 1fr auto;
+  align-items: center;
+  width: 100%;
+  min-height: 6.5rem;
+  padding-block: var(--s-3);
+  text-align: left;
+}
+
+.num {
+  align-self: start;
+  padding-top: .55em;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold);
+}
+
+.rowTitle {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.75rem, 3.4vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  transition: transform 500ms var(--ease);
+}
+
+.arrow {
+  width: 40px;
+  height: 10px;
+  margin-left: var(--s-3);
+  fill: none;
+  stroke: var(--stone-300);
+  stroke-width: 1;
+  transition: transform 500ms var(--ease), stroke var(--t-hover) var(--ease);
+}
+/* Açık satırda ok aşağıyı gösterir: akordeon durumu */
+.open .arrow { transform: rotate(90deg); }
+
+.panel { display: none; }
+.open .panel {
+  display: block;
+  padding: 0 0 var(--s-4) var(--s-6);
+  animation: panelIn 500ms var(--ease);
+}
+.panel p { max-width: 46ch; color: var(--stone-300); }
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (min-width: 1100px) {
+  .trigger { min-height: 8.5rem; }
+}
+
+/* Hover yalnızca gerçek imleçli cihazlarda: dokunmatikte "yapışan" hover olmaz */
+@media (hover: hover) and (pointer: fine) {
+  .row:hover::after,
+  .row:focus-within::after { transform: scaleX(1); }
+  .row:hover .rowTitle { transform: translateX(14px); }
+  .row:hover .arrow { stroke: var(--gold); }
+  .row:hover:not(.open) .arrow { transform: translateX(6px); }
+}
+
+/* --- İmleci izleyen önizleme (yalnızca ince imleç) --- */
+.preview { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .preview {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 40;
+    width: 17.5rem;
+    padding: var(--s-3);
+    background: var(--warm-100);
+    color: var(--ink);
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 300ms var(--ease);
+  }
+  .previewOn { opacity: 1; }
+}
+.previewNum {
+  display: block;
+  margin-bottom: var(--s-1);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  color: var(--charcoal);
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: var(--s-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preview { display: none; }
+}

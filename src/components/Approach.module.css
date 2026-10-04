@@ -1,0 +1,119 @@
+/* ===================== 4.7 YAKLAŞIMIMIZ ===================== */
+.approach {
+  --focus-ring: var(--ink);
+  background: var(--warm-50);
+  color: var(--ink);
+  border-top: 1px solid var(--rule-light);
+}
+
+.stage { padding-block: var(--section-mid); }
+.label { color: var(--charcoal); margin-bottom: var(--s-5); }
+
+.body { position: relative; }
+.rail { display: none; }
+
+.step {
+  padding-block: var(--s-4);
+  border-top: 1px solid var(--rule-light);
+}
+.stepTitle {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2.125rem, 9vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: -.01em;
+  /* lang="tr": "Değerlendirme" → "DEĞERLENDİRME" */
+  text-transform: uppercase;
+}
+.num {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  color: var(--charcoal);
+  transform: translateY(-.2em);
+}
+.stepText {
+  margin-top: var(--s-2);
+  max-width: 40ch;
+  color: var(--charcoal);
+}
+
+/* Mobil: görünen aşamanın başlığı vurgulanır. Soluklaşma yalnızca dev başlıkta;
+   açıklama metni her durumda AA kontrastta okunur kalır. */
+:global(.js) .stepTitle { opacity: .28; transition: opacity 600ms var(--ease); }
+:global(.js) .active .stepTitle { opacity: 1; }
+
+/* --- Masaüstü: yapışık sahne --- */
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  /* İz, dört aşama için kaydırma mesafesi sağlar; sahne ekranda sabit kalır */
+  :global(.js) .track { height: 340vh; }
+  :global(.js) .stage {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: calc(var(--header-h) + var(--s-4)) var(--s-6);
+  }
+
+  :global(.js) .body {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+  }
+  /* İnce dikey ilerleme çizgisi: tek altın vurgu */
+  :global(.js) .rail {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--rule-light);
+  }
+  :global(.js) .railFill {
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  :global(.js) .steps {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+    padding-left: var(--s-5);
+  }
+  :global(.js) .step {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+    padding-block: var(--s-1);
+    border: 0;
+    opacity: 1;
+  }
+  :global(.js) .stepTitle {
+    grid-column: 1 / span 7;
+    opacity: .16;
+  }
+  /* Açıklama kendi başlığının hizasında, sağ kolonda; yalnızca aktif aşamanınki görünür */
+  :global(.js) .stepText {
+    grid-column: 9 / span 4;
+    grid-row: 1;
+    align-self: center;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 600ms var(--ease);
+  }
+  :global(.js) .active .stepText { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.js) .stepTitle { opacity: 1; }
+}
