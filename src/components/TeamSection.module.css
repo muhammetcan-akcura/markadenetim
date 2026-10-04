@@ -1,0 +1,108 @@
+/* ===================== UZMAN EKİBİMİZ ===================== */
+.team {
+  --focus-ring: var(--ink);
+  padding-block: var(--section-mid);
+  background: var(--warm-100);
+  color: var(--ink);
+}
+
+/* Başlık solda, kısa giriş sağa kaydırılmış: Hakkımızda ile aynı asimetri dili */
+.head { row-gap: var(--s-3); align-items: end; margin-bottom: var(--s-7); }
+.title { grid-column: 1 / -1; }
+.intro { grid-column: 1 / -1; max-width: 40ch; color: var(--charcoal); }
+@media (min-width: 768px) {
+  .title { grid-column: 1 / span 6; }
+  .intro { grid-column: 8 / span 5; }
+}
+
+.groupLabel {
+  margin-bottom: var(--s-3);
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--rule-light);
+  color: var(--charcoal);
+}
+
+/* --- Ortak portre davranışı: düşük doygunluk, üzerine gelince gerçek renk --- */
+.portrait {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--warm-50);
+}
+.img {
+  object-fit: cover;
+  filter: grayscale(.85) contrast(1.04);
+  transition: filter 700ms var(--ease), transform 700ms var(--ease);
+}
+.lead:hover .img,
+.member:hover .img,
+.lead:focus-visible .img,
+.member:focus-visible .img { filter: none; transform: scale(1.03); }
+
+/* --- Sorumlu ortaklar: portre + metin yan yana, ikisi bir satırda --- */
+.leads {
+  display: grid;
+  gap: var(--s-6) var(--col-gap);
+  margin-bottom: var(--s-8);
+}
+.lead {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: var(--s-3);
+  align-items: end;
+}
+.leadText { display: flex; flex-direction: column; gap: var(--s-1); padding-bottom: var(--s-1); }
+.num {
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  color: var(--charcoal);
+}
+.leadName {
+  margin-top: var(--s-2);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--fs-h3);
+  line-height: 1.1;
+  letter-spacing: -.015em;
+  text-decoration: underline 1px transparent;
+  text-underline-offset: .18em;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+.titles { display: flex; flex-direction: column; font-size: var(--fs-small); color: var(--charcoal); }
+.more { margin-top: var(--s-2); }
+.lead:hover .leadName { text-decoration-color: currentColor; }
+.lead:hover :global(.link-arrow__icon) { transform: translateX(6px); stroke: var(--ink); }
+
+@media (min-width: 900px) {
+  .leads { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* --- Ekip: dörtlü dizi, üstte ince çizgi; mobilde iki sütun --- */
+.members {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-5) var(--col-gap);
+}
+@media (min-width: 900px) {
+  .members { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.member { display: flex; flex-direction: column; }
+.memberName {
+  margin-top: var(--s-2);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  text-decoration: underline 1px transparent;
+  text-underline-offset: .18em;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+.member:hover .memberName { text-decoration-color: currentColor; }
+.memberTitle { margin-top: var(--s-1); font-size: var(--fs-small); color: var(--charcoal); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lead:hover .img,
+  .member:hover .img { transform: none; }
+}

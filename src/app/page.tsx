@@ -4,6 +4,7 @@ import { Statement } from '@/components/Statement';
 import { Services } from '@/components/Services';
 import { About } from '@/components/About';
 import { Break } from '@/components/Break';
+import { TeamSection } from '@/components/TeamSection';
 import { Approach } from '@/components/Approach';
 import { Trust } from '@/components/Trust';
 import { Insights } from '@/components/Insights';
@@ -59,6 +60,7 @@ export default function Home() {
         <Services t={t} />
         <About t={t} />
         <Break t={t} />
+        <TeamSection t={t} />
         <Approach t={t} />
         <Trust t={t} />
         <Insights t={t} />

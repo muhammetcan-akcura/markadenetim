@@ -1,0 +1,92 @@
+/* ===================== UZMAN PROFİLİ ===================== */
+
+/* --- Üst bant: koyu, büyük serif isim --- */
+.intro {
+  padding-block: calc(var(--header-h) + var(--s-7)) var(--s-8);
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+.introGrid { row-gap: var(--s-6); }
+.back { grid-column: 1 / -1; justify-self: start; color: var(--stone-300); }
+.back:hover { color: var(--warm-100); }
+/* Aynı ince ok, geriye dönük */
+.backIcon { transform: scaleX(-1); }
+.back:hover .backIcon { transform: scaleX(-1) translateX(6px); }
+
+.heading { grid-column: 1 / -1; }
+.mainTitle { color: var(--stone-300); margin-bottom: var(--s-2); }
+.name {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2.75rem, 7vw, 6.5rem);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+}
+.otherTitles { margin-top: var(--s-3); color: var(--stone-300); }
+
+@media (min-width: 768px) {
+  .heading { grid-column: 1 / span 8; }
+}
+
+/* --- Gövde: açık zemin, portre koyu banda taşar --- */
+.body {
+  --focus-ring: var(--ink);
+  padding-bottom: var(--section-tight);
+  background: var(--warm-100);
+  color: var(--ink);
+}
+.bodyGrid { row-gap: var(--s-6); }
+
+.portrait {
+  position: relative;
+  grid-column: 1 / -1;
+  max-width: 26rem;
+  margin: calc(var(--s-6) * -1) 0 0;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--warm-50);
+}
+.img { object-fit: cover; filter: saturate(.8); }
+
+.text { grid-column: 1 / -1; padding-top: var(--s-2); }
+.sectionLabel {
+  padding-bottom: var(--s-2);
+  margin-bottom: var(--s-3);
+  border-bottom: 1px solid var(--rule-light);
+  color: var(--charcoal);
+}
+.bio { max-width: var(--measure); margin-bottom: var(--s-6); color: var(--charcoal); }
+
+.contact { display: grid; gap: var(--s-2); margin: 0 0 var(--s-5); }
+.contact div { display: grid; grid-template-columns: 8rem 1fr; gap: var(--s-2); align-items: baseline; }
+.contact dt { font-size: var(--fs-small); color: var(--charcoal); }
+.contact dd { margin: 0; font-weight: 600; }
+.contact a { text-decoration: underline 1px; text-underline-offset: .2em; }
+
+@media (min-width: 768px) {
+  .portrait { grid-column: 8 / span 5; grid-row: 1; margin-top: calc(var(--s-9) * -1); max-width: none; }
+  .text { grid-column: 1 / span 6; grid-row: 1; padding-top: var(--s-7); }
+}
+@media (min-width: 1100px) {
+  .portrait { grid-column: 9 / span 4; }
+}
+
+/* --- Sonraki uzman: tam genişlik satır, ince çizgiler arasında --- */
+.next {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--s-1) var(--s-3);
+  margin-top: var(--s-7);
+  padding-block: var(--s-4);
+  border-block: 1px solid var(--rule-light);
+}
+.next :global(.label) { grid-column: 1 / -1; color: var(--charcoal); }
+.nextName {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--fs-h3);
+  line-height: 1.1;
+}
+.nextIcon { stroke: var(--ink); transition: transform var(--t-hover) var(--ease); }
+.next:hover .nextIcon { transform: translateX(6px); }

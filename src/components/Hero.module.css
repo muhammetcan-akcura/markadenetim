@@ -1,107 +1,150 @@
-/* ===================== 4.2 HERO — bölünmüş editoryal ===================== */
+/* ===================== 4.2 HERO — Net Bakış ===================== */
 .hero {
   position: relative;
   isolation: isolate;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   min-height: 100vh;
   min-height: 100svh;
   overflow: hidden;
-  background: var(--navy-900);
+  background: var(--navy-950);
   color: var(--warm-100);
 }
 
-/* --- Video paneli ---
-   Mobil: üstte tam genişlikte bant; başlık panelin alt kenarına biner.
-   Masaüstü: sağda, ekranın üstünden altına ve sağ kenara taşan dikey pencere. */
-.panel {
-  position: relative;
-  height: 54svh;
-  min-height: 22rem;
-  flex: none;
-}
-.panelInner {
+/* --- Medya: zemin + mercek ---
+   .media bir "size container"dır: mercek konumu ve boyutu cqw/cqh ile CSS'te hesaplanır,
+   JS yalnızca transform yazar. Zemin ve mercek içi aynı kutu + object-fit:cover olduğu için
+   birebir hizalıdır. */
+.media {
   position: absolute;
   inset: 0;
+  z-index: -1;
   overflow: hidden;
-  background: var(--navy-800);
+  pointer-events: none;
 }
+
+.baseVideo {
+  position: absolute;
+  inset: 0;
+}
+
+.baseVideo picture,
+.baseVideo img,
 .video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
-/* Düz navy perde (gradient değil): üstüne binen başlık ve header her karede okunur kalır */
+
+/* Kısık perde (veil): üzerine binen metin daha net okunsun diye hafif karartma */
 .veil {
   position: absolute;
   inset: 0;
   background: var(--navy-900);
-  opacity: .38;
-}
-.fins {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-.fins line {
-  stroke: var(--stone-300);
-  stroke-opacity: .16;
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
+  opacity: .45;
 }
 
-/* --- Sahne göstergesi --- */
-.scenes {
-  position: absolute;
-  left: var(--gutter);
-  right: var(--gutter);
-  top: calc(var(--header-h) + var(--s-3));
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas:
-    "count name toggle"
-    "bars bars bars";
-  align-items: center;
-  column-gap: var(--s-2);
-  row-gap: var(--s-1);
-  font-size: var(--fs-label);
-}
-.count {
-  grid-area: count;
-  font-weight: 600;
-  letter-spacing: var(--tracking-label);
-  color: var(--warm-100);
-}
-.count span { color: var(--stone-300); font-weight: 400; }
-.sceneName {
-  grid-area: name;
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--stone-300);
-}
-.bars {
-  grid-area: bars;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--s-1);
-}
-.bar {
+
+/* --- Metin katmanı --- */
+.inner {
   position: relative;
-  height: 1px;
+  z-index: 2;
+  padding-top: calc(var(--header-h) + var(--s-6));
+  padding-bottom: var(--s-4);
+}
+
+/* Display ölçeği token'ı (8vw, en çok 9rem) aynen geçerli; dar ekranda 3 satır sığsın diye
+   11.2vw, kısa ekranda ilk ekrana sığsın diye 14svh üst sınırı eklenir. */
+.title {
+  /* flex sütun: bitişik .line'ların negatif marjinleri çökmesin (yoksa başlık ~%30 uzar) */
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-size: min(var(--fs-display), 11.2vw, 14svh);
+  /* Okunurluk halesi: mercek (parlak şehir ışıkları) başlığın altına girince harfler kaybolmasın.
+     Zemin renginde, çok yumuşak; dekoratif gölge değil. Ölçümle doğrulandı. */
+  text-shadow: 0 0 .32em color-mix(in srgb, var(--navy-950) 60%, transparent);
+}
+/* Satır maskesi: descender (ş, ç, ğ, y) ve aksanlar (Ü, İ) kesilmesin diye maske dikeyde
+   genişletilip negatif margin ile ritim korunur. */
+.line {
+  display: block;
   overflow: hidden;
-  background: var(--rule-dark);
+  white-space: nowrap;
+  /* Maske payı: descender (ş, ç, ğ, y), aksan (Ü, İ) ve metin halesi kesilmesin */
+  padding-block: .34em .4em;
+  margin-block: -.34em -.4em;
 }
-.fill {
+.lineInner { display: block; animation: rise 1000ms var(--ease) backwards; }
+.line:nth-child(1) .lineInner { animation-delay: 150ms; }
+.line:nth-child(2) .lineInner { animation-delay: 240ms; }
+.line:nth-child(3) .lineInner { animation-delay: 330ms; }
+@keyframes rise {
+  from { transform: translateY(110%); }
+}
+
+/* Başlığın satırları videonun sahneleriyle sırayla yanar: aktif %100, diğerleri %64.
+   data-scene yalnızca video oynarken yazılır; yoksa (poster/hareket azaltma) hepsi %100. */
+.hero[data-scene] .lineInner { transition: opacity 700ms var(--ease); }
+.hero[data-scene='0'] .line:not(:nth-child(1)) .lineInner,
+.hero[data-scene='1'] .line:not(:nth-child(2)) .lineInner,
+.hero[data-scene='2'] .line:not(:nth-child(3)) .lineInner { opacity: .64; }
+
+.lead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--s-3) var(--s-6);
+  margin-top: var(--s-5);
+  animation: fadeUp 900ms var(--ease) 800ms backwards;
+}
+.lead p { max-width: 38ch; color: var(--stone-300); }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+}
+
+/* Alt şerit: sol altta etiket (brief 4.2); sağda HUD (HeroHud, .hud) aynı satırda durur */
+.strip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: calc(var(--s-2) + 44px);
+  margin-top: var(--s-5);
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--rule-dark);
+  animation: fadeIn 900ms var(--ease) 1000ms backwards;
+}
+.tag { display: flex; align-items: center; gap: var(--s-2); margin: 0; color: var(--stone-300); }
+.tagRule { flex: none; width: var(--s-4); height: 1px; background: var(--gold); }
+.scroll { display: none; }
+
+/* --- HUD: sahne çizgileri + Durdur/Oynat --- */
+.hud {
   position: absolute;
-  inset: 0;
-  background: var(--warm-100);
-  transform: scaleX(0);
-  transform-origin: left;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  /* Masaüstü: container'ın sağ kenarı, alt şeritle aynı satır */
+  right: calc(max(0px, (100% - var(--container)) / 2) + var(--gutter));
+  bottom: var(--s-4);
+  animation: fadeIn 900ms var(--ease) 1000ms backwards;
 }
+.bars { display: flex; gap: var(--s-1); margin: 0; }
+.bar { display: grid; align-content: center; width: 4.25rem; min-height: 44px; }
+.barTrack { position: relative; display: block; height: 1px; overflow: hidden; background: var(--rule-dark); }
+.barFill { position: absolute; inset: 0; background: var(--warm-100); transform: scaleX(0); transform-origin: left; }
+.bar:hover .barTrack,
+.bar[aria-current='true'] .barTrack { background: color-mix(in srgb, var(--warm-100) 38%, transparent); }
 
 .toggle {
-  grid-area: toggle;
   display: inline-flex;
   align-items: center;
   gap: var(--s-1);
@@ -112,158 +155,37 @@
 .toggle:hover { color: var(--warm-100); }
 .glyph { display: block; width: 8px; height: 10px; }
 .pause { border-inline: 1.5px solid currentColor; width: 7px; }
-.play {
-  width: 0;
-  height: 0;
-  border-left: 8px solid currentColor;
-  border-block: 5px solid transparent;
-}
+.play { width: 0; height: 0; border-left: 8px solid currentColor; border-block: 5px solid transparent; }
 
-/* --- Altın iz: ikinci satırın sonundan sağa, panelin içine uzanan 1px çizgi.
-   Yalnızca masaüstü: dar ekranda panel başlığın üstünde olduğu için iz anlamını yitirir. --- */
-.trace {
-  display: none;
-  position: relative;
-  vertical-align: .32em;
-  width: 40vw;
-  height: 1px;
-  margin-left: .25em;
-  background: var(--gold);
-  transform-origin: left;
-}
-.traceMark {
-  position: absolute;
-  left: 0;
-  top: -2.5px;
-  width: 6px;
-  height: 6px;
-  background: var(--gold);
-}
-
-.scroll { display: none; }
-
-/* --- Metin katmanı --- */
-.inner {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
-  column-gap: var(--col-gap);
-  align-content: start;
-  padding-bottom: var(--s-5);
-}
-
-.tag {
-  grid-column: 1 / -1;
-  grid-row: 3;
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  margin-top: var(--s-5);
-  color: var(--stone-300);
-}
-.tagRule { width: var(--s-4); height: 1px; background: var(--gold); flex: none; }
-
-/* Brief mobilde de 3 satır istiyor; en uzun satır ("Sürdürülebilir yapı.") 360px'te
-   ancak ~11vw ile sığar. Başlık panelin alt kenarına biner (negatif üst boşluk). */
-.title {
-  grid-column: 1 / -1;
-  grid-row: 1;
-  margin-top: -1.55em;
-  font-size: min(var(--fs-display), 11.2vw);
-}
-
-/* Satır maskesi: descender (ş, ç, ğ, y) ve aksanlar (Ü, İ) kesilmesin diye
-   maske dikeyde genişletilip negatif margin ile ritim korunur. */
-.line {
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  padding-block: .1em .18em;
-  margin-block: -.1em -.18em;
-}
-.lineInner { display: block; }
-
-.lead {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  margin-top: var(--s-4);
-}
-.lead p { max-width: 40ch; color: var(--stone-300); }
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--s-2) var(--s-4);
-  margin-top: var(--s-4);
-}
-
-/* Uzmanlık dizini: yalnızca tablet ve üstü (mobilde hizmetler bir kaydırma ötede) */
-.index { display: none; }
-.index ol {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--rule-dark);
-}
-.index li + li { border-left: 1px solid var(--rule-dark); }
-.index a {
-  display: block;
-  min-height: 44px;
-  padding: var(--s-2) var(--s-2) var(--s-1);
-  font-size: .8125rem;
-  line-height: 1.35;
-  color: var(--stone-300);
-  transition: color var(--t-hover) var(--ease);
-}
-.index li:first-child a { padding-left: 0; }
-.index a:hover { color: var(--warm-100); }
-.indexNum {
-  display: block;
-  margin-bottom: var(--s-1);
-  font-size: var(--fs-label);
-  letter-spacing: var(--tracking-label);
-  color: var(--gold);
-}
-
-@media (min-width: 768px) {
-  .panel { height: 58svh; }
-  .tag { grid-row: auto; order: -1; margin: 0 0 var(--s-4); grid-column: 1 / span 8; }
-  .title { grid-row: auto; margin-top: 0; }
-  .inner { margin-top: calc(var(--s-7) * -1); }
-  .lead { grid-row: auto; grid-column: 1 / span 8; }
-  .index { display: block; grid-column: 1 / -1; margin-top: var(--s-6); }
-}
-
-/* --- Masaüstü: panel sağda, tam yükseklik --- */
-@media (min-width: 1024px) {
-  .panel {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 42vw;
-    height: auto;
+/* --- Mobil / tablet dikey: ayrı kompozisyon (masaüstünün küçültülmüşü değil) ---
+   Mercek üst yarıda, başlık altta. HUD üstte, başparmak alanında CTA. */
+@media (max-width: 1023px) {
+  .lens {
+    --lw: min(58cqw, 26rem);
+    --rx: calc(50cqw - var(--lw) / 2);
+    --ry: max(calc(var(--header-h) + 4.75rem), calc(34cqh - var(--lh) / 2));
   }
-  .scenes {
-    top: auto;
-    left: var(--s-4);
+  .hud {
+    top: calc(var(--header-h) + var(--s-1));
+    bottom: auto;
+    left: var(--gutter);
     right: var(--gutter);
-    bottom: var(--s-4);
-    grid-template-columns: auto auto 1fr auto;
-    grid-template-areas: "count name bars toggle";
-    column-gap: var(--s-3);
+    justify-content: space-between;
   }
-  .bars { min-width: 8rem; }
+  .inner { padding-bottom: max(var(--s-3), env(safe-area-inset-bottom)); }
+  .lead { margin-top: var(--s-4); gap: var(--s-1) var(--s-4); }
+  .lead p { max-width: 34ch; font-size: var(--fs-small); }
+  .strip { min-height: 0; margin-top: var(--s-4); padding-bottom: var(--s-1); }
+}
 
-  .trace { display: inline-block; }
-
+@media (min-width: 1024px) {
   .scroll {
     display: block;
     position: absolute;
-    left: 0;
+    left: 50%;
     bottom: 0;
     width: 1px;
-    height: var(--s-8);
+    height: var(--s-6);
     overflow: hidden;
     background: var(--rule-dark);
   }
@@ -272,48 +194,24 @@
     inset: 0;
     background: var(--warm-100);
     transform: translateY(-100%);
-    animation: scrollCue 2.8s var(--ease) infinite 1.4s;
+    animation: scrollCue 2.8s var(--ease) infinite 1.8s;
   }
-
-  .inner {
-    margin-top: 0;
-    flex: 1;
-    grid-template-rows: auto 1fr auto auto;
-    padding-top: calc(var(--header-h) + var(--s-5));
-    padding-bottom: var(--s-4);
-  }
-  .tag { grid-column: 1 / span 6; margin: 0; }
-  /* Başlık sol kolonda başlar ama sınırlanmaz: son satır panelin üstüne taşar */
-  .title { grid-column: 1 / -1; align-self: center; margin-block: var(--s-5); font-size: var(--fs-display); }
-  .lead { grid-column: 1 / span 5; margin: 0; }
-  .index { grid-column: 1 / span 7; margin-top: var(--s-6); }
 }
-
 @keyframes scrollCue {
   0%   { transform: translateY(-100%); }
   60%  { transform: translateY(100%); }
   100% { transform: translateY(100%); }
 }
 
-/* --- Giriş. İki hareket türü (§08): maske (satırlar, panel) + çizgi uzaması (iz) ---
-   Toplam ≤ 1.2s. */
-:global(.js) .lineInner { transform: translateY(110%); }
-/* Panel perdesi yalnızca masaüstünde: mobilde panel sayfanın en büyük öğesi (LCP),
-   ilk boyamada beklemeden görünür. */
-@media (min-width: 1024px) {
-  :global(.js) .panelInner { clip-path: inset(0 0 0 100%); }
-}
-:global(.js) .trace { transform: scaleX(0); }
-
-:global(.js) .entered .lineInner { transform: none; transition: transform 1000ms var(--ease); }
-:global(.js) .entered .line:nth-child(2) .lineInner { transition-delay: 90ms; }
-:global(.js) .entered .line:nth-child(3) .lineInner { transition-delay: 180ms; }
-:global(.js) .entered .panelInner { clip-path: inset(0 0 0 0); transition: clip-path var(--t-hero) var(--ease); }
-:global(.js) .entered .trace { transform: none; transition: transform 800ms var(--ease) 400ms; }
-
+/* --- Hareket azaltma: süpürme, yükselme, süzülme ve sönme yok; mercek dinlenme konumunda --- */
 @media (prefers-reduced-motion: reduce) {
-  :global(.js) .lineInner,
-  :global(.js) .trace { transform: none; }
-  :global(.js) .panelInner { clip-path: none; }
+  .lens,
+  .lensInner,
+  .lineInner,
+  .lead,
+  .strip,
+  .hud { animation: none; }
+  .hero[data-scene] .lineInner { transition: none; }
+  .baseCanvas { transition: none; }
   .scroll span { animation: none; transform: none; }
 }

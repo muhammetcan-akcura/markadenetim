@@ -1,106 +1,84 @@
-import { preload } from 'react-dom';
+import { getImageProps } from 'next/image';
 import type { Dictionary } from '@/content/tr';
-import { HeroStage } from './HeroStage';
-import { HeroScenes, HeroVideo } from './HeroVideo';
 import { ArrowIcon } from './ArrowIcon';
+import { HeroHud } from './HeroHud';
+import { HeroMedia } from './HeroMedia';
+import { HeroStage } from './HeroStage';
 import styles from './Hero.module.css';
 
-// Panelin üstündeki cephe kanatları: sağa doğru geometrik olarak sıklaşır (r = 0.86),
-// video bir cephenin ardından izleniyormuş gibi durur. Değerler yüzde (0–100).
-const FINS = [6, 20.6, 33.1, 43.9, 53.2, 61.2, 68.1, 74, 79.1, 83.4, 87.2, 90.4, 93.2, 95.6, 97.6];
-
 /*
-  4.2 Hero — bölünmüş editoryal kompozisyon.
-  Sol: dev serif başlık, açıklama, iki CTA ve uzmanlık dizini.
-  Sağ: ekranın üstünden altına, sağ kenara taşan dikey video paneli; üstünde cephe
-  kanatları ve sahne göstergesi. Başlığın son satırı panelin üstüne taşar: çerçeveyi
-  kıran tek jest. Altın: panele giren 1px "denetim izi" ve dizindeki numaralar.
+  4.2 Hero — "Net Bakış". Tam ekran video yumuşak ve kısık bir zemindir; imleci izleyen
+  dikdörtgen mercek içinde aynı video net ve gerçek renklidir (bkz. HeroMedia).
+  Başlığın üç satırı videonun üç sahnesiyle sırayla yanar. Metin ve düzen sunucuda render
+  edilir; poster SSR olduğu için LCP hidrasyona bağlı değildir.
 */
 export function Hero({ t }: { t: Dictionary }) {
-  // Video afişi ilk ekranın en büyük görseli: yüksek öncelikle erkenden yüklenir
-  preload('/img/hero-poster.webp', { as: 'image', fetchPriority: 'high' });
+  // Poster = videonun ilk karesi. Yatay ve dikey ayrı çekim (art direction). Önceden
+  // optimize edilmiş WebP olduğu için unoptimized: aynı URL zeminde ve mercek altında tek indirilir.
+  const landscape = getImageProps({
+    src: '/img/hero-l.webp',
+    alt: '',
+    width: 1280,
+    height: 720,
+    unoptimized: true,
+    loading: 'eager',
+    fetchPriority: 'high',
+  }).props;
+  const portrait = getImageProps({ src: '/img/hero-p.webp', alt: '', width: 540, height: 960, unoptimized: true }).props;
+  const poster = (
+    <picture>
+      <source media="(max-aspect-ratio: 1/1)" srcSet={portrait.src} />
+      <img {...landscape} />
+    </picture>
+  );
+
   return (
-    <HeroStage id="hero" className={styles.hero} enteredClassName={styles.entered} labelledBy="hero-title">
-      <div className={styles.panel}>
-        <div className={styles.panelInner}>
-          <HeroVideo className={styles.video} />
-          <span className={styles.veil} aria-hidden="true" />
-          <svg className={styles.fins} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            {FINS.map((x) => (
-              <line key={x} x1={x} y1="0" x2={x} y2="100" />
-            ))}
-          </svg>
-        </div>
-        <HeroScenes
-          t={t}
-          classes={{
-            root: styles.scenes,
-            count: styles.count,
-            name: styles.sceneName,
-            bars: styles.bars,
-            bar: styles.bar,
-            fill: styles.fill,
-            toggle: styles.toggle,
-            pause: `${styles.glyph} ${styles.pause}`,
-            play: `${styles.glyph} ${styles.play}`,
-          }}
-        />
-        {/* İnce scroll göstergesi: panelin sol kenarında akan 1px çizgi */}
-        <span className={styles.scroll} aria-hidden="true">
-          <span />
-        </span>
-      </div>
+    <HeroStage id="hero" className={styles.hero} labelledBy="hero-title">
+      {/* Yalnızca ekrana uyan poster erken yüklenir */}
+      <link rel="preload" as="image" href="/img/hero-p.webp" media="(max-aspect-ratio: 1/1)" fetchPriority="high" />
+      <link rel="preload" as="image" href="/img/hero-l.webp" media="(min-aspect-ratio: 1/1)" fetchPriority="high" />
+
+      <HeroMedia poster={poster} sceneNames={t.hero.scenes} />
 
       <div className={`container ${styles.inner}`}>
-        <p className={`label ${styles.tag}`}>
-          <span className={styles.tagRule} aria-hidden="true" />
-          {t.hero.tag}
-        </p>
-
         <h1 className={`t-display ${styles.title}`} id="hero-title">
-          {t.hero.lines.map((line, i) => (
+          {t.hero.lines.map((line) => (
             <span className={styles.line} key={line}>
-              <span className={styles.lineInner}>
-                {line}
-                {/* Altın "denetim izi": en kısa satırın (2.) bittiği yerden panele uzanır.
-                    Metne bağlı olduğu için hiçbir genişlikte harflere değmez. */}
-                {i === 1 && (
-                  <span className={styles.trace} aria-hidden="true">
-                    <span className={styles.traceMark} />
-                  </span>
-                )}
-              </span>
+              <span className={styles.lineInner}>{line}</span>
             </span>
           ))}
         </h1>
 
         <div className={styles.lead}>
           <p>{t.hero.lead}</p>
-          <div className={styles.actions}>
-            <a className="btn-frame" href={t.hero.cta.href}>
-              {t.hero.cta.label}
-            </a>
-            <a className="link-arrow" href={t.hero.link.href}>
-              <span>{t.hero.link.label}</span>
-              <ArrowIcon />
-            </a>
-          </div>
+          <a className="link-arrow" href={t.hero.cta.href}>
+            <span>{t.hero.cta.label}</span>
+            <ArrowIcon />
+          </a>
         </div>
 
-        {/* Uzmanlık dizini: hero'dan doğrudan hizmetlere giden numaralı içindekiler */}
-        <nav className={styles.index} aria-label={t.hero.indexLabel}>
-          <ol>
-            {t.services.items.map((item, i) => (
-              <li key={item.title}>
-                <a href={t.hero.link.href}>
-                  <span className={styles.indexNum}>{String(i + 1).padStart(2, '0')}</span>
-                  {item.title}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
+        <div className={styles.strip}>
+          <p className={`label ${styles.tag}`}>
+            <span className={styles.tagRule} aria-hidden="true" />
+            {t.hero.tag}
+          </p>
+          {/* 1 px'lik scroll göstergesi (yalnızca masaüstü) */}
+          <span className={styles.scroll} aria-hidden="true">
+            <span />
+          </span>
+        </div>
       </div>
+
+      <HeroHud
+        sceneNames={t.hero.scenes}
+        labels={{
+          scene: t.hero.hud.scene,
+          pause: t.hero.hud.pause,
+          play: t.hero.hud.play,
+          ariaPause: t.a11y.pauseVideo,
+          ariaPlay: t.a11y.playVideo,
+        }}
+      />
     </HeroStage>
   );
 }
