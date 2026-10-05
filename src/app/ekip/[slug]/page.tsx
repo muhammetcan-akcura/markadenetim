@@ -47,40 +47,42 @@ export default async function MemberPage({ params }: Params) {
       </a>
       <SiteHeader t={t} />
       <main id="main">
-        <section className={styles.intro} aria-labelledby="member-name">
-          <div className={`container grid ${styles.introGrid}`}>
-            <Link href="/#ekip" className={`link-arrow ${styles.back}`}>
-              <ArrowIcon className={`link-arrow__icon ${styles.backIcon}`} />
-              <span>{t.team.back}</span>
-            </Link>
-            <div className={styles.heading}>
-              <p className={`label ${styles.mainTitle}`}>{mainTitle}</p>
-              <h1 className={styles.name} id="member-name">
-                {member.name}
-              </h1>
-              {otherTitles.length > 0 && (
-                <ul className={styles.otherTitles}>
-                  {otherTitles.map((title) => (
-                    <li key={title}>{title}</li>
-                  ))}
-                </ul>
-              )}
+        {/* Üst bant ve gövde tek ızgaradadır: portrenin ilk konumu sayfanın tepesine göre
+            hesaplanabilsin ve kayma rayı bant ile metin arasında kesintisiz sürsün diye */}
+        <section className={styles.profile} aria-labelledby="member-name">
+          <div className={`container grid ${styles.profileGrid}`}>
+            <div className={styles.intro}>
+              <Link href="/#ekip" className={`link-arrow ${styles.back}`}>
+                <ArrowIcon className={`link-arrow__icon ${styles.backIcon}`} />
+                <span>{t.team.back}</span>
+              </Link>
+              <div className={styles.heading}>
+                <p className={`label ${styles.mainTitle}`}>{mainTitle}</p>
+                <h1 className={styles.name} id="member-name">
+                  {member.name}
+                </h1>
+                {otherTitles.length > 0 && (
+                  <ul className={styles.otherTitles}>
+                    {otherTitles.map((title) => (
+                      <li key={title}>{title}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
-          </div>
-        </section>
 
-        <section className={styles.body} aria-label={t.team.about}>
-          <div className={`container grid ${styles.bodyGrid}`}>
-            <figure className={styles.portrait}>
-              <Image
-                src={member.image}
-                alt={`${member.name} portresi`}
-                fill
-                preload
-                sizes="(min-width: 1100px) 30vw, (min-width: 768px) 40vw, 80vw"
-                className={styles.img}
-              />
-            </figure>
+            <div className={styles.portraitTrack}>
+              <figure className={styles.portrait}>
+                <Image
+                  src={member.image}
+                  alt={`${member.name} portresi`}
+                  fill
+                  preload
+                  sizes="(min-width: 1100px) 30vw, (min-width: 768px) 40vw, 80vw"
+                  className={styles.img}
+                />
+              </figure>
+            </div>
 
             <div className={styles.text}>
               <h2 className={`label ${styles.sectionLabel}`}>{t.team.about}</h2>

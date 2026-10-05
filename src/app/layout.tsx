@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Manrope, Newsreader } from 'next/font/google';
 import { tr } from '@/content/tr';
 import { brandName, siteUrl } from '@/lib/site';
+import { MobileActionBar } from '@/components/MobileActionBar';
 import '@/styles/tokens.css';
 import './globals.css';
 
@@ -63,7 +64,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* JS varsa hareket sınıflarını aç; yoksa tüm içerik statik ve görünür kalır */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
-      <body id="top">{children}</body>
+      <body id="top">
+        {children}
+        <MobileActionBar />
+      </body>
     </html>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import type { Dictionary } from '@/content/tr';
 import styles from './SiteHeader.module.css';
 
@@ -87,10 +88,28 @@ export function SiteHeader({ t }: { t: Dictionary }) {
     <>
       <header className={headerClass}>
         <div className={`container ${styles.inner}`}>
-          {/* Wordmark: yalnızca tipografi. Metin "MarkaDenetim"; büyük harf CSS'ten gelir ve
-              lang="tr" sayesinde "DENETİM" doğru basılır, ekran okuyucu doğal okur. */}
-          <a className="wordmark" href="/#top" aria-label={t.a11y.home}>
-            MarkaDenetim
+          <a className={styles.brandLink} href="/#top" aria-label={`MarkaDenetim - ${t.footer.descriptor}`}>
+            <Image
+              src="/brand/logo-monogram.png"
+              alt="MarkaDenetim Monogram"
+              width={64}
+              height={35}
+              priority
+              className={styles.brandMonogram}
+            />
+            <div className={styles.brandTextGroup}>
+              <Image
+                src="/brand/logo-wordmark.png"
+                alt="MarkaDenetim"
+                width={130}
+                height={20}
+                priority
+                className={styles.brandWordmark}
+              />
+              <span className={styles.brandSubtitle}>
+                {t.footer.descriptor}
+              </span>
+            </div>
           </a>
 
           <nav className={styles.nav} aria-label={t.a11y.mainNav}>
@@ -132,9 +151,27 @@ export function SiteHeader({ t }: { t: Dictionary }) {
         hidden={!menuMounted}
       >
         <div className={`container ${styles.menuTop}`}>
-          <span className="wordmark" aria-hidden="true">
-            MarkaDenetim
-          </span>
+          <a className={styles.brandLink} href="/#top" aria-label={`MarkaDenetim - ${t.footer.descriptor}`} onClick={() => closeMenu(false)}>
+            <Image
+              src="/brand/logo-monogram.png"
+              alt="MarkaDenetim Monogram"
+              width={60}
+              height={33}
+              className={styles.brandMonogram}
+            />
+            <div className={styles.brandTextGroup}>
+              <Image
+                src="/brand/logo-wordmark.png"
+                alt="MarkaDenetim"
+                width={120}
+                height={19}
+                className={styles.brandWordmark}
+              />
+              <span className={styles.brandSubtitle}>
+                {t.footer.descriptor}
+              </span>
+            </div>
+          </a>
           <button ref={closeBtnRef} className={styles.close} type="button" onClick={() => closeMenu()}>
             <span className="sr-only">{t.a11y.closeMenu}</span>
             <span className={styles.closeLines} aria-hidden="true" />

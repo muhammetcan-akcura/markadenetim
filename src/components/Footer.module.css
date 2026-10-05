@@ -6,124 +6,120 @@
   font-size: var(--fs-small);
 }
 
-/* --- Ofisler ve Haritalar ----------------------------------------- */
-.officesSection {
+/* --- Ofisler ---------------------------------------------------------------
+   Başlık solda (serif, kısa), iki ofis yan yana. Kart kutusu yok: her ofis
+   haritadan ve altındaki 1px çizgili metin bloğundan oluşur. */
+.offices {
+  padding-block: var(--section-tight);
   border-bottom: 1px solid var(--rule-dark);
-  padding-block: var(--s-6);
 }
 
-.officesHeader {
-  margin-bottom: var(--s-4);
+.officesHead {
+  display: grid;
+  gap: var(--s-2);
+  margin-bottom: var(--s-5);
 }
-
-.officesLabel {
-  color: var(--stone-500);
+.officesLabel { margin: 0; color: var(--stone-500); }
+.officesTitle {
+  max-width: 16em;
   margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-h3);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  text-wrap: balance;
 }
 
 .officesGrid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--s-5);
+  gap: var(--s-6) var(--col-gap);
 }
-
 @media (min-width: 860px) {
-  .officesGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  .officesGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-.officeCard {
+.office { display: grid; align-content: start; }
+
+/* Harita: gri ton + ters çevirme ile lacivert zemine oturur; renkli Google
+   paleti sayfanın tek vurgu kuralını bozmasın diye kısılır */
+.officeMap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
   border: 1px solid var(--rule-dark);
   background: var(--navy-900);
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
-  transition: border-color var(--t-hover) var(--ease);
 }
-
-.officeCard:hover {
-  border-color: var(--stone-500);
-}
-
-.officeMapWrapper {
-  position: relative;
-  width: 100%;
-  height: 240px;
-  background: var(--navy-950);
-}
-
-.officeMapIframe {
+.officeMap iframe {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
-  display: block;
-  filter: contrast(1.05) saturate(0.9);
+  filter: grayscale(1) invert(.92) contrast(.88) brightness(.95);
 }
 
-.officeInfo {
-  padding: var(--s-4);
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-2);
-  flex: 1;
+.officeBody {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--s-3);
+  padding-top: var(--s-3);
 }
+.officeBody > :not(.officeNum) { grid-column: 2; }
 
-.officeHeadingRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-2);
-}
-
-.officeCity {
-  font-size: var(--fs-body);
-  font-weight: 600;
-  color: var(--warm-100);
-}
-
-.officeDirections {
-  font-size: .8125rem;
-  color: var(--stone-300);
-}
-
-.officeDirections:hover {
+.officeNum {
+  grid-row: 1 / span 4;
+  padding-top: .5rem;
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
   color: var(--gold);
+  font-variant-numeric: tabular-nums;
 }
-
+.officeCity {
+  margin: 0 0 var(--s-1);
+  font-family: var(--font-serif);
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
 .officeAddress {
+  max-width: 44ch;
   margin: 0;
-  font-size: var(--fs-small);
+  font-style: normal;
+  line-height: 1.6;
   color: var(--stone-300);
-  line-height: 1.5;
 }
 
-.officeContactRow {
+.officeMeta {
   display: flex;
-  flex-direction: column;
-  gap: var(--s-1);
-  margin-top: var(--s-2);
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-5);
+  margin: var(--s-3) 0 0;
   padding-top: var(--s-2);
   border-top: 1px solid var(--rule-dark);
 }
-
-.officeLink {
+.officeMeta dt { font-size: .8125rem; color: var(--stone-500); }
+.officeMeta dd { margin: 0; }
+.officeMeta a,
+.contact a {
   display: inline-flex;
   align-items: center;
-  gap: var(--s-2);
-  font-size: .8125rem;
-  color: var(--stone-300);
-  transition: color var(--t-hover) var(--ease);
+  min-height: 44px;
+  color: var(--warm-100);
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: .25em;
+  transition: text-decoration-color var(--t-hover) var(--ease);
 }
+.officeMeta a:hover,
+.contact a:hover { text-decoration-color: var(--gold); }
 
-.officeLink:hover {
-  color: var(--gold);
-}
-
-.officeIcon {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
+.officeDirections {
+  justify-self: start;
+  margin-top: var(--s-1);
+  color: var(--warm-100);
 }
 
 /* --- Üst: marka / bölümler / iletişim ------------------------------------
@@ -135,9 +131,20 @@
 }
 
 .brand { grid-column: 1 / -1; }
+.brandLink { display: inline-block; text-decoration: none; }
+.brandLogo {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
 .legalName { margin: var(--s-1) 0 0; color: var(--stone-500); }
 
 .col { grid-column: span 2; }
+/* Dar telefonda e-posta adresi yarım sütuna sığmaz; sütunlar alt alta */
+@media (max-width: 479px) {
+  .col { grid-column: 1 / -1; }
+}
 
 @media (min-width: 768px) {
   .colNav { grid-column: 1 / span 6; }
@@ -175,7 +182,7 @@
 .contact { margin: 0; }
 .contact div + div { margin-top: var(--s-2); }
 .contact dt { font-size: .8125rem; color: var(--stone-500); }
-.contact dd { margin: 2px 0 0; color: var(--stone-300); overflow-wrap: anywhere; }
+.contact dd { margin: 0; }
 
 .cta { margin-top: var(--s-3); color: var(--warm-100); }
 
@@ -217,19 +224,9 @@
 .toTop:hover .toTopIcon { transform: translateY(-4px); stroke: var(--gold); }
 
 @media (max-width: 767px) {
+  .footer { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
   .bottom { flex-direction: column; align-items: flex-start; }
   .toTop { margin-left: 0; }
-}
-
-/* --- İmza wordmark --------------------------------------------------------
-   Rengi zeminden bir ton açık: imza gibi okunur, metin hiyerarşisini bozmaz. */
-.signature { padding-bottom: var(--s-3); }
-.signature svg { display: block; width: 100%; height: auto; overflow: visible; }
-.signature text {
-  font-family: var(--font-sans);
-  font-size: 92px; /* viewBox birimi; ölçek SVG genişliğinden gelir */
-  font-weight: 600;
-  fill: var(--navy-800);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -31,8 +31,83 @@
   transition: transform 600ms var(--ease);
 }
 .scrolled .inner { transform: none; }
-.inner > :global(.wordmark) { margin-right: auto; }
+.inner > :global(.wordmark),
+.brandLink {
+  margin-right: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
 
+.brandMonogram {
+  height: 34px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+  transition: transform var(--t-hover) var(--ease);
+}
+
+.brandLink:hover .brandMonogram {
+  transform: scale(1.02);
+}
+
+.brandTextGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+
+.brandWordmark {
+  height: 21px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.brandSubtitle {
+  font-family: var(--font-manrope);
+  font-size: 0.60rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #C8A97E;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .brandLink {
+    gap: 9px;
+  }
+  .brandMonogram {
+    height: 28px;
+  }
+  .brandWordmark {
+    height: 18px;
+  }
+  .brandSubtitle {
+    font-size: 0.50rem;
+    letter-spacing: 0.05em;
+  }
+}
+
+@media (max-width: 380px) {
+  .brandSubtitle {
+    font-size: 0.44rem;
+    letter-spacing: 0.03em;
+  }
+}
+
+.brandLogo {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
 .nav { display: none; }
 .navList { display: flex; gap: var(--s-5); }
 .navList a {

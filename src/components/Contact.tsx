@@ -1,8 +1,11 @@
 import type { Dictionary } from '@/content/tr';
+import { ArrowIcon } from './ArrowIcon';
 import { ContactForm } from './ContactForm';
 import styles from './Contact.module.css';
 
-// 4.10 İletişim: güçlü kapanış. Dev başlık, tek ana CTA, iki kolonda bilgiler ve form.
+// 4.10 İletişim: güçlü kapanış. Üstte dev başlık + kısa giriş; altta iki eşit olmayan kolon:
+// solda tek dokunuşla çalışan doğrudan kanallar, sağda çerçeveli form paneli.
+// Adresler burada tekrar edilmez; haritalarıyla birlikte hemen alttaki ofis bloğunda yer alır.
 // Sağ üstte hero'daki cephe kanatlarının yankısı: sayfa açıldığı gibi kapanır.
 const FINS = [6, 20.6, 33.1, 43.9, 53.2, 61.2, 68.1, 74, 79.1, 83.4, 87.2, 90.4, 93.2, 95.6, 97.6];
 export function Contact({ t }: { t: Dictionary }) {
@@ -15,23 +18,39 @@ export function Contact({ t }: { t: Dictionary }) {
         ))}
       </svg>
       <div className={`container grid ${styles.layout}`}>
-        <div className={styles.head}>
+        <header className={styles.head}>
+          <p className={`label ${styles.kicker}`}>{c.kicker}</p>
           <h2 className={`t-statement ${styles.title}`} id="contact-title">
             {c.title}
           </h2>
-          <a className={`btn-frame ${styles.cta}`} href={c.cta.href}>
-            {c.cta.label}
-          </a>
-        </div>
+        </header>
+        <p className={styles.lead}>{c.lead}</p>
 
-        <dl className={styles.details}>
-          {c.details.map((d) => (
-            <div key={d.label}>
-              <dt className="label">{d.label}</dt>
-              <dd>{d.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <aside className={styles.direct} aria-labelledby="contact-direct">
+          <h3 className={`label ${styles.directLabel}`} id="contact-direct">
+            {c.channelsLabel}
+          </h3>
+          <ul className={styles.channels}>
+            {c.channels.map((ch) => (
+              <li key={ch.href}>
+                <a
+                  className={styles.channel}
+                  href={ch.href}
+                  {...(ch.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  <span className={styles.channelLabel}>{ch.label}</span>
+                  <span className={styles.channelValue}>{ch.value}</span>
+                  <ArrowIcon className={`link-arrow__icon ${styles.channelArrow}`} />
+                  {ch.external && <span className="sr-only">{c.newTab}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className={styles.hours}>
+            <span className={styles.channelLabel}>{c.hours.label}</span>
+            <span>{c.hours.value}</span>
+          </p>
+        </aside>
 
         <ContactForm t={t} />
       </div>

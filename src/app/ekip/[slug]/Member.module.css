@@ -1,12 +1,36 @@
 /* ===================== UZMAN PROFİLİ ===================== */
 
+/* Tek ızgara: üst bant + portre + metin. overflow-x: clip, bandın tam genişlik zeminini
+   keser ama kaydırma kabı oluşturmaz (sticky çalışmaya devam eder). */
+.profile {
+  --focus-ring: var(--ink);
+  padding-bottom: var(--section-tight);
+  overflow-x: clip;
+  background: var(--warm-100);
+  color: var(--ink);
+}
+
 /* --- Üst bant: koyu, büyük serif isim --- */
 .intro {
+  --focus-ring: var(--gold);
+  position: relative;
+  isolation: isolate;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  row-gap: var(--s-6);
   padding-block: calc(var(--header-h) + var(--s-7)) var(--s-8);
-  background: var(--navy-900);
   color: var(--warm-100);
 }
-.introGrid { row-gap: var(--s-6); }
+/* Koyu zemin container dışına, ekran kenarlarına kadar uzar */
+.intro::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset-block: 0;
+  inset-inline: calc((100vw - 100%) / -2);
+  background: var(--navy-900);
+}
 .back { grid-column: 1 / -1; justify-self: start; color: var(--stone-300); }
 .back:hover { color: var(--warm-100); }
 /* Aynı ince ok, geriye dönük */
@@ -24,22 +48,10 @@
 }
 .otherTitles { margin-top: var(--s-3); color: var(--stone-300); }
 
-@media (min-width: 768px) {
-  .heading { grid-column: 1 / span 8; }
-}
-
-/* --- Gövde: açık zemin, portre koyu banda taşar --- */
-.body {
-  --focus-ring: var(--ink);
-  padding-bottom: var(--section-tight);
-  background: var(--warm-100);
-  color: var(--ink);
-}
-.bodyGrid { row-gap: var(--s-6); }
-
+/* --- Portre ve metin: mobilde portre koyu banda hafifçe taşar --- */
+.portraitTrack { grid-column: 1 / -1; }
 .portrait {
   position: relative;
-  grid-column: 1 / -1;
   max-width: 26rem;
   margin: calc(var(--s-6) * -1) 0 0;
   aspect-ratio: 4 / 5;
@@ -48,7 +60,7 @@
 }
 .img { object-fit: cover; filter: saturate(.8); }
 
-.text { grid-column: 1 / -1; padding-top: var(--s-2); }
+.text { grid-column: 1 / -1; margin-top: var(--s-6); padding-top: var(--s-2); }
 .sectionLabel {
   padding-bottom: var(--s-2);
   margin-bottom: var(--s-3);
@@ -64,11 +76,48 @@
 .contact a { text-decoration: underline 1px; text-underline-offset: .2em; }
 
 @media (min-width: 768px) {
-  .portrait { grid-column: 8 / span 5; grid-row: 1; margin-top: calc(var(--s-9) * -1); max-width: none; }
-  .text { grid-column: 1 / span 6; grid-row: 1; padding-top: var(--s-7); }
+  /* Portre yüksekliği kolon genişliğinden hesaplanır (cqw = ızgaranın iç genişliği) */
+  .profileGrid {
+    container-type: inline-size;
+    --col-w: calc((100cqw - 11 * var(--col-gap)) / 12);
+    --portrait-w: calc(5 * var(--col-w) + 4 * var(--col-gap));
+    --portrait-h: calc(var(--portrait-w) * 1.25);
+    /* Sayfa açılışında ekranın dikey ortası; kısa ekranlarda header'ın altı */
+    --portrait-y: max(calc(var(--header-h) + var(--s-3)), calc((100svh - var(--portrait-h)) / 2));
+  }
+  .intro { grid-row: 1; }
+  .heading { grid-column: 1 / span 7; }
+
+  /* Ray, portrenin kayma alanıdır: sayfanın tepesinden --portrait-y kadar aşağıda başlar,
+     "Hakkında" etiketi + portre yüksekliğinde biter. Portre aynı noktada (--portrait-y)
+     yapışık durur; metin yukarı akar ve Hakkında portrenin üst kenarına gelince
+     ikisi birlikte kayar. Negatif alt boşluk, gerilen rayı metin satırına uzatır. */
+  .portraitTrack {
+    grid-column: 8 / span 5;
+    grid-row: 1;
+    align-self: stretch;
+    margin-top: var(--portrait-y);
+    margin-bottom: calc(-1 * (var(--s-7) + var(--portrait-h)));
+  }
+  .portrait {
+    position: sticky;
+    top: var(--portrait-y);
+    margin: 0;
+    max-width: none;
+  }
+  /* Kısa biyografide portre "Sonraki uzman" satırına taşmasın */
+  .text {
+    grid-column: 1 / span 6;
+    grid-row: 2;
+    min-height: calc(var(--s-7) + var(--portrait-h));
+    margin-top: 0;
+    padding-top: var(--s-7);
+  }
 }
 @media (min-width: 1100px) {
-  .portrait { grid-column: 9 / span 4; }
+  .profileGrid { --portrait-w: calc(4 * var(--col-w) + 3 * var(--col-gap)); }
+  .heading { grid-column: 1 / span 8; }
+  .portraitTrack { grid-column: 9 / span 4; }
 }
 
 /* --- Sonraki uzman: tam genişlik satır, ince çizgiler arasında --- */
