@@ -6,12 +6,41 @@ import { Footer } from '@/components/Footer';
 import { SiteHeader } from '@/components/SiteHeader';
 import { articles, readingMinutes } from '@/content/insights';
 import { tr } from '@/content/tr';
+import { siteUrl } from '@/lib/site';
+import { breadcrumbJsonLd, jsonLdString, pageMetadata } from '@/lib/seo';
 import styles from './Guncel.module.css';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: tr.insights.page.metaTitle,
   description: tr.insights.page.intro,
-  alternates: { canonical: '/guncel' },
+  path: '/guncel',
+});
+
+// Yazı listesi: arama motoruna sayfanın bir yazı koleksiyonu olduğunu söyler
+const jsonLd = {
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      name: tr.insights.page.metaTitle,
+      description: tr.insights.page.intro,
+      url: `${siteUrl}/guncel`,
+      inLanguage: 'tr',
+      isPartOf: { '@id': `${siteUrl}/#website` },
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: articles.map((a, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: `${siteUrl}/guncel/${a.slug}`,
+          name: a.title,
+        })),
+      },
+    },
+    breadcrumbJsonLd([
+      { name: 'Ana sayfa', path: '/' },
+      { name: tr.insights.page.title, path: '/guncel' },
+    ]),
+  ],
 };
 
 /*
@@ -24,9 +53,7 @@ export default function InsightsPage() {
 
   return (
     <>
-      <a className="skip-link" href="#main">
-        {t.a11y.skip}
-      </a>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
       <SiteHeader t={t} />
       <main id="main">
         <header className={styles.intro}>

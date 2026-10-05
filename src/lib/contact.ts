@@ -1,4 +1,4 @@
-// İletişim formu doğrulaması: istemci ve sunucu aynı kuralları kullanır.
+// İletişim formu doğrulaması (istemci tarafı). Gönderim Netlify Forms ile yapılır; bkz. public/__forms.html.
 
 export type ContactInput = {
   name: string;

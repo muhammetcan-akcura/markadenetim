@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { observeGeometry, onScrollFrame, requestScrollFrame } from '@/lib/scrollFrame';
+import { ApproachFigure } from './ApproachFigure';
 import styles from './Approach.module.css';
 
-type Step = { title: string; text: string; scope: readonly string[]; output: string };
+type Step = { title: string; text: string; scope: readonly string[]; output: string; figure: string };
 type Props = {
   title: string;
   intro: string;
@@ -15,9 +17,11 @@ type Props = {
 /*
   Masaüstü: bölüm uzun bir iz (track) içinde yapışık durur; scroll ilerlemesi sıradaki aşamayı
   öne çıkarır, ince dikey çizgi ilerlemeyi gösterir.
-  Sağ kolon aktif aşamanın "dosyası"dır: numara, açıklama, kapsam ve çıktı. Dört dosya aynı
-  hücrede üst üste durur, yalnızca aktif olan görünür.
-  Mobil: aşamalar dikey yığın; ekranın ortasına gelen aşama vurgulanır.
+  Sağ kolonun başında tek, ortak diyagram durur; noktalar aşamadan aşamaya yer değiştirir.
+  Altında aktif aşamanın "dosyası": açıklama, kapsam ve çıktı. Dört dosya aynı hücrede üst üste
+  durur, yalnızca aktif olan görünür.
+  Mobil/tablet: aşamalar dikey yığın; her aşama diyagramın kendi hâlini statik gösterir,
+  ekranın ortasına gelen aşama vurgulanır.
   İki hareket türü: opaklık + çizgi/maske kayması (transform). Hareket azaltmada hepsi tam görünür, yapışma yok.
 */
 export function ApproachSteps({ title, intro, scopeLabel, outputLabel, steps }: Props) {
@@ -29,41 +33,61 @@ export function ApproachSteps({ title, intro, scopeLabel, outputLabel, steps }: 
     const track = trackRef.current;
     if (!track || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const desktop = window.matchMedia('(min-width: 1100px)');
-    let ticking = false;
 
-    const update = () => {
-      ticking = false;
-      const vh = window.innerHeight;
-      if (desktop.matches) {
-        const rect = track.getBoundingClientRect();
-        const progress = Math.min(1, Math.max(0, -rect.top / (rect.height - vh)));
-        setActive(Math.min(steps.length - 1, Math.floor(progress * steps.length)));
-        if (lineRef.current) lineRef.current.style.transform = `scaleY(${progress.toFixed(3)})`;
-      } else {
-        const items = Array.from(track.querySelectorAll<HTMLElement>('[data-step]'));
-        let current = 0;
-        items.forEach((el, i) => {
-          if (el.getBoundingClientRect().top < vh * 0.6) current = i;
+    /*
+      Masaüstü: izin konumu ResizeObserver'da ölçülür; scroll karesinde yalnızca scrollY ile
+      ilerleme hesaplanır (DOM okunmaz, zorunlu reflow yok).
+    */
+    let top = 0;
+    let height = 0;
+    let lastLine = '';
+    const stopGeometry = observeGeometry(track, (t, h) => {
+      top = t;
+      height = h;
+    });
+    const stopFrame = onScrollFrame(({ y, vh }) => {
+      if (!desktop.matches || height <= vh) return;
+      const progress = Math.min(1, Math.max(0, (y - top) / (height - vh)));
+      setActive(Math.min(steps.length - 1, Math.floor(progress * steps.length)));
+      const line = `scaleY(${progress.toFixed(3)})`;
+      if (line !== lastLine && lineRef.current) {
+        lastLine = line;
+        lineRef.current.style.transform = line;
+      }
+    });
+
+    /*
+      Mobil/tablet: üstü ekranın %60'ını geçen son aşama vurgulanır. IntersectionObserver
+      kök alanı ekranın üst %60'ı; kesişme bilgisi tarayıcıdan hazır gelir, ölçüm yapılmaz.
+    */
+    const items = Array.from(track.querySelectorAll<HTMLElement>('[data-step]'));
+    const passed = items.map(() => false);
+    const syncMobile = () => {
+      if (!desktop.matches) setActive(Math.max(0, passed.lastIndexOf(true)));
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const line = entry.rootBounds?.bottom ?? 0;
+          passed[items.indexOf(entry.target as HTMLElement)] = entry.boundingClientRect.top < line;
         });
-        setActive(current);
-      }
-    };
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-    update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
+        syncMobile();
+      },
+      { rootMargin: '0px 0px -40% 0px' }
+    );
+    items.forEach((el) => io.observe(el));
+
+    // Kırılım değişince doğru kaynağa geç
+    const onBreakpoint = () => (desktop.matches ? requestScrollFrame() : syncMobile());
+    desktop.addEventListener('change', onBreakpoint);
+
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
+      stopGeometry();
+      stopFrame();
+      io.disconnect();
+      desktop.removeEventListener('change', onBreakpoint);
     };
   }, [steps.length]);
-
-  const total = String(steps.length).padStart(2, '0');
 
   return (
     <div ref={trackRef} className={styles.track}>
@@ -79,6 +103,14 @@ export function ApproachSteps({ title, intro, scopeLabel, outputLabel, steps }: 
           <span className={styles.rail} aria-hidden="true">
             <span ref={lineRef} className={styles.railFill} />
           </span>
+          {/* Masaüstü sahnesindeki ortak diyagram; diğer düzenlerde CSS ile gizlenir */}
+          <ApproachFigure
+            stage={active}
+            total={steps.length}
+            caption={steps[active].figure}
+            captions={steps.map((s) => s.figure)}
+            className={styles.figShared}
+          />
           <ol className={styles.steps}>
             {steps.map((step, i) => {
               const num = String(i + 1).padStart(2, '0');
@@ -98,11 +130,13 @@ export function ApproachSteps({ title, intro, scopeLabel, outputLabel, steps }: 
                   </h3>
 
                   <div className={styles.detail}>
-                    {/* Dev numara dekoratif; başlıkta zaten var */}
-                    <span className={styles.bigNum} aria-hidden="true">
-                      <span className={styles.bigNumInner}>{num}</span>
-                      <span className={styles.bigNumTotal}>/ {total}</span>
-                    </span>
+                    {/* Yığın düzeninde aşamanın kendi diyagramı (masaüstü sahnesinde gizli) */}
+                    <ApproachFigure
+                      stage={i}
+                      total={steps.length}
+                      caption={step.figure}
+                      className={styles.figInline}
+                    />
                     <p className={styles.stepText}>{step.text}</p>
 
                     <p className={`label ${styles.metaLabel}`}>{scopeLabel}</p>

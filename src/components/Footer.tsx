@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import type { Dictionary } from '@/content/tr';
-import { brandName } from '@/lib/site';
 import { ArrowIcon } from './ArrowIcon';
+import { ConsentMap } from './ConsentMap';
+import { CookieSettingsButton } from './CookieNotice';
 import styles from './Footer.module.css';
 
 // 4.11 Footer: sade. Wordmark + unvan, en fazla 5 bağlantı, yasal satır. Bağlantı duvarı yok.
@@ -30,11 +31,11 @@ export function Footer({ t }: { t: Dictionary }) {
               {f.offices.map((office, i) => (
                 <article key={office.city} className={styles.office}>
                   <div className={styles.officeMap}>
-                    <iframe
+                    <ConsentMap
                       src={office.mapUrl}
                       title={`${office.city} ${f.mapTitle}`}
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
+                      blockedText={t.cookies.mapBlocked}
+                      loadLabel={t.cookies.mapLoad}
                     />
                   </div>
                   <div className={styles.officeBody}>
@@ -79,7 +80,7 @@ export function Footer({ t }: { t: Dictionary }) {
         <div className={styles.brand}>
           <a className={styles.brandLink} href="/#top" aria-label={t.a11y.home}>
             <Image
-              src="/brand/logo-horizontal.png"
+              src="/brand/logo-horizontal.svg"
               alt="MarkaDenetim"
               width={240}
               height={50}
@@ -136,6 +137,9 @@ export function Footer({ t }: { t: Dictionary }) {
                 <a href={item.href}>{item.label}</a>
               </li>
             ))}
+            <li>
+              <CookieSettingsButton label={t.cookies.manage} className={styles.legalButton} />
+            </li>
           </ul>
         </nav>
         <a className={styles.toTop} href="/#top">

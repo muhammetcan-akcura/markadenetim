@@ -1,30 +1,38 @@
 /* ===================== 4.9 GÜNCEL ===================== */
+/* Komşu bölümlerden (Güven: section-wide, İletişim: section-mid) farklı, daha sıkı ritim */
 .insights {
   --focus-ring: var(--ink);
-  padding-block: var(--section-mid);
+  padding-block: var(--section-tight);
   background: var(--warm-50);
   color: var(--ink);
-  border-top: 1px solid var(--rule-light);
 }
 
+/* --- Başlık satırı: başlık · kısa giriş · tüm yazılar; altında yapıyı kuran 1px çizgi --- */
 .head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: var(--s-3);
-  row-gap: var(--s-1);
-  margin-bottom: var(--s-6);
+  row-gap: var(--s-2);
+  align-items: end;
+  padding-bottom: var(--s-4);
+  margin-bottom: var(--s-5);
+  border-bottom: 1px solid var(--rule-light);
 }
-.sample { color: var(--charcoal); }
-.all { margin-left: auto; }
+.title,
+.intro,
+.all { grid-column: 1 / -1; }
+.intro {
+  max-width: 40ch;
+  font-size: var(--fs-small);
+  color: var(--charcoal);
+}
+.all { justify-self: start; }
 
+/* --- Ortak --- */
 .layout { row-gap: var(--s-5); }
 .lead,
 .side { grid-column: 1 / -1; }
 
 .article { position: relative; }
 
-/* Tüm kart tıklanabilir: başlık bağlantısı kartı örter (tek odak durağı) */
+/* Tüm yazı tıklanabilir: başlık bağlantısı yazıyı örter (tek odak durağı) */
 .link::after {
   content: "";
   position: absolute;
@@ -38,12 +46,54 @@
   transition: text-decoration-color var(--t-hover) var(--ease);
 }
 .article:hover .link,
-.link:focus-visible { text-decoration-color: currentColor; }
+.article:focus-within .link { text-decoration-color: currentColor; }
 
+/* Kategori + tarih tek satırda: kısa altın çizgi, mürekkep etiket, gri tarih */
+.category {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--s-2);
+  margin-bottom: var(--s-2);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.category::before {
+  content: "";
+  width: var(--s-2);
+  height: 1px;
+  background: var(--gold);
+}
+.date {
+  letter-spacing: .04em;
+  text-transform: none;
+  font-weight: 400;
+  color: var(--charcoal);
+}
+
+/* Okuma süresi + ince ok: hover'da ok kayar ve altınlaşır (globals .link-arrow ile aynı dil) */
+.read {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+  font-size: .8125rem;
+  color: var(--charcoal);
+}
+.article:hover :global(.link-arrow__icon) {
+  transform: translateX(6px);
+  stroke: var(--gold);
+}
+
+/* --- Manşet --- */
 .media {
   overflow: hidden;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 16 / 10;
   margin-bottom: var(--s-3);
+  background: var(--warm-100);
 }
 .mediaInner {
   position: relative;
@@ -54,80 +104,96 @@
 .article:hover .mediaInner { transform: scale(1.03); }
 .mediaInner img { object-fit: cover; }
 
-/* Kategori: kısa altın çizgi + mürekkep etiket */
-.category {
-  display: flex;
-  align-items: center;
-  gap: var(--s-1);
-  margin-bottom: var(--s-1);
-  font-size: var(--fs-label);
-  font-weight: 500;
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--charcoal);
-}
-.category::before {
-  content: "";
-  width: var(--s-2);
-  height: 1px;
-  background: var(--gold);
-}
-
 .leadTitle {
   font-family: var(--font-serif);
   font-weight: 300;
-  font-size: clamp(1.75rem, 3.2vw, 3rem);
-  line-height: 1.1;
-  letter-spacing: -.02em;
-  max-width: 20em;
-  text-wrap: balance;
-}
-.excerpt { margin-top: var(--s-2); max-width: 52ch; color: var(--charcoal); }
-
-.smallTitle {
-  font-family: var(--font-serif);
-  font-weight: 400;
   font-size: var(--fs-h3);
-  line-height: 1.15;
-  letter-spacing: -.015em;
+  line-height: 1.12;
+  letter-spacing: -.02em;
+  max-width: 18em;
   text-wrap: balance;
 }
-
-.meta {
-  display: flex;
-  gap: var(--s-3);
+.excerpt {
   margin-top: var(--s-2);
-  font-size: .8125rem;
+  max-width: 46ch;
+  font-size: var(--fs-small);
   color: var(--charcoal);
 }
 
-/* Mobil: manşet + liste. Küçük yazıların görseli gizlenir, liste çizgilerle ayrılır */
+/* --- Liste: numara kolonu + metin, 1px çizgilerle ayrılır --- */
+.side { list-style: none; }
 .small {
+  display: grid;
+  grid-template-columns: var(--s-4) 1fr;
+  align-content: start;
   padding-block: var(--s-3);
   border-top: 1px solid var(--rule-light);
 }
-.thumb { display: none; }
-
-@media (min-width: 768px) {
-  .small {
-    display: grid;
-    grid-template-columns: 1fr 7.5rem;
-    gap: var(--s-3);
-    align-items: start;
-  }
-  .thumb { display: block; aspect-ratio: 1; margin: 0; }
+.small:last-child { border-bottom: 1px solid var(--rule-light); }
+.index {
+  padding-top: .1em;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: .08em;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
 }
+.smallTitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.small .read { margin-top: var(--s-2); }
+
+/* Tablet: başlık satırı yatay, manşet görsel + metin yan yana */
+@media (min-width: 768px) {
+  .title { grid-column: 1 / span 5; }
+  .intro { grid-column: 6 / span 4; padding-bottom: .5em; }
+  .all { grid-column: 10 / -1; justify-self: end; }
+
+  .lead {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--s-4);
+  }
+  .media { aspect-ratio: 4 / 5; margin: 0; }
+  .leadText {
+    display: flex;
+    flex-direction: column;
+    padding-block: var(--s-1);
+  }
+  /* Okuma süresi manşet bloğunun dibine oturur; görselle aynı taban çizgisi */
+  .lead .read { margin-top: auto; padding-top: var(--s-3); }
+  .small { grid-template-columns: var(--s-5) 1fr; }
+}
+
+/* Masaüstü: manşet 7 kolon, liste 9–12; aradaki boşluğu dikey 1px çizgi kurar */
 @media (min-width: 1100px) {
   .lead { grid-column: 1 / span 7; }
   .side {
-    grid-column: 9 / span 4;
+    grid-column: 9 / -1;
+    position: relative;
+    /* İki yazı manşet yüksekliğini eşit paylaşır: ara çizgi bloğun ortasına oturur */
     display: grid;
-    align-content: start;
+    grid-template-rows: repeat(2, 1fr);
+  }
+  .side::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(-1 * (var(--col-gap) + (100% - 3 * var(--col-gap)) / 8));
+    width: 1px;
+    background: var(--rule-light);
   }
   .small:first-child { border-top: 0; padding-top: 0; }
-  .small { grid-template-columns: 1fr 8.5rem; }
+  .small:last-child { border-bottom: 0; padding-bottom: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .article:hover .mediaInner { transform: none; }
+  .article:hover .mediaInner,
+  .article:hover :global(.link-arrow__icon) { transform: none; }
 }

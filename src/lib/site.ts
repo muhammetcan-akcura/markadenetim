@@ -1,10 +1,10 @@
-// Site genelindeki sabitler. Alan adı belli olunca yalnızca NEXT_PUBLIC_SITE_URL ayarlanır.
-// [BİLGİ GİRİLECEK] Gerçek alan adı
-export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ornek-alanadi.com.tr';
+// Site genelindeki sabitler.
+// Alan adı sabittir (ortam değişkeni kullanılmaz): canonical, sitemap, robots, Open Graph ve
+// JSON-LD her ortamda aynı adresi üretir. Alan adı değişirse yalnızca burası güncellenir.
+export const siteUrl = 'https://www.markadenetim.tr';
 
-export const legalName = 'MarkaDenetim Yeminli Mali Müşavirlik ve Denetim A.Ş.';
+// Resmi unvan: firmanın mevcut sitesindeki (markadenetim.tr) ifadeyle; ticaret sicili kaydıyla teyit edilmeli
+export const legalName = 'Marka Yeminli Mali Müşavirlik ve Denetim Hizmetleri A.Ş.';
 export const brandName = 'MarkaDenetim';
 
 export const placeholder = '[BİLGİ GİRİLECEK]';
-export const realDataPlaceholder = '[GERÇEK VERİ GİRİLECEK]';
-export const legalPlaceholder = '[HUKUKİ METİN GİRİLECEK]';

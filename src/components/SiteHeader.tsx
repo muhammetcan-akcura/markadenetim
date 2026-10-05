@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import type { Dictionary } from '@/content/tr';
+import { onScrollFrame } from '@/lib/scrollFrame';
 import styles from './SiteHeader.module.css';
 
 const FOCUSABLE = 'a[href], button:not([disabled])';
@@ -18,29 +19,18 @@ export function SiteHeader({ t }: { t: Dictionary }) {
   const openBtnRef = useRef<HTMLButtonElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
-  /* Scroll'da zemin + aşağıda gizlen, yukarıda görün. Değişiklikler rAF ile tek karede. */
+  /* Scroll'da zemin + aşağıda gizlen, yukarıda görün. Sayfanın ortak scroll karesini paylaşır. */
   useEffect(() => {
-    let lastY = window.scrollY;
-    let ticking = false;
-    const update = () => {
-      const y = window.scrollY;
+    let lastY = -1;
+    return onScrollFrame(({ y, vh }) => {
+      if (lastY < 0) lastY = y;
       setScrolled(y > 24);
       // Küçük titreşimleri yok say; hero'nun ilk yarısında header hep görünür kalsın
       if (Math.abs(y - lastY) > 6) {
-        setHidden(y > lastY && y > window.innerHeight * 0.5);
+        setHidden(y > lastY && y > vh * 0.5);
         lastY = y;
       }
-      ticking = false;
-    };
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-    update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    });
   }, []);
 
   const openMenu = () => {
@@ -90,7 +80,7 @@ export function SiteHeader({ t }: { t: Dictionary }) {
         <div className={`container ${styles.inner}`}>
           <a className={styles.brandLink} href="/#top" aria-label={`MarkaDenetim - ${t.footer.descriptor}`}>
             <Image
-              src="/brand/logo-monogram.png"
+              src="/brand/logo-monogram.svg"
               alt="MarkaDenetim Monogram"
               width={64}
               height={35}
@@ -99,7 +89,7 @@ export function SiteHeader({ t }: { t: Dictionary }) {
             />
             <div className={styles.brandTextGroup}>
               <Image
-                src="/brand/logo-wordmark.png"
+                src="/brand/logo-wordmark.svg"
                 alt="MarkaDenetim"
                 width={130}
                 height={20}
@@ -153,7 +143,7 @@ export function SiteHeader({ t }: { t: Dictionary }) {
         <div className={`container ${styles.menuTop}`}>
           <a className={styles.brandLink} href="/#top" aria-label={`MarkaDenetim - ${t.footer.descriptor}`} onClick={() => closeMenu(false)}>
             <Image
-              src="/brand/logo-monogram.png"
+              src="/brand/logo-monogram.svg"
               alt="MarkaDenetim Monogram"
               width={60}
               height={33}
@@ -161,7 +151,7 @@ export function SiteHeader({ t }: { t: Dictionary }) {
             />
             <div className={styles.brandTextGroup}>
               <Image
-                src="/brand/logo-wordmark.png"
+                src="/brand/logo-wordmark.svg"
                 alt="MarkaDenetim"
                 width={120}
                 height={19}

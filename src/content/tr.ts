@@ -1,13 +1,15 @@
 // Türkçe metinler. EN eklenecekse aynı şekle sahip content/en.ts yazılır;
 // bileşenler metni bu sözlükten alır, kendi içinde metin tutmaz.
-import { legalPlaceholder } from '@/lib/site';
+import { legalName } from '@/lib/site';
 
 export const tr = {
   meta: {
-    title: 'MarkaDenetim Yeminli Mali Müşavirlik ve Denetim A.Ş.',
+    // ~60 karakter: marka + ana hizmet; arama sonucunda kesilmeden görünür
+    title: 'MarkaDenetim | Yeminli Mali Müşavirlik ve Bağımsız Denetim',
+    // ~155 karakter: hizmetler + konum (İstanbul, Mardin); üstünlük iddiası yok (BRIEF §06)
     description:
-      'Yeminli mali müşavirlik, bağımsız denetim, vergi ve finansal danışmanlık. MarkaDenetim, işletmelerin kararlarını sağlam bir mali zemine oturtur.',
-    ogDescription: 'Yeminli mali müşavirlik, bağımsız denetim, vergi ve finansal danışmanlık.',
+      'İstanbul ve Mardin’de yeminli mali müşavirlik, tam tasdik, bağımsız denetim, vergi ve finansal danışmanlık. Kararlarınızı sağlam bir mali zemine oturtuyoruz.',
+    ogDescription: 'Yeminli mali müşavirlik, bağımsız denetim, vergi ve finansal danışmanlık. İstanbul ve Mardin.',
   },
   a11y: {
     skip: 'İçeriğe geç',
@@ -45,7 +47,7 @@ export const tr = {
     hud: { scene: 'Sahne', pause: 'Durdur', play: 'Oynat' },
   },
   statement: {
-    panorama: '/img/statement-fields-new.jpg',
+    panorama: '/img/statement-fields-new.webp',
     text: 'Rakamların ötesinde, işletmelerin geleceğine daha net bakmak.',
     note: 'MarkaDenetim, yeminli mali müşavirlik ve bağımsız denetim alanında işletmelere eşlik eder. Her çalışmayı mevzuata uygunluk, belgelendirme ve açık iletişim üzerine kurarız. Amacımız, sayıların arkasındaki yapıyı yönetim için okunur hâle getirmek.',
   },
@@ -58,7 +60,7 @@ export const tr = {
       'Dört ana alanda, tek bir disiplinle çalışırız: Mevzuata uygunluk, finansal şeffaflık ve sürdürülebilir büyüme için güvenilir çözümler sunarız.',
     keywords: ['MEVZUAT', 'DENETİM', 'STRATEJİ', 'SÜRDÜRÜLEBİLİR BÜYÜME'],
     cta: 'TÜM HİZMETLERİ GÖR',
-    boardroomImage: '/img/services-boardroom.jpg',
+    boardroomImage: '/img/services-boardroom.webp',
     // Hizmet içerikleri: src/content/services.ts
     detail: {
       back: 'Uzmanlık alanlarımız',
@@ -102,24 +104,28 @@ export const tr = {
         text: 'Finansal tabloları, kayıt düzenini ve mevzuat yükümlülüklerini birlikte inceleriz. Çalışmanın kapsamını bu ilk tespitler belirler.',
         scope: ['Finansal tablolar ve hesap planı', 'Kayıt düzeni ve iç kontrol işleyişi', 'Mevzuat ve beyan yükümlülükleri'],
         output: 'Kapsam ve ilk tespit notu',
+        figure: 'Dağınık veriler tek bir görünümde toplanır',
       },
       {
         title: 'Değerlendirme',
         text: 'Bulguları önem ve risk düzeyine göre sınıflandırırız. Her bulgu, dayandığı belgeyle birlikte kayda geçer.',
         scope: ['Önem ve risk düzeyine göre sınıflandırma', 'Bulguların dayanak belgeyle eşleştirilmesi', 'Yönetimle bulgu görüşmesi'],
         output: 'Belgelendirilmiş bulgu dosyası',
+        figure: 'Bulgular risk düzeyine göre ayrışır',
       },
       {
         title: 'Strateji',
         text: 'Yönetimle birlikte öncelikleri ve uygulanabilir adımları belirleriz. Öneriler, işletmenin yapısına ve takvimine göre şekillenir.',
         scope: ['Önceliklerin yönetimle belirlenmesi', 'Uygulanabilir adımlar ve sorumluluklar', 'İşletme takvimine uygun yol haritası'],
         output: 'Önceliklendirilmiş eylem planı',
+        figure: 'Adımlar öncelik sırasına girer',
       },
       {
         title: 'Sonuç',
         text: 'Rapor, tasdik veya görüş açık bir dille teslim edilir. Uygulama sürecindeki takibi birlikte yürütürüz.',
         scope: ['Raporun yönetimle birlikte okunması', 'Uygulama takviminin belirlenmesi', 'Dönemsel takip görüşmeleri'],
         output: 'Rapor, tasdik veya mesleki görüş',
+        figure: 'Yapı netleşir, karar kayda geçer',
       },
     ],
   },
@@ -164,7 +170,7 @@ export const tr = {
     minutes: 'dk okuma',
     page: {
       title: 'Güncel',
-      metaTitle: 'Güncel | MarkaDenetim',
+      metaTitle: 'Güncel: Vergi, Denetim ve Finans Yazıları',
       intro: 'Vergi, denetim ve finans alanındaki gelişmelere dair kısa ve uygulamaya dönük notlar.',
       featured: 'Öne çıkan',
       index: 'Tüm yazılar',
@@ -233,8 +239,9 @@ export const tr = {
     },
   },
   footer: {
+    // Marka tanımlayıcısı (header/footer imzası); resmi unvan legalName'de. Kısa tutulur: mobil header'a sığmalı
     descriptor: 'Yeminli Mali Müşavirlik ve Denetim A.Ş.',
-    copyright: 'MarkaDenetim Yeminli Mali Müşavirlik ve Denetim A.Ş.',
+    copyright: legalName,
     officesLabel: 'Ofislerimiz',
     officesTitle: 'İstanbul ve Mardin’de, aynı disiplinle.',
     directionsLabel: 'Yol tarifi al',
@@ -270,25 +277,64 @@ export const tr = {
     contactLabel: 'İletişim',
     backToTop: 'Başa dön',
   },
+  // Çerez bildirimi. Sitenin tek üçüncü taraf kaynağı ofis haritaları (Google Haritalar);
+  // metin bunu açıkça söyler. Reddetmek, kabul etmek kadar kolay olmalı (KVKK Kurul rehberi).
+  cookies: {
+    label: 'Çerezler',
+    title: 'Çerez tercihiniz',
+    text: 'Ofis haritalarımız Google Haritalar üzerinden yüklenir ve bu hizmet çerez kullanabilir. Onay vermezseniz haritalar yüklenmez; site diğer tüm işlevleriyle çalışmaya devam eder.',
+    policy: 'Çerez Politikası',
+    accept: 'Kabul et',
+    reject: 'Yalnızca zorunlu',
+    manage: 'Çerez tercihleri',
+    mapBlocked: 'Harita, çerez tercihiniz nedeniyle yüklenmedi.',
+    mapLoad: 'Haritayı göster',
+  },
+  // 404 ve hata sayfaları: sakin, suçlamayan dil; ziyaretçiye her zaman bir sonraki adım verilir
+  status: {
+    home: 'Ana sayfaya dön',
+    linksLabel: 'Buradan devam edebilirsiniz',
+    links: [
+      { href: '/#hizmetler', label: 'Uzmanlık alanlarımız' },
+      { href: '/guncel', label: 'Güncel yazılar' },
+      { href: '/#iletisim', label: 'İletişim' },
+    ],
+    notFound: {
+      code: '404',
+      label: 'Sayfa bulunamadı',
+      title: 'Aradığınız sayfa burada değil.',
+      text: 'Bağlantı değişmiş ya da sayfa kaldırılmış olabilir. Aşağıdaki bağlantılardan devam edebilirsiniz.',
+    },
+    error: {
+      code: '500',
+      label: 'Beklenmeyen bir hata',
+      title: 'Sayfa şu anda görüntülenemiyor.',
+      text: 'Geçici bir sorun oluştu. Sayfayı yeniden deneyebilir ya da ana sayfaya dönebilirsiniz.',
+      retry: 'Yeniden dene',
+      digest: 'Hata kodu',
+    },
+  },
   legal: {
     back: 'Ana sayfaya dön',
     updated: 'Son güncelleme',
     pages: {
       kvkk: {
         title: 'KVKK Aydınlatma Metni',
-        description: 'MarkaDenetim kişisel verilerin işlenmesine ilişkin aydınlatma metni.',
+        description:
+          `${legalName} tarafından kişisel verilerin işlenmesine ilişkin 6698 sayılı KVKK kapsamındaki aydınlatma metni.`,
       },
       gizlilik: {
         title: 'Gizlilik Politikası',
-        description: 'MarkaDenetim gizlilik politikası.',
+        description:
+          `${legalName} gizlilik politikası: web sitesi ziyaretçilerine ait bilgilerin nasıl korunduğu.`,
       },
       cerez: {
         title: 'Çerez Politikası',
-        description: 'MarkaDenetim çerez politikası.',
+        description:
+          'MarkaDenetim web sitesinde kullanılan çerezler, kullanım amaçları ve çerez tercihlerinizi nasıl yönetebileceğiniz.',
       },
     },
-    placeholder: legalPlaceholder,
-    sections: ['Veri sorumlusu', 'İşlenen kişisel veriler', 'İşleme amaçları ve hukuki sebepler', 'Aktarım', 'Haklarınız', 'Başvuru yöntemi'],
+    // Metinlerin kendisi content/legal.ts'te
   },
 };
 

@@ -7,7 +7,8 @@ import { Footer } from '@/components/Footer';
 import { SiteHeader } from '@/components/SiteHeader';
 import { teamMembers } from '@/content/team';
 import { tr } from '@/content/tr';
-import { placeholder } from '@/lib/site';
+import { legalName, placeholder, siteUrl } from '@/lib/site';
+import { breadcrumbJsonLd, jsonLdString, pageMetadata } from '@/lib/seo';
 import { NextMember } from './NextMember';
 import styles from './Member.module.css';
 
@@ -21,11 +22,17 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const member = teamMembers.find((m) => m.slug === slug);
   if (!member) return {};
-  return {
-    title: `${member.name} | MarkaDenetim`,
-    description: `${member.name}, ${member.titles.join(', ')}. MarkaDenetim Yeminli Mali Müşavirlik ve Denetim A.Ş.`,
-    alternates: { canonical: `/ekip/${member.slug}` },
-  };
+  return pageMetadata({
+    title: `${member.name}, ${member.titles[0]}`,
+    // legalName "A.Ş." ile bittiği için ardına ayrıca nokta konmaz
+    description: `${member.name}, ${member.titles.join(', ')}. ${legalName}${
+      member.focus ? ` Uzmanlık alanları: ${member.focus.join(', ')}.` : ''
+    }`,
+    path: `/ekip/${member.slug}`,
+    image: member.image,
+    imageAlt: `${member.name} portresi`,
+    type: 'profile',
+  });
 }
 
 /*
@@ -45,11 +52,33 @@ export default async function MemberPage({ params }: Params) {
   // İlk cümle büyük serif giriş olur; tek cümlelik biyografide yalnızca giriş kalır
   const [, lede = member.biography, rest] = member.biography.match(/^(.+?[.!?])\s+(.+)$/s) ?? [];
 
+  const jsonLd = {
+    '@graph': [
+      {
+        '@type': 'ProfilePage',
+        url: `${siteUrl}/ekip/${member.slug}`,
+        inLanguage: 'tr',
+        mainEntity: {
+          '@type': 'Person',
+          name: member.name,
+          jobTitle: member.titles,
+          description: member.biography,
+          image: `${siteUrl}${member.image}`,
+          ...(member.focus ? { knowsAbout: member.focus } : {}),
+          worksFor: { '@id': `${siteUrl}/#organization` },
+        },
+      },
+      breadcrumbJsonLd([
+        { name: 'Ana sayfa', path: '/' },
+        { name: t.team.back, path: '/#ekip' },
+        { name: member.name, path: `/ekip/${member.slug}` },
+      ]),
+    ],
+  };
+
   return (
     <>
-      <a className="skip-link" href="#main">
-        {t.a11y.skip}
-      </a>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
       <SiteHeader t={t} />
       <main id="main">
         {/* Üst bant ve gövde tek ızgaradadır: portrenin ilk konumu sayfanın tepesine göre

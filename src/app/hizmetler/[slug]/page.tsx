@@ -9,7 +9,8 @@ import { InView } from '@/components/InView';
 import { SiteHeader } from '@/components/SiteHeader';
 import { getService, services } from '@/content/services';
 import { tr } from '@/content/tr';
-import { brandName, realDataPlaceholder, siteUrl } from '@/lib/site';
+import { siteUrl } from '@/lib/site';
+import { breadcrumbJsonLd, jsonLdString, pageMetadata } from '@/lib/seo';
 import styles from './Service.module.css';
 
 type Params = { params: Promise<{ slug: string }> };
@@ -22,20 +23,13 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const service = getService(slug);
   if (!service) return {};
-  return {
-    title: `${service.title} | ${brandName}`,
+  return pageMetadata({
+    title: service.metaTitle,
     description: service.lead,
-    alternates: { canonical: `/hizmetler/${service.slug}` },
-    openGraph: {
-      type: 'website',
-      locale: 'tr_TR',
-      siteName: brandName,
-      title: `${service.title} | ${brandName}`,
-      description: service.lead,
-      url: `/hizmetler/${service.slug}`,
-      images: [{ url: service.image }],
-    },
-  };
+    path: `/hizmetler/${service.slug}`,
+    image: service.image,
+    imageAlt: service.title,
+  });
 }
 
 /*
@@ -63,26 +57,37 @@ export default async function ServicePage({ params }: Params) {
   ];
 
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: service.title,
-    serviceType: service.title,
-    description: service.lead,
-    url: `${siteUrl}/hizmetler/${service.slug}`,
-    areaServed: { '@type': 'Country', name: 'Türkiye' },
-    inLanguage: 'tr',
-    provider: { '@id': `${siteUrl}/#organization` },
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: service.title,
+        serviceType: service.title,
+        description: service.lead,
+        url: `${siteUrl}/hizmetler/${service.slug}`,
+        image: `${siteUrl}${service.image}`,
+        areaServed: { '@type': 'Country', name: 'Türkiye' },
+        inLanguage: 'tr',
+        provider: { '@id': `${siteUrl}/#organization` },
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: service.title,
+          itemListElement: service.scope.map((item) => ({
+            '@type': 'Offer',
+            itemOffered: { '@type': 'Service', name: item.title, description: item.text },
+          })),
+        },
+      },
+      breadcrumbJsonLd([
+        { name: 'Ana sayfa', path: '/' },
+        { name: d.back, path: '/#hizmetler' },
+        { name: service.title, path: `/hizmetler/${service.slug}` },
+      ]),
+    ],
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
-      />
-      <a className="skip-link" href="#main">
-        {t.a11y.skip}
-      </a>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
       <SiteHeader t={t} />
       <main id="main" className={styles.main}>
         {/* 1 — Giriş */}
@@ -228,8 +233,7 @@ export default async function ServicePage({ params }: Params) {
 
               <dl className={styles.basis}>
                 <dt className="label">{d.basis}</dt>
-                {/* [GERÇEK VERİ GİRİLECEK] Ruhsat / KGK yetki bilgisi ve ilgili mevzuat */}
-                <dd>{realDataPlaceholder}</dd>
+                <dd>{service.basis}</dd>
               </dl>
               <p className={styles.disclaimer}>{d.disclaimer}</p>
             </div>

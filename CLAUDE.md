@@ -24,7 +24,7 @@ Tasarım kalitesi > Güven algısı > Performans > Erişilebilirlik > Gösteriş
     app/
       layout.tsx, page.tsx, globals.css
       kvkk/ gizlilik/ cerez/        (yasal sayfalar)
-      api/iletisim/route.ts          (form endpoint'i)
+      not-found.tsx, error.tsx, global-error.tsx
       sitemap.ts, robots.ts
     components/   (Header, Hero, Statement, Services, About, Break, Approach, Trust, Insights, Contact, Footer)
     styles/       tokens.css
@@ -89,7 +89,7 @@ Screenshot almadan "tamamlandı" deme.
 - Font: `next/font` (`display: 'swap'`), subset `latin` + `latin-ext` (Türkçe karakterler için).
 - Hedef: Lighthouse ≥ 95 (Performance, Accessibility, Best Practices, SEO), LCP < 2.0s, CLS ≈ 0.
 - SEO (Next.js Metadata API ile): title, meta description, Open Graph, canonical, `lang="tr"`, `sitemap.ts`, `robots.ts`, `Organization` + `ProfessionalService` JSON-LD (yer tutucu verilerle). Tek `h1`, anlamlı başlık hiyerarşisi, görsellerde `alt`.
-- İletişim formu: `app/api/iletisim/route.ts` üzerinden; honeypot, sunucu tarafı doğrulama, KVKK onayı zorunlu. E-posta servisi (örn. Resend) için önce onay iste; API anahtarları `.env.local`'de, koda gömülmez.
+- İletişim formu: Netlify Forms (`public/__forms.html` statik tanım + `ContactForm.tsx` urlencoded POST); honeypot, istemci doğrulaması, KVKK onayı zorunlu. Alan adları iki dosyada aynı kalmalı. Bildirim e-postası Netlify panelinden ayarlanır.
 - Hardcoded renk/ölçü yok; token değişkenleri kullanılır.
 - Temiz, yorumlu, okunabilir kod. Ölü kod ve kullanılmayan CSS bırakma.
 

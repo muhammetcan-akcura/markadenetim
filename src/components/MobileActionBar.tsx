@@ -9,30 +9,26 @@ export function MobileActionBar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const hero = document.getElementById('hero');
-      // Eğer sayfada hero bölümü yoksa (alt sayfalar vs.), bar direkt görünür olsun
-      if (!hero) {
-        setIsVisible(true);
-        return;
-      }
+    const hero = document.getElementById('hero');
+    // Eğer sayfada hero bölümü yoksa (alt sayfalar vs.), bar direkt görünür olsun
+    if (!hero) {
+      setIsVisible(true);
+      return;
+    }
 
-      const rect = hero.getBoundingClientRect();
-      // Hero'nun alt kenarı ekranın üst yarısını terk edip bir alt bölüme geçildiğinde göster
-      const shouldShow = rect.bottom <= window.innerHeight * 0.35;
-      setIsVisible(shouldShow);
-    };
-
-    // İlk yüklemede ve sayfa geçişlerinde kontrol et
-    handleScroll();
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
+    /*
+      Hero'nun alt kenarı ekranın üst %35'inin üstüne çıkınca göster. Kök alanı ekranın
+      üst %35'i: hero bu alanla kesişmiyor ve alanın üstünde kalmışsa geçilmiştir.
+      Scroll'da DOM ölçülmez; kesişme bilgisi tarayıcıdan hazır gelir (zorunlu reflow yok).
+    */
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+      },
+      { rootMargin: '0px 0px -65% 0px' }
+    );
+    io.observe(hero);
+    return () => io.disconnect();
   }, [pathname]);
 
   return (

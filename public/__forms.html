@@ -1,0 +1,27 @@
+<!doctype html>
+<!--
+  Netlify Forms tanımı. Ziyaretçiye gösterilmez.
+  Netlify formları deploy sırasında yalnızca statik HTML'de tarar; Next.js sayfaları sunucuda
+  üretildiği için form burada "görünmez kopya" olarak tanımlanır. Sitedeki React formu
+  (components/ContactForm.tsx) gönderimi bu dosyanın adresine POST eder.
+  Alan adları ContactForm.tsx ile birebir aynı kalmalı; yeni alan eklenirse buraya da eklenir.
+-->
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Form tanımı</title>
+  </head>
+  <body>
+    <form name="iletisim" method="POST" data-netlify="true" netlify-honeypot="website" hidden>
+      <input type="hidden" name="form-name" value="iletisim" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="company" />
+      <input type="text" name="subject" />
+      <textarea name="message"></textarea>
+      <input type="text" name="consent" />
+      <input type="text" name="website" />
+    </form>
+  </body>
+</html>

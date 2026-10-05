@@ -30,7 +30,7 @@ export const articles: Article[] = [
     excerpt:
       'Yıllık raporun hazırlanmasında karşılaştırılabilirlik analizi ve belge düzeni neden belirleyicidir?',
     date: '28 Eylül 2026',
-    image: '/img/insight-1-new.jpg',
+    image: '/img/insight-1-new.webp',
     body: [
       {
         type: 'p',
@@ -76,7 +76,7 @@ export const articles: Article[] = [
     title: 'Sınırlı denetim ile bağımsız denetim arasındaki farklar',
     excerpt: 'İki çalışma da finansal tablolarla ilgilidir; ancak sundukları güvence düzeyi aynı değildir.',
     date: '15 Eylül 2026',
-    image: '/img/insight-2-new.jpg',
+    image: '/img/insight-2-new.webp',
     body: [
       {
         type: 'p',
@@ -121,7 +121,7 @@ export const articles: Article[] = [
     title: 'Enflasyon düzeltmesi sonrası finansal tabloları okumak',
     excerpt: 'Düzeltilmiş tablolar, aynı işletmeyi önceki dönemlerden farklı gösterebilir. Farkı okumak için nereye bakmalı?',
     date: '2 Eylül 2026',
-    image: '/img/insight-3-new.jpg',
+    image: '/img/insight-3-new.webp',
     body: [
       {
         type: 'p',
@@ -162,7 +162,7 @@ export const articles: Article[] = [
     title: 'KDV iadesi taleplerinde belge düzeni neden belirleyicidir?',
     excerpt: 'İade sürecinin hızı çoğu zaman talebin kendisinden çok, onu destekleyen belgelerin düzenine bağlıdır.',
     date: '18 Ağustos 2026',
-    image: '/img/service-3-new.jpg',
+    image: '/img/service-3-new.webp',
     body: [
       {
         type: 'p',
@@ -203,7 +203,7 @@ export const articles: Article[] = [
     title: 'Bağımsız denetimde önemlilik kavramı',
     excerpt: 'Denetçinin hangi yanlışlığı önemli saydığı, raporun anlamını doğrudan belirler.',
     date: '4 Ağustos 2026',
-    image: '/img/service-2-new.jpg',
+    image: '/img/service-2-new.webp',
     body: [
       {
         type: 'p',
@@ -244,7 +244,7 @@ export const articles: Article[] = [
     title: 'Nakit akış tablosunu yönetim için okumak',
     excerpt: 'Kâr ile nakit arasındaki fark, işletmenin gerçek finansal hareket alanını gösterir.',
     date: '21 Temmuz 2026',
-    image: '/img/service-4-new.jpg',
+    image: '/img/service-4-new.webp',
     body: [
       {
         type: 'p',

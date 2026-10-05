@@ -15,11 +15,11 @@
 }
 main:has(.body) { background: var(--warm-100); }
 
-.notice {
-  padding: var(--s-2) 0;
-  border-top: 1px solid var(--gold);
+.intro {
+  padding-bottom: var(--s-4);
   border-bottom: 1px solid var(--rule-light);
-  font-weight: 600;
+  font-size: 1.1875rem;
+  line-height: 1.6;
 }
 .block { padding-block: var(--s-4); border-bottom: 1px solid var(--rule-light); }
 .heading {
@@ -30,4 +30,24 @@ main:has(.body) { background: var(--warm-100); }
   line-height: 1.2;
 }
 .block p { color: var(--charcoal); }
+.block p + p,
+.block p + .list,
+.block .list + p { margin-top: var(--s-2); }
+
+/* Madde listesi: ikon yerine kısa altın çizgi (BRIEF: neredeyse sıfır ikon) */
+.list { list-style: none; color: var(--charcoal); }
+.list li {
+  position: relative;
+  padding-left: var(--s-3);
+}
+.list li + li { margin-top: var(--s-1); }
+.list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .82em;
+  width: var(--s-1);
+  height: 1px;
+  background: var(--gold);
+}
 .body :global(.link-arrow) { margin-top: var(--s-5); }

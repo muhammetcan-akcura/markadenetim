@@ -92,20 +92,6 @@ section[id] { scroll-margin-top: var(--header-h); }
   border: 0;
 }
 
-.skip-link {
-  position: fixed;
-  top: var(--s-2);
-  left: var(--s-2);
-  z-index: 100;
-  padding: var(--s-2) var(--s-3);
-  background: var(--warm-50);
-  color: var(--ink);
-  font-size: var(--fs-small);
-  font-weight: 600;
-  transform: translateY(-200%);
-}
-.skip-link:focus-visible { transform: none; }
-
 /* Odak: ince altın çerçeve. Açık zeminde altın 3:1'in altında kaldığı için
    açık bölümler --focus-ring'i mürekkebe çeker (sections.css). */
 :root { --focus-ring: var(--gold); }

@@ -1,0 +1,105 @@
+/* ===================== 404 / Hata sayfası ===================== */
+.page {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+
+/* İçerik alta yaslanır: hero ile aynı "zemin çizgisi" hissi; üstte header'a yer kalır */
+.inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--s-6);
+  padding-top: calc(var(--header-h) + var(--s-6));
+  padding-bottom: var(--s-6);
+}
+
+/* Etiket satırı: altın numara + etiket + sağa uzanan 1px çizgi */
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.code { color: var(--gold); }
+.label { color: var(--stone-300); }
+.rule {
+  flex: 1;
+  height: 1px;
+  background: var(--rule-dark);
+}
+
+.grid {
+  display: grid;
+  gap: var(--s-6);
+}
+
+/* Display ölçeği, iki satırlık bir cümle için biraz kısılır: 404 sayfası hero'yla yarışmamalı.
+   11vw üst sınırı: "görüntülenemiyor." gibi uzun tek kelime 360px'de bile satıra sığsın. */
+.title {
+  max-width: 11em;
+  font-size: min(var(--fs-display), 7rem, 11vw);
+}
+.text {
+  max-width: 44ch;
+  margin-top: var(--s-4);
+  color: var(--stone-300);
+}
+.note {
+  margin-top: var(--s-2);
+  font-size: var(--fs-small);
+  color: var(--stone-500);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-5);
+  margin-top: var(--s-5);
+}
+
+/* Devam listesi: kart yok, yalnızca 1px çizgilerle ayrılmış satırlar */
+.linksLabel {
+  padding-bottom: var(--s-2);
+  color: var(--stone-500);
+}
+.links ul {
+  list-style: none;
+  border-top: 1px solid var(--rule-dark);
+}
+.links li { border-bottom: 1px solid var(--rule-dark); }
+.links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  min-height: 64px;
+  font-size: 1.0625rem;
+}
+.links a span {
+  transition: transform var(--t-hover) var(--ease);
+}
+.links a:hover span { transform: translateX(var(--s-1)); }
+.links a:hover :global(.link-arrow__icon) { transform: translateX(6px); stroke: var(--gold); }
+
+/* Masaüstü: metin 7 kolon, liste 4 kolon; liste başlığın taban çizgisine oturur */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    align-items: end;
+  }
+  .main { grid-column: 1 / span 7; }
+  .links { grid-column: 9 / span 4; }
+}
+
+/* Mobil: sabit alt eylem çubuğu son satırı örtmesin (Footer ile aynı pay) */
+@media (max-width: 767px) {
+  .inner { padding-bottom: calc(var(--s-6) + 72px + env(safe-area-inset-bottom, 0px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .links a span { transition: none; }
+}

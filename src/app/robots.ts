@@ -3,7 +3,8 @@ import { siteUrl } from '@/lib/site';
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: '*', allow: '/' },
+    // Netlify Forms tanım dosyası taranacak bir sayfa değil
+    rules: { userAgent: '*', allow: '/', disallow: '/__forms.html' },
     sitemap: `${siteUrl}/sitemap.xml`,
   };
 }

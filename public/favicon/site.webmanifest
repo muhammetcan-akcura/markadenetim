@@ -1,6 +1,10 @@
 {
-  "name": "MarkaDenetim YMM ve Denetim A.Ş.",
+  "name": "MarkaDenetim Yeminli Mali Müşavirlik ve Denetim A.Ş.",
   "short_name": "MarkaDenetim",
+  "description": "Yeminli mali müşavirlik, bağımsız denetim, vergi ve finansal danışmanlık.",
+  "lang": "tr",
+  "start_url": "/",
+  "scope": "/",
   "icons": [
     {
       "src": "/favicon/web-app-manifest-192x192.png",

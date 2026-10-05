@@ -6,9 +6,10 @@ import { ArrowIcon } from './ArrowIcon';
 import styles from './Insights.module.css';
 
 /*
-  4.9 Güncel. Blog ızgarası değil, dergi düzeni: solda tek manşet, sağda üst üste iki kısa yazı.
-  Kategori metni mürekkep renginde; altın yalnızca önündeki kısa çizgide (açık zeminde altın
-  metin AA kontrastı sağlamaz). Son üç yazı gösterilir; tamamı /guncel'de. İçerikler örnektir,
+  4.9 Güncel. Blog ızgarası değil, dergi düzeni: solda manşet (7 kolon), sağda numaralı kısa liste.
+  Manşet görseli bölümü domine etmesin diye tam genişlik yerine dikey, metinle yan yana durur;
+  böylece bölüm kompakt kalır ve hiyerarşiyi tipografi kurar. Altın yalnızca kategori çizgisinde
+  ve küçük sıra numaralarında. Son üç yazı gösterilir; tamamı /guncel'de. İçerikler örnektir,
   görseller geçicidir ve dekoratiftir (alt=""), anlam başlıkta.
 */
 export function Insights({ t }: { t: Dictionary }) {
@@ -17,11 +18,11 @@ export function Insights({ t }: { t: Dictionary }) {
   return (
     <section id="guncel" className={styles.insights} aria-labelledby="insights-title">
       <div className="container">
-        <header className={styles.head}>
-          <h2 className="t-h2" id="insights-title">
+        <header className={`grid ${styles.head}`}>
+          <h2 className={`t-h2 ${styles.title}`} id="insights-title">
             {t.insights.title}
           </h2>
-          {t.insights.sample ? <span className={`label ${styles.sample}`}>{t.insights.sample}</span> : null}
+          <p className={styles.intro}>{t.insights.page.intro}</p>
           <Link className={`link-arrow ${styles.all}`} href={t.insights.all.href}>
             <span>{t.insights.all.label}</span>
             <ArrowIcon />
@@ -32,49 +33,56 @@ export function Insights({ t }: { t: Dictionary }) {
           <article className={`${styles.article} ${styles.lead}`}>
             <div className={styles.media}>
               <div className={styles.mediaInner}>
-                <Image src={lead.image} alt="" fill sizes="(min-width: 1100px) 55vw, 100vw" quality={70} />
+                <Image src={lead.image} alt="" fill sizes="(min-width: 1100px) 22vw, (min-width: 768px) 40vw, 100vw" quality={70} />
               </div>
             </div>
-            <p className={styles.category}>{lead.category}</p>
-            <h3 className={styles.leadTitle}>
-              <Link href={`/guncel/${lead.slug}`} className={styles.link}>
-                {lead.title}
-              </Link>
-            </h3>
-            <p className={styles.excerpt}>{lead.excerpt}</p>
-            <p className={styles.meta}>
-              <span>{lead.date}</span>
-              <span>
-                {readingMinutes(lead)} {t.insights.minutes}
-              </span>
-            </p>
+            <div className={styles.leadText}>
+              <p className={styles.category}>
+                <span>{lead.category}</span>
+                <span className={styles.date}>{lead.date}</span>
+              </p>
+              <h3 className={styles.leadTitle}>
+                <Link href={`/guncel/${lead.slug}`} className={styles.link}>
+                  {lead.title}
+                </Link>
+              </h3>
+              <p className={styles.excerpt}>{lead.excerpt}</p>
+              <p className={styles.read}>
+                <span>
+                  {readingMinutes(lead)} {t.insights.minutes}
+                </span>
+                <ArrowIcon />
+              </p>
+            </div>
           </article>
 
-          <div className={styles.side}>
-            {rest.map((item) => (
-              <article key={item.slug} className={`${styles.article} ${styles.small}`}>
-                <div className={styles.smallText}>
-                  <p className={styles.category}>{item.category}</p>
+          <ol className={styles.side}>
+            {rest.map((item, i) => (
+              <li key={item.slug} className={`${styles.article} ${styles.small}`}>
+                {/* Sıra numarası: manşet 01 sayılır, liste 02'den başlar */}
+                <span className={styles.index} aria-hidden="true">
+                  {String(i + 2).padStart(2, '0')}
+                </span>
+                <div>
+                  <p className={styles.category}>
+                    <span>{item.category}</span>
+                    <span className={styles.date}>{item.date}</span>
+                  </p>
                   <h3 className={styles.smallTitle}>
                     <Link href={`/guncel/${item.slug}`} className={styles.link}>
                       {item.title}
                     </Link>
                   </h3>
-                  <p className={styles.meta}>
-                    <span>{item.date}</span>
+                  <p className={styles.read}>
                     <span>
                       {readingMinutes(item)} {t.insights.minutes}
                     </span>
+                    <ArrowIcon />
                   </p>
                 </div>
-                <div className={`${styles.media} ${styles.thumb}`}>
-                  <div className={styles.mediaInner}>
-                    <Image src={item.image} alt="" fill sizes="(min-width: 768px) 160px, 1px" quality={70} />
-                  </div>
-                </div>
-              </article>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </div>
     </section>

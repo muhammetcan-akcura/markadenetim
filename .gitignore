@@ -6,3 +6,9 @@ next-env.d.ts
 *.tsbuildinfo
 # Ham kaynak video (20 MB); sitenin kullandığı işlenmiş sürümler public/video altında
 assets/video/
+
+# Ortam değişkenleri / API anahtarları asla commit edilmez
+.env*
+!.env.example
+# Netlify CLI yerel durumu
+.netlify/

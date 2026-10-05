@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { Dictionary } from '@/content/tr';
 import { readingMinutes, type Article } from '@/content/insights';
@@ -5,9 +6,10 @@ import { ArrowIcon } from './ArrowIcon';
 import styles from './ArticleIndex.module.css';
 
 /*
-  Yazı dizini: kart ve küçük görsel yok, yalnızca 1px çizgilerle ayrılmış satırlar.
-  Ana sayfadaki dergi düzeninden bilinçli olarak farklı; bir kütüphane fihristi gibi okunur.
-  Hareket tek tür: hover'da başlık kayar, altın çizgi soldan uzar (Hizmetler satırıyla aynı dil).
+  Yazı dizini: kart yok; 1px çizgilerle ayrılmış satırlar, her satırda yazının görseli.
+  Görsel satırın solunda sabit oranda durur, başlığı gölgelemez; fihrist düzeni korunur.
+  Hareket iki tür: hover'da altın çizgi soldan uzar, görsel hafifçe ölçeklenir (ok bunlara eşlik eder).
+  Görseller geçici ve dekoratiftir (alt=""); anlam başlıkta.
 */
 export function ArticleIndex({
   t,
@@ -23,6 +25,11 @@ export function ArticleIndex({
     <ol className={styles.list}>
       {items.map((item) => (
         <li key={item.slug} className={styles.row}>
+          <div className={styles.media}>
+            <div className={styles.mediaInner}>
+              <Image src={item.image} alt="" fill sizes="(min-width: 1100px) 22vw, (min-width: 768px) 30vw, 112px" quality={70} />
+            </div>
+          </div>
           <p className={styles.category}>{item.category}</p>
           <Heading className={styles.title}>
             <Link href={`/guncel/${item.slug}`} className={styles.link}>

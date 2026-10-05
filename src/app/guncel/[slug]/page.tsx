@@ -8,7 +8,8 @@ import { Footer } from '@/components/Footer';
 import { SiteHeader } from '@/components/SiteHeader';
 import { articles, getArticle, readingMinutes, type ArticleBlock } from '@/content/insights';
 import { tr } from '@/content/tr';
-import { brandName, legalName, siteUrl } from '@/lib/site';
+import { legalName, siteUrl } from '@/lib/site';
+import { breadcrumbJsonLd, jsonLdString, pageMetadata, trDateToIso } from '@/lib/seo';
 import styles from './Article.module.css';
 
 type Params = { params: Promise<{ slug: string }> };
@@ -21,20 +22,14 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const article = getArticle(slug);
   if (!article) return {};
-  return {
-    title: `${article.title} | ${brandName}`,
+  return pageMetadata({
+    title: article.title,
     description: article.excerpt,
-    alternates: { canonical: `/guncel/${article.slug}` },
-    openGraph: {
-      type: 'article',
-      locale: 'tr_TR',
-      siteName: brandName,
-      title: article.title,
-      description: article.excerpt,
-      url: `/guncel/${article.slug}`,
-      images: [{ url: article.image }],
-    },
-  };
+    path: `/guncel/${article.slug}`,
+    image: article.image,
+    type: 'article',
+    publishedTime: trDateToIso(article.date),
+  });
 }
 
 function Block({ block }: { block: ArticleBlock }) {
@@ -74,28 +69,33 @@ export default async function ArticlePage({ params }: Params) {
   const headings = article.body.filter((b): b is Extract<ArticleBlock, { type: 'h2' }> => b.type === 'h2');
   const others = articles.filter((a) => a.slug !== article.slug).slice(0, 3);
 
-  // [BİLGİ GİRİLECEK] Gerçek tarih girilince datePublished eklenecek
+  // Tarih metinden çevrilir; biçim tanınmazsa datePublished hiç yazılmaz
+  const published = trDateToIso(article.date);
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: article.title,
-    description: article.excerpt,
-    image: `${siteUrl}${article.image}`,
-    inLanguage: 'tr',
-    mainEntityOfPage: `${siteUrl}/guncel/${article.slug}`,
-    author: { '@type': 'Organization', name: legalName, url: `${siteUrl}/` },
-    publisher: { '@id': `${siteUrl}/#organization` },
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        headline: article.title,
+        description: article.excerpt,
+        image: `${siteUrl}${article.image}`,
+        inLanguage: 'tr',
+        articleSection: article.category,
+        ...(published ? { datePublished: published, dateModified: published } : {}),
+        mainEntityOfPage: `${siteUrl}/guncel/${article.slug}`,
+        author: { '@type': 'Organization', name: legalName, url: `${siteUrl}/` },
+        publisher: { '@id': `${siteUrl}/#organization` },
+      },
+      breadcrumbJsonLd([
+        { name: 'Ana sayfa', path: '/' },
+        { name: t.insights.page.title, path: '/guncel' },
+        { name: article.title, path: `/guncel/${article.slug}` },
+      ]),
+    ],
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
-      />
-      <a className="skip-link" href="#main">
-        {t.a11y.skip}
-      </a>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
       <SiteHeader t={t} />
       <main id="main" className={styles.main}>
         <article aria-labelledby="article-title">
@@ -133,7 +133,7 @@ export default async function ArticlePage({ params }: Params) {
               <dl className={styles.facts}>
                 <div>
                   <dt className="sr-only">Tarih</dt>
-                  <dd>{article.date}</dd>
+                  <dd>{published ? <time dateTime={published}>{article.date}</time> : article.date}</dd>
                 </div>
                 <div>
                   <dt className="sr-only">Okuma süresi</dt>

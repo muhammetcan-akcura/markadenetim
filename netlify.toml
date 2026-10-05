@@ -1,0 +1,65 @@
+# MarkaDenetim — Netlify yapılandırması
+#
+# Next.js (App Router) Netlify'da OpenNext tabanlı resmi Next.js runtime ile çalışır
+# (@netlify/plugin-nextjs). Netlify bu eklentiyi otomatik ekler; burada sürüm sabitlemek
+# için ayrıca yazılmaz. SSG sayfalar CDN'den sunulur; form gönderimlerini Netlify Forms karşılar;
+# next/image istekleri Netlify Image CDN'e yönlenir (AVIF/WebP, next.config.ts'teki sırayla).
+#
+# Alan adı (https://www.markadenetim.tr) kodda sabittir: src/lib/site.ts. Ortam değişkeni gerekmez.
+#
+# İletişim formu: Netlify Forms. Form tanımı public/__forms.html'de; Netlify deploy sırasında
+# onu algılar. Netlify panelinde: Forms → "Enable form detection" açık olmalı;
+# Forms → iletisim → Form notifications → Email notification ile bildirim adresi eklenir.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Next 16 en az Node 20.9 ister; yerel geliştirme ile aynı ana sürüm
+  NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
+  # Playwright yalnızca yerel screenshot aracı; derleme sunucusunda tarayıcı indirilmez
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
+
+# ---------------------------------------------------------------------------
+# Güvenlik başlıkları (tüm yanıtlar)
+# CSP bilinçli olarak eklenmedi: Next'in satır içi betikleri ve inlineCss nonce/hash
+# altyapısı gerektirir; yanlış bir CSP siteyi sessizce bozar. Ayrı bir adımda ele alınmalı.
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Cross-Origin-Opener-Policy = "same-origin"
+
+# ---------------------------------------------------------------------------
+# Önbellek
+# /_next/static/* dosyaları hash'lidir; Next runtime bunları zaten "immutable" sunar.
+# public/ altındaki dosyalar hash'siz: aynı adla değiştirilebilecekleri için 1 yıl/immutable
+# verilmez. Bir hafta taze, sonrasında arka planda yenilenir (ziyaretçi beklemez).
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/video/*"
+  [headers.values]
+    # Hero videosu (2–4 MB): tekrar ziyarette yeniden indirilmesin
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/brand/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/favicon/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"

@@ -67,13 +67,15 @@ export function HeroMedia() {
         <video
           ref={videoRef}
           className={styles.video}
-          autoPlay
           muted
           loop
           playsInline
-          preload="auto"
+          // autoPlay yok: oynatmayı HeroStage sayfa yüklendikten sonra başlatır
+          preload="none"
           tabIndex={-1}
         >
+          {/* Dar ekranda 720p (~2,7 MB), geniş ekranda 1080p (~5,4 MB); ikisi de sessiz, faststart */}
+          <source src="/video/file-720.mp4" type="video/mp4" media="(max-width: 900px)" />
           <source src="/video/file.mp4" type="video/mp4" />
         </video>
         <span className={styles.veil} />

@@ -10,6 +10,8 @@ export type Service = {
   slug: string;
   num: string;
   title: string;
+  /** <title> ve og:title: aramada kullanılan ifadeyle (≤ 45 karakter; marka son eki ayrıca eklenir) */
+  metaTitle: string;
   /** Ana sayfa satırındaki kısa açıklama */
   summary: string;
   /** Detay sayfası giriş paragrafı (≤ 30 kelime) */
@@ -23,6 +25,8 @@ export type Service = {
   deliverables: ServiceEntry[];
   /** Kapanış başlığı: alanın adıyla, davet tonunda, iddiasız */
   closing: string;
+  /** Yetki ve mevzuat dayanağı: kanun adları + firmanın mevcut sitesinde (markadenetim.tr) beyan ettiği yetkiler */
+  basis: string;
 };
 
 export const services: Service[] = [
@@ -30,10 +34,11 @@ export const services: Service[] = [
     slug: 'yeminli-mali-musavirlik',
     num: '01',
     title: 'Yeminli Mali Müşavirlik',
+    metaTitle: 'Yeminli Mali Müşavirlik ve Tam Tasdik',
     summary:
       'Tam tasdik, KDV iadesi tasdiki ve özel amaçlı raporlar. Her biri belgelendirilmiş bir inceleme sürecine dayanır.',
     lead: 'Tasdik, beyan edilen her tutarın belgeyle karşılandığını yazılı olarak teyit etmektir. Bu sorumluluğu kapsamı baştan tanımlanmış bir inceleme süreciyle üstleniriz.',
-    image: '/img/service-ymm.jpg',
+    image: '/img/service-ymm.webp',
     scopeHeading: 'Tasdik, bir imzadan önce titiz bir incelemedir.',
     scope: [
       {
@@ -77,15 +82,17 @@ export const services: Service[] = [
       { title: 'Çalışma dosyası', text: 'İncelemenin izlenebilir kaydı; mevzuattaki süre boyunca saklanır.' },
     ],
     closing: 'Tasdik gerektiren konunuzu birlikte değerlendirelim.',
+    basis: '3568 sayılı Serbest Muhasebeci Mali Müşavirlik ve Yeminli Mali Müşavirlik Kanunu ile bu Kanuna dayanan tasdik mevzuatı.',
   },
   {
     slug: 'denetim',
     num: '02',
     title: 'Denetim',
+    metaTitle: 'Bağımsız Denetim ve Sınırlı Denetim',
     summary:
       'Bağımsız denetim hizmetleri ile finansal tablolarınızın doğruluğunu, şeffaflığını ve güvenilirliğini sağlarız.',
     lead: 'Bağımsız denetim, finansal tabloların tüm önemli yönleriyle gerçeğe uygun sunulup sunulmadığına dair makul güvence sağlar. Bu görüşü bağımsızlık ilkesinden ödün vermeden oluştururuz.',
-    image: '/img/service-denetim.jpg',
+    image: '/img/service-denetim.webp',
     scopeHeading: 'Bir görüşün değeri, ona ulaşılan yolun açıklığındadır.',
     scope: [
       {
@@ -129,15 +136,17 @@ export const services: Service[] = [
       { title: 'Üst yönetime bildirim', text: 'Standartların öngördüğü konularda, yazılı olarak.' },
     ],
     closing: 'Denetim kapsamınızı birlikte netleştirelim.',
+    basis: '6102 sayılı Türk Ticaret Kanunu ve 660 sayılı KHK kapsamındaki bağımsız denetim düzenlemeleri. Şirketimiz KGK, SPK, BDDK, EPDK ve Hazine sigortacılık alanlarında bağımsız denetim yetkisine sahiptir.',
   },
   {
     slug: 'vergi-danismanligi',
     num: '03',
     title: 'Vergi Danışmanlığı',
+    metaTitle: 'Vergi Danışmanlığı ve Transfer Fiyatlandırması',
     summary:
       'Vergi planlaması, vergi incelemeleri ve uyuşmazlıklar konusunda işletmenize özel çözümler sunarız.',
     lead: 'Vergi kararları, işin ilk adımında verildiğinde en az maliyetle sonuçlanır. Mevzuatı işletmenizin işlemleri üzerinden okur, seçenekleri gerekçeleriyle birlikte sunarız.',
-    image: '/img/service-vergi.jpg',
+    image: '/img/service-vergi.webp',
     scopeHeading: 'Doğru soru, çoğu zaman beyannameden önce sorulur.',
     scope: [
       {
@@ -185,15 +194,17 @@ export const services: Service[] = [
       { title: 'Uygulama takvimi', text: 'Kayıt ve beyan adımları, sorumlularıyla.' },
     ],
     closing: 'Vergi konunuzu karar aşamasında birlikte ele alalım.',
+    basis: '213 sayılı Vergi Usul Kanunu başta olmak üzere ilgili vergi kanunları ve 3568 sayılı Kanun kapsamındaki mesleki yetki.',
   },
   {
     slug: 'finansal-danismanlik',
     num: '04',
     title: 'Finansal Danışmanlık',
+    metaTitle: 'Finansal Danışmanlık ve Raporlama',
     summary:
       'Finansal yapılandırma, raporlama ve sürdürülebilir büyüme için stratejik danışmanlık hizmetleri sunarız.',
     lead: 'Yönetimin önündeki kararlar, güvenilir ve zamanında üretilmiş finansal bilgiyle netleşir. Bu bilgiyi kurmak ve okumak için yönetimle birlikte çalışırız.',
-    image: '/img/service-finansal.jpg',
+    image: '/img/service-finansal.webp',
     scopeHeading: 'Net bir finansal tablo, net bir karar demektir.',
     scope: [
       {
@@ -237,6 +248,7 @@ export const services: Service[] = [
       { title: 'Raporlama yapısı', text: 'Kurulduğu durumda, şablon ve takvimiyle birlikte.' },
     ],
     closing: 'Önünüzdeki finansal kararı birlikte değerlendirelim.',
+    basis: '3568 sayılı Kanun kapsamındaki mesleki yetki, 6102 sayılı Türk Ticaret Kanunu hükümleri ve mesleki etik kurallar.',
   },
 ];
 

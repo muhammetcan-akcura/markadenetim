@@ -166,7 +166,8 @@
 }
 
 .nav a,
-.legal a {
+.legal a,
+.legalButton {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -174,7 +175,38 @@
   transition: color var(--t-hover) var(--ease);
 }
 .nav a:hover,
-.legal a:hover { color: var(--warm-100); }
+.legal a:hover,
+.legalButton:hover { color: var(--warm-100); }
+/* "Çerez tercihleri" bir eylem (button) ama yasal bağlantılarla aynı görünür */
+.legalButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: .8125rem;
+  cursor: pointer;
+}
+
+/* Onaysız harita yer tutucusu: haritayla aynı çerçeve, ortada kısa açıklama + tek düğme */
+.mapBlocked {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--s-2);
+  padding: var(--s-3);
+  color: var(--stone-300);
+  font-size: var(--fs-small);
+}
+.mapBlocked p { margin: 0; max-width: 32ch; }
+.mapLoad {
+  background: none;
+  color: var(--warm-100);
+  font-family: var(--font-sans);
+  cursor: pointer;
+}
 
 /* Bölüm bağlantıları alt alta: sütun düzeni, satır içi bağlantı duvarı değil */
 .nav a { min-height: 40px; }

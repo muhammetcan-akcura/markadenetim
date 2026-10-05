@@ -1,36 +1,36 @@
-import type { Metadata, Viewport } from 'next';
-import { Manrope, Newsreader } from 'next/font/google';
-import { tr } from '@/content/tr';
-import { brandName, siteUrl } from '@/lib/site';
-import { MobileActionBar } from '@/components/MobileActionBar';
+// Global stiller her bileşen import'undan ÖNCE gelmeli: CSS paket sırası import sırasını izler.
+// Sonra gelirse .btn-frame / .t-display gibi global sınıflar bileşen kurallarını ezer
+// (mobilde header CTA'sı görünür kalıp menü butonunu ekran dışına itiyordu).
 import '@/styles/tokens.css';
 import './globals.css';
-
-// next/font/google fontu build sırasında indirir ve kendi alan adımızdan sunar:
-// ziyaretçiden Google'a istek gitmez (KVKK), preload ve CLS'i azaltan yedek metrikler otomatik.
-// Türkçe için iki alt küme şart: "ı" latin'de, "ğ ş İ" latin-ext'te.
-const newsreader = Newsreader({
-  subsets: ['latin', 'latin-ext'],
-  axes: ['opsz'],
-  display: 'swap',
-  variable: '--font-newsreader',
-});
-
-const manrope = Manrope({
-  subsets: ['latin', 'latin-ext'],
-  display: 'swap',
-  variable: '--font-manrope',
-});
+import type { Metadata, Viewport } from 'next';
+import { tr } from '@/content/tr';
+import { brandName, legalName, siteUrl } from '@/lib/site';
+import { defaultOgImage } from '@/lib/seo';
+import { fontClassName } from '@/lib/fonts';
+import { MobileActionBar } from '@/components/MobileActionBar';
+import { CookieNotice } from '@/components/CookieNotice';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: tr.meta.title,
+  // Alt sayfalar yalnızca kendi başlığını verir; marka son eki şablondan gelir
+  title: { default: tr.meta.title, template: `%s | ${brandName}` },
   description: tr.meta.description,
+  applicationName: brandName,
+  authors: [{ name: legalName, url: '/' }],
+  creator: legalName,
+  publisher: legalName,
   alternates: { canonical: '/' },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
+  },
+  // iOS Safari numaraları kendiliğinden bağlantıya çevirmesin; telefonlar zaten tel: bağlantısı
+  formatDetection: { telephone: false, email: false, address: false },
   icons: {
     icon: [
       { url: '/favicon/favicon.ico' },
-      { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
     ],
     shortcut: '/favicon/favicon.ico',
@@ -46,8 +46,13 @@ export const metadata: Metadata = {
     title: tr.meta.title,
     description: tr.meta.ogDescription,
     url: '/',
-    // [GÖRSEL GİRİLECEK] public/img/og-image.jpg — 1200×630, navy zemin üzerinde MARKADENETİM wordmark'ı
-    images: [{ url: '/img/og-image.jpg', width: 1200, height: 630 }],
+    images: [defaultOgImage],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: tr.meta.title,
+    description: tr.meta.ogDescription,
+    images: [defaultOgImage.url],
   },
 };
 
@@ -59,7 +64,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     // "js" sınıfı hidrasyondan önce eklendiği için uyarı bastırılır
-    <html lang="tr" className={`${newsreader.variable} ${manrope.variable}`} suppressHydrationWarning>
+    <html lang="tr" className={fontClassName} suppressHydrationWarning>
       <head>
         {/* JS varsa hareket sınıflarını aç; yoksa tüm içerik statik ve görünür kalır */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
@@ -67,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body id="top">
         {children}
         <MobileActionBar />
+        <CookieNotice t={tr} />
       </body>
     </html>
   );

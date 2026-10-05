@@ -19,7 +19,76 @@
 
 .body { position: relative; }
 .rail { display: none; }
-.bigNum { display: none; }
+.figShared { display: none; }
+
+/* --- Diyagram: noktalar aşamadan aşamaya yer değiştirir (ApproachFigure.tsx) --- */
+.figure { margin: 0; }
+.figHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2);
+  padding-bottom: var(--s-1);
+}
+.figCount { color: var(--ink); font-variant-numeric: tabular-nums; }
+.figTotal { color: var(--charcoal); }
+.figCaption {
+  display: grid;
+  justify-items: end;
+  text-align: right;
+  font-size: var(--fs-label);
+  line-height: 1.4;
+  color: var(--charcoal);
+}
+/* Masaüstünde dört alt yazı aynı hücrede; yalnızca aktif olan görünür */
+.capItem {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 600ms var(--ease);
+}
+.capOn { opacity: 1; }
+
+/* Plaka: bölüm zemininden bir ton koyu, 1px çerçeve. Kart değil, çizim alanı. */
+.figPlate {
+  aspect-ratio: 2 / 1;
+  background: var(--warm-100);
+  border: 1px solid var(--rule-light);
+}
+.figSvg { display: block; width: 100%; height: 100%; }
+.figGrid {
+  fill: none;
+  stroke: var(--rule-light);
+  stroke-width: 1;
+  opacity: .3;
+  vector-effect: non-scaling-stroke;
+}
+.guide {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  transition: opacity 600ms var(--ease);
+}
+.guideOn { opacity: .45; transition-delay: 300ms; }
+.figText {
+  fill: var(--ink);
+  stroke: none;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+}
+.dot {
+  fill: var(--ink);
+  transition: transform 900ms var(--ease);
+  /* Noktalar birlikte değil, kısa aralıklarla yola çıkar: dağınıklıktan düzene akış hissi */
+  transition-delay: calc(var(--i) * 22ms);
+}
+.dotKey { fill: var(--gold); }
+
+/* Yığın düzeninde her aşamanın diyagramı açıklamanın üstünde */
+.figInline { margin-bottom: var(--s-3); }
 
 .step {
   padding-block: var(--s-4);
@@ -118,15 +187,19 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     column-gap: var(--s-5);
   }
-  .stepText { grid-column: 1; grid-row: 1 / span 3; max-width: 40ch; }
-  .metaLabel { grid-column: 2; margin-top: 0; }
-  .scope, .output { grid-column: 2; }
+  /* Sol: diyagram. Sağ: açıklama, kapsam, çıktı */
+  .figInline { grid-column: 1; grid-row: 1 / span 4; margin: 0; align-self: start; }
+  .stepText { grid-column: 2; }
+  .metaLabel, .scope, .output { grid-column: 2; }
 }
 
 /* --- Masaüstü: yapışık sahne --- */
 @media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
   /* İz, dört aşama için kaydırma mesafesi sağlar; sahne ekranda sabit kalır */
-  :global(.js) .track { height: 340vh; }
+  /* 220vh: sahne 100vh sabit, kalan 120vh dört aşamaya bölünür (aşama başına ~30vh) */
+  :global(.js) .track { height: 220vh; }
+  /* Plaka yüksekliği sabit; dosyanın üst boşluğu bundan hesaplanır */
+  .approach { --fig-h: clamp(150px, 14vw, 202px); --fig-head: 1.75rem; }
   :global(.js) .stage {
     position: sticky;
     top: 0;
@@ -198,15 +271,47 @@
     /* En uzun başlık (DEĞERLENDİRME) 8 kolona sığmalı ve dosyayla arasında nefes kalmalı */
     font-size: clamp(3.5rem, 5.4vw, 4.75rem);
     opacity: .16;
+    position: relative;
+    transition: opacity 600ms var(--ease), transform 700ms var(--ease);
   }
+  /* Aktif aşama: başlık hafifçe sağa kayar, ilerleme çizgisinden kısa bir altın çizgi uzanır */
+  :global(.js) .active .stepTitle { transform: translateX(var(--s-2)); }
+  :global(.js) .stepTitle::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--s-2));
+    top: 55%;
+    width: var(--s-5);
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 700ms var(--ease);
+  }
+  :global(.js) .active .stepTitle::before { transform: scaleX(1); }
+
+  /* Ortak diyagram sağ kolonun başında; dosyalar onun altında üst üste durur */
+  :global(.js) .figShared {
+    display: block;
+    grid-column: 9 / -1;
+    grid-row: 1 / -1;
+    align-self: start;
+    position: relative;
+    z-index: 1;
+  }
+  :global(.js) .figShared .figHead { height: var(--fig-head); padding: 0; }
+  :global(.js) .figShared .figPlate { aspect-ratio: auto; height: var(--fig-h); }
+  :global(.js) .figInline { display: none; }
 
   /* Dosya: dört aşamanın dosyası aynı hücrede; yalnızca aktif olan görünür ve okunur */
   :global(.js) .detail {
     grid-column: 9 / -1;
     grid-row: 1 / -1;
-    align-self: center;
+    align-self: start;
     display: block;
     margin: 0;
+    /* Diyagram yüksekliği (üst satır + plaka) kadar boşluk */
+    padding-top: calc(var(--fig-head) + var(--fig-h) + var(--s-4));
     opacity: 0;
     visibility: hidden;
     transition: opacity 600ms var(--ease), visibility 0s linear 600ms;
@@ -218,38 +323,17 @@
   }
   :global(.js) .metaLabel { margin-top: var(--s-4); }
 
-  /* Dev numara: dosyanın başında. Aşama değişince maskenin içinden yükselir. */
-  :global(.js) .bigNum {
-    display: flex;
-    align-items: baseline;
-    gap: var(--s-2);
-    margin-bottom: var(--s-3);
-    overflow: hidden;
-    font-family: var(--font-serif);
-    font-weight: 300;
-    font-size: clamp(5.5rem, 9vw, 9rem);
-    line-height: .9;
-    letter-spacing: -.04em;
-    color: var(--ink);
-  }
-  :global(.js) .bigNumInner {
-    display: block;
-    transform: translateY(100%);
-    transition: transform 700ms var(--ease);
-  }
-  :global(.js) .active .bigNumInner { transform: none; }
-  :global(.js) .bigNumTotal {
-    font-family: var(--font-sans);
-    font-size: var(--fs-label);
-    letter-spacing: var(--tracking-label);
-    color: var(--charcoal);
-  }
 }
 
-/* Kısa ekranlarda dosya sahneye sığsın diye dev numara küçülür */
+/* Kısa ekranlarda dosya sahneye sığsın diye diyagram alçalır */
 @media (min-width: 1100px) and (max-height: 820px) and (prefers-reduced-motion: no-preference) {
-  :global(.js) .bigNum { font-size: clamp(4.5rem, 6.5vw, 6.5rem); margin-bottom: var(--s-2); }
+  :global(.js) .approach { --fig-h: clamp(110px, 9.5vw, 140px); }
+  :global(.js) .stage { padding-bottom: var(--s-4); }
+  :global(.js) .head { margin-bottom: var(--s-4); padding-bottom: var(--s-2); }
+  :global(.js) .detail { padding-top: calc(var(--fig-head) + var(--fig-h) + var(--s-3)); }
   :global(.js) .metaLabel { margin-top: var(--s-3); }
+  :global(.js) .scope li { padding-block: .5rem; }
+  :global(.js) .output { margin-top: var(--s-2); }
 }
 
 @media (prefers-reduced-motion: reduce) {

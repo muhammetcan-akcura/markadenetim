@@ -8,6 +8,9 @@ import styles from './Contact.module.css';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 const FIELD_ORDER: ContactField[] = ['name', 'email', 'subject', 'message', 'consent'];
+// public/__forms.html içindeki form adı ve dosya yolu; ikisi birlikte değişir
+const FORM_NAME = 'iletisim';
+const FORM_ENDPOINT = '/__forms.html';
 
 /*
   Çerçeveli form paneli. Alanlar alt çizgili (kutu yok); etiket alanın içinde durur,
@@ -58,26 +61,33 @@ export function ContactForm({ t }: { t: Dictionary }) {
       focusFirst(found);
       return;
     }
+    // Bot honeypot'u doldurduysa gönderme; başarılı gibi davran ki bot tekrar denemesin
+    if (input.website) {
+      setStatus('success');
+      return;
+    }
     setStatus('sending');
     try {
-      const res = await fetch('/api/iletisim', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(input),
+      // Netlify Forms: gönderim, formun statik tanımının (public/__forms.html) adresine
+      // urlencoded olarak yapılır. Mesajlar Netlify panelinde saklanır, bildirim e-postası oradan gider.
+      const body = new URLSearchParams({
+        'form-name': FORM_NAME,
+        name: input.name.trim(),
+        email: input.email.trim(),
+        company: input.company.trim(),
+        subject: input.subject,
+        message: input.message.trim(),
+        consent: 'KVKK aydınlatma metni okundu, onaylandı',
+        website: input.website,
       });
-      const json = await res.json().catch(() => ({}));
-      if (res.ok && json.ok) {
-        setMsgLen(0);
-        setStatus('success');
-        return;
-      }
-      if (json.error === 'validation' && Array.isArray(json.fields)) {
-        setErrors(json.fields);
-        setStatus('idle');
-        focusFirst(json.fields);
-        return;
-      }
-      setStatus('error');
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString(),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      setMsgLen(0);
+      setStatus('success');
     } catch {
       setStatus('error');
     }
@@ -211,7 +221,8 @@ export function ContactForm({ t }: { t: Dictionary }) {
         </div>
       </div>
 
-      {/* Honeypot: ekranda ve odak sırasında yok; botlar doldurur, sunucu sessizce yok sayar */}
+      {/* Honeypot: ekranda ve odak sırasında yok; botlar doldurur, gönderim sessizce yapılmaz
+          (Netlify ayrıca netlify-honeypot ile aynı alanı süzer) */}
       <div className={styles.honeypot} aria-hidden="true">
         <label htmlFor="f-website">{f.honeypot}</label>
         <input id="f-website" name="website" type="text" tabIndex={-1} autoComplete="off" />

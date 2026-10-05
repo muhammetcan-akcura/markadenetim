@@ -137,6 +137,14 @@
   flex-shrink: 0;
 }
 
+/* Çerez bildirimi açıkken aynı alt kenarı paylaşmasınlar: çubuk geri çekilir (CookieNotice) */
+:global(html.cookie-open) .barWrapper {
+  opacity: 0;
+  transform: translateY(32px);
+  pointer-events: none;
+  visibility: hidden;
+}
+
 /* --- Masaüstü Görünümü (Masaüstünde tamamen gizle) --- */
 @media (min-width: 768px) {
   .barWrapper {

@@ -77,19 +77,36 @@ export function HeroStage({
     const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
     if (reduce || saveData) userPausedRef.current = true;
 
+    // Video (preload="none") ancak sayfa yüklenip tarayıcı boşa çıkınca istenir:
+    // LCP/TBT penceresinde ağ ve ana iş parçacığı metin ile stile kalır.
+    let ready = false;
+    let inView = true;
+    const playIfAllowed = () => {
+      if (ready && inView && !userPausedRef.current) video.play().catch(() => {});
+    };
+
     const io = new IntersectionObserver(([entry]) => {
-      if (userPausedRef.current) return;
-      if (entry.isIntersecting) video.play().catch(() => {});
+      inView = entry.isIntersecting;
+      if (inView) playIfAllowed();
       else video.pause();
     });
-
     io.observe(stage);
-    if (!userPausedRef.current) {
-      video.play().catch(() => {});
-    }
+
+    let idleId = 0;
+    const whenIdle = () => {
+      const ric = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 200));
+      idleId = ric(() => {
+        ready = true;
+        playIfAllowed();
+      }, { timeout: 2000 });
+    };
+    if (document.readyState === 'complete') whenIdle();
+    else window.addEventListener('load', whenIdle, { once: true });
 
     return () => {
       io.disconnect();
+      window.removeEventListener('load', whenIdle);
+      (window.cancelIdleCallback ?? window.clearTimeout)(idleId);
       video.removeEventListener('play', onPlay);
       video.removeEventListener('pause', onPause);
     };

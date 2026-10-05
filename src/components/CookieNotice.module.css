@@ -1,0 +1,105 @@
+/* Çerez bildirimi. Koyu panel her iki zeminde de okunur: koyu bölümlerde 1px çizgi ayırır,
+   açık bölümlerde zemin farkı yeter. Gölge, blur, yuvarlak köşe yok (BRIEF §02). */
+
+.notice {
+  position: fixed;
+  z-index: 55; /* header'ın (50) üstünde, mobil menü overlay'inin (60) altında */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--s-3) var(--gutter) calc(var(--s-3) + env(safe-area-inset-bottom, 0px));
+  background: var(--navy-900);
+  border-top: 1px solid var(--rule-dark);
+  color: var(--warm-100);
+  animation: rise 700ms var(--ease) both;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0 0 var(--s-2);
+  color: var(--stone-300);
+}
+/* Tek altın dokunuş: etiketin önündeki kısa çizgi */
+.rule {
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.text {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--stone-300);
+}
+
+.policy {
+  color: var(--warm-100);
+  text-decoration: underline;
+  text-decoration-color: var(--stone-500);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+.policy:hover { text-decoration-color: var(--gold); }
+
+/* Mobil: iki eşit düğme yan yana, başparmak erişiminde */
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-1);
+  margin-top: var(--s-3);
+}
+
+.btn {
+  justify-content: center;
+  min-height: 48px;
+  background: none;
+  color: var(--warm-100);
+  font-family: var(--font-sans);
+  cursor: pointer;
+}
+
+/* Tablet: düğmeler metnin sağına geçer, şerit yüksekliği yarıya iner (hero başlığını örtmesin) */
+@media (min-width: 768px) {
+  .notice {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "label label" "text actions";
+    align-items: center;
+    column-gap: var(--s-4);
+  }
+  .label { grid-area: label; }
+  .text { grid-area: text; }
+  .actions {
+    grid-area: actions;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+    margin-top: 0;
+  }
+  .btn { min-height: 44px; }
+}
+
+/* Masaüstü: alta yaslı ince şerit, tek satır (etiket · metin · düğmeler). Köşe paneli hero'nun
+   açıklama paragrafını örtüyordu; şerit yalnızca hero'nun alt etiket satırı kadar yer kaplar. */
+@media (min-width: 1024px) {
+  .notice {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "label text actions";
+    column-gap: var(--s-5);
+    padding-inline: max(var(--gutter), (100vw - var(--container)) / 2 + var(--gutter));
+  }
+  .label { margin: 0; }
+  .actions {
+    flex-direction: row;
+    gap: var(--s-2);
+  }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
