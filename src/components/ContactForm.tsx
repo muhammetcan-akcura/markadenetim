@@ -10,7 +10,7 @@ type Status = 'idle' | 'sending' | 'success' | 'error';
 const FIELD_ORDER: ContactField[] = ['name', 'email', 'subject', 'message', 'consent'];
 // public/__forms.html içindeki form adı ve dosya yolu; ikisi birlikte değişir
 const FORM_NAME = 'iletisim';
-const FORM_ENDPOINT = '/__forms.html';
+const FORM_ENDPOINT = '/';
 
 /*
   Çerçeveli form paneli. Alanlar alt çizgili (kutu yok); etiket alanın içinde durur,
