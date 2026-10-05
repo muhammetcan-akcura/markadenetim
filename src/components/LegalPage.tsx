@@ -21,7 +21,7 @@ export function LegalPage({ t, page }: { t: Dictionary; page: keyof Dictionary['
           <div className="container">
             <h1 className={`t-h2 ${styles.title}`}>{data.title}</h1>
             <p className={styles.updated}>
-              {t.legal.updated}: <span>[TARİH]</span>
+              {t.legal.updated}: <span>15 Ocak 2026</span>
             </p>
           </div>
         </header>

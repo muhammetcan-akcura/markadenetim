@@ -21,7 +21,7 @@ export function Insights({ t }: { t: Dictionary }) {
           <h2 className="t-h2" id="insights-title">
             {t.insights.title}
           </h2>
-          <span className={`label ${styles.sample}`}>{t.insights.sample}</span>
+          {t.insights.sample ? <span className={`label ${styles.sample}`}>{t.insights.sample}</span> : null}
           <Link className={`link-arrow ${styles.all}`} href={t.insights.all.href}>
             <span>{t.insights.all.label}</span>
             <ArrowIcon />

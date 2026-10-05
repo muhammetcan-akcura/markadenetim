@@ -26,6 +26,18 @@ export const metadata: Metadata = {
   title: tr.meta.title,
   description: tr.meta.description,
   alternates: { canonical: '/' },
+  icons: {
+    icon: [
+      { url: '/favicon/favicon.ico' },
+      { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+    ],
+    shortcut: '/favicon/favicon.ico',
+    apple: [
+      { url: '/favicon/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  manifest: '/favicon/site.webmanifest',
   openGraph: {
     type: 'website',
     locale: 'tr_TR',

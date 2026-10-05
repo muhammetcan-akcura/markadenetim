@@ -139,10 +139,12 @@ export default async function ArticlePage({ params }: Params) {
                   <dt className="sr-only">Okuma süresi</dt>
                   <dd>{minutes}</dd>
                 </div>
-                <div>
-                  <dt className="sr-only">Durum</dt>
-                  <dd>{t.insights.sample}</dd>
-                </div>
+                {t.insights.sample ? (
+                  <div>
+                    <dt className="sr-only">Durum</dt>
+                    <dd>{t.insights.sample}</dd>
+                  </div>
+                ) : null}
               </dl>
               {headings.length > 1 && (
                 <nav className={styles.toc} aria-labelledby="toc-title">

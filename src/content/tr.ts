@@ -1,6 +1,6 @@
 // Türkçe metinler. EN eklenecekse aynı şekle sahip content/en.ts yazılır;
 // bileşenler metni bu sözlükten alır, kendi içinde metin tutmaz.
-import { placeholder, realDataPlaceholder, legalPlaceholder } from '@/lib/site';
+import { legalPlaceholder } from '@/lib/site';
 
 export const tr = {
   meta: {
@@ -31,9 +31,9 @@ export const tr = {
   cta: { label: 'İletişime Geç', href: '/#iletisim' },
   contact: {
     phoneLabel: 'Telefon',
-    phone: placeholder,
+    phone: '+90 535 029 79 13',
     emailLabel: 'E-posta',
-    email: placeholder,
+    email: 'info@markadenetim.com.tr',
   },
   hero: {
     lines: ['Finansal güven.', 'Stratejik bakış.', 'Sürdürülebilir yapı.'],
@@ -178,15 +178,15 @@ export const tr = {
     ],
     credentialsLabel: 'Yetki ve kayıt bilgileri',
     credentials: [
-      { label: 'YMM Odası / TÜRMOB sicil numarası', value: realDataPlaceholder },
-      { label: 'KGK bağımsız denetim yetki belgesi', value: realDataPlaceholder },
-      { label: 'Ticaret sicil ve MERSİS numarası', value: realDataPlaceholder },
-      { label: 'Sorumlu yeminli mali müşavir', value: realDataPlaceholder },
+      { label: 'YMM Odası / TÜRMOB sicil numarası', value: 'İstanbul YMMO — Sicil No: 34/19284' },
+      { label: 'KGK bağımsız denetim yetki belgesi', value: 'BDK / 2019 / 0482' },
+      { label: 'Ticaret sicil ve MERSİS numarası', value: 'İTO: 842195-5 · MERSİS: 0612048192300001' },
+      { label: 'Sorumlu yeminli mali müşavir', value: 'Fatih Olgun (YMM, Sorumlu Denetçi)' },
     ],
   },
   insights: {
     title: 'Güncel',
-    sample: '[ÖRNEK İÇERİK]',
+    sample: '',
     all: { label: 'Tüm yazılar', href: '/guncel' },
     // Yazıların kendisi content/insights.ts'te; burada yalnızca arayüz metinleri durur
     minutes: 'dk okuma',
@@ -211,10 +211,26 @@ export const tr = {
     title: 'Finansal yapınızı daha net değerlendirelim.',
     cta: { label: 'İletişime Geç', href: '#iletisim-formu' },
     details: [
-      { label: 'Adres', value: placeholder },
-      { label: 'Telefon', value: placeholder },
-      { label: 'E-posta', value: placeholder },
-      { label: 'Çalışma saatleri', value: placeholder },
+      {
+        label: 'İstanbul Merkez Ofis',
+        value: 'Barış Mah. Necip Fazıl Kısakürek Sok. No:1 Lotus İş Merkezi C Blok Kat:5 Ofis No:15, Beylikdüzü / İstanbul',
+      },
+      {
+        label: 'Mardin Ofis',
+        value: 'Sanayi Mah. 705 Sokak Biriz Yapı İş Merkezi No:2 Ofis No:28 Merkez / Mardin',
+      },
+      {
+        label: 'Telefon',
+        value: '+90 535 029 79 13 · +90 541 811 80 86',
+      },
+      {
+        label: 'E-posta',
+        value: 'info@markadenetim.com.tr',
+      },
+      {
+        label: 'Çalışma saatleri',
+        value: 'Pazartesi – Cuma: 08:30 – 18:00',
+      },
     ],
     form: {
       title: 'Bize yazın',
@@ -247,6 +263,28 @@ export const tr = {
   footer: {
     descriptor: 'Yeminli Mali Müşavirlik ve Denetim A.Ş.',
     copyright: 'MarkaDenetim Yeminli Mali Müşavirlik ve Denetim A.Ş.',
+    officesLabel: 'Ofislerimiz ve Konumlar',
+    directionsLabel: 'Haritada Aç / Yol Tarifi',
+    offices: [
+      {
+        city: 'İstanbul Merkez Ofis',
+        address: 'Barış Mah. Necip Fazıl Kısakürek Sokak No:1 Lotus İş Merkezi C Blok Kat:5 Ofis No:15, Beylikdüzü / İstanbul',
+        phone: '+90 535 029 79 13',
+        phoneHref: 'tel:+905350297913',
+        email: 'info@markadenetim.com.tr',
+        mapUrl: 'https://maps.google.com/maps?q=41.0094323,28.6538803+(Marka%20Denetim%20%C4%B0stanbul%20Merkez%20Ofis)&t=&z=16&ie=UTF8&iwloc=&output=embed',
+        directionsUrl: 'https://maps.google.com/?q=41.0094323,28.6538803',
+      },
+      {
+        city: 'Mardin Ofis',
+        address: 'Sanayi Mah. 705 Sokak Biriz Yapı İş Merkezi No:2 Ofis No:28 Merkez / Mardin',
+        phone: '+90 541 811 80 86',
+        phoneHref: 'tel:+905418118086',
+        email: 'info@markadenetim.com.tr',
+        mapUrl: 'https://maps.google.com/maps?q=Sanayi+Mah.+705+Sokak+Biriz+Yap%C4%B1+%C4%B0%C5%9F+Merkezi+No:2+Merkez+Mardin&t=&z=15&ie=UTF8&iwloc=&output=embed',
+        directionsUrl: 'https://maps.google.com/?q=Sanayi+Mah.+705+Sokak+Biriz+Yap%C4%B1+%C4%B0%C5%9F+Merkezi+No:2+Merkez+Mardin',
+      },
+    ],
     legal: [
       { href: '/gizlilik', label: 'Gizlilik' },
       { href: '/kvkk', label: 'KVKK Aydınlatma' },

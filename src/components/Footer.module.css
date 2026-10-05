@@ -6,6 +6,126 @@
   font-size: var(--fs-small);
 }
 
+/* --- Ofisler ve Haritalar ----------------------------------------- */
+.officesSection {
+  border-bottom: 1px solid var(--rule-dark);
+  padding-block: var(--s-6);
+}
+
+.officesHeader {
+  margin-bottom: var(--s-4);
+}
+
+.officesLabel {
+  color: var(--stone-500);
+  margin: 0;
+}
+
+.officesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-5);
+}
+
+@media (min-width: 860px) {
+  .officesGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.officeCard {
+  border: 1px solid var(--rule-dark);
+  background: var(--navy-900);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: border-color var(--t-hover) var(--ease);
+}
+
+.officeCard:hover {
+  border-color: var(--stone-500);
+}
+
+.officeMapWrapper {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  background: var(--navy-950);
+}
+
+.officeMapIframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  filter: contrast(1.05) saturate(0.9);
+}
+
+.officeInfo {
+  padding: var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  flex: 1;
+}
+
+.officeHeadingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
+
+.officeCity {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--warm-100);
+}
+
+.officeDirections {
+  font-size: .8125rem;
+  color: var(--stone-300);
+}
+
+.officeDirections:hover {
+  color: var(--gold);
+}
+
+.officeAddress {
+  margin: 0;
+  font-size: var(--fs-small);
+  color: var(--stone-300);
+  line-height: 1.5;
+}
+
+.officeContactRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  margin-top: var(--s-2);
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--rule-dark);
+}
+
+.officeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: .8125rem;
+  color: var(--stone-300);
+  transition: color var(--t-hover) var(--ease);
+}
+
+.officeLink:hover {
+  color: var(--gold);
+}
+
+.officeIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
 /* --- Üst: marka / bölümler / iletişim ------------------------------------
    Mobil/tablet: marka tam genişlik, altında iki sütun yan yana.
    Masaüstü (≥1024): marka 5 kolon, boşluk, bölümler 3, iletişim 3 kolon. */

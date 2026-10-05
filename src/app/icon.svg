@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Favicon: logo işareti değil, wordmark'ın baş harfi. Navy zemin, sıcak beyaz serif M, altın 1px taban çizgisi -->
-  <rect width="64" height="64" fill="#0B1426"/>
-  <text x="32" y="44" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="36" fill="#F6F3EE">M</text>
-  <rect x="18" y="50" width="28" height="1.5" fill="#B89B6A"/>
-</svg>

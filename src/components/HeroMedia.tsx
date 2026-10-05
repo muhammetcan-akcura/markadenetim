@@ -11,7 +11,7 @@ type VideoWithRvfc = HTMLVideoElement & {
   cancelVideoFrameCallback?: (id: number) => void;
 };
 
-export function HeroMedia({ poster }: { poster: ReactNode; sceneNames: string[] }) {
+export function HeroMedia({ sceneNames }: { poster?: ReactNode; sceneNames: string[] }) {
   const { videoRef, stageRef, barsRef, setScene } = useHero();
 
   useEffect(() => {
@@ -64,8 +64,16 @@ export function HeroMedia({ poster }: { poster: ReactNode; sceneNames: string[] 
   return (
     <div className={styles.media} aria-hidden="true">
       <div className={styles.baseVideo}>
-        {poster}
-        <video ref={videoRef} className={styles.video} autoPlay muted loop playsInline preload="auto" tabIndex={-1}>
+        <video
+          ref={videoRef}
+          className={styles.video}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          tabIndex={-1}
+        >
           <source src="/video/file.mp4" type="video/mp4" />
         </video>
         <span className={styles.veil} />

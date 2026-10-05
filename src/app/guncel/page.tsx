@@ -34,7 +34,7 @@ export default function InsightsPage() {
             <h1 className={`t-display ${styles.title}`}>{t.insights.page.title}</h1>
             <div className={styles.lede}>
               <p>{t.insights.page.intro}</p>
-              <p className={`label ${styles.sample}`}>{t.insights.sample}</p>
+              {t.insights.sample ? <p className={`label ${styles.sample}`}>{t.insights.sample}</p> : null}
             </div>
           </div>
         </header>

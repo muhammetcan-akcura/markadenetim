@@ -9,7 +9,7 @@ import { Insights } from '@/components/Insights';
 import { Contact } from '@/components/Contact';
 import { Footer } from '@/components/Footer';
 import { tr } from '@/content/tr';
-import { legalName, brandName, siteUrl, placeholder } from '@/lib/site';
+import { legalName, brandName, siteUrl } from '@/lib/site';
 
 // Yapılandırılmış veri: gerçek bilgi girilene kadar yer tutucularla
 const jsonLd = {
@@ -21,8 +21,8 @@ const jsonLd = {
       name: legalName,
       alternateName: brandName,
       url: `${siteUrl}/`,
-      email: placeholder,
-      telephone: placeholder,
+      email: 'info@markadenetim.com.tr',
+      telephone: '+90 535 029 79 13',
     },
     {
       '@type': 'ProfessionalService',
@@ -34,8 +34,9 @@ const jsonLd = {
       knowsAbout: ['Yeminli mali müşavirlik', 'Bağımsız denetim', 'Vergi danışmanlığı', 'Finansal danışmanlık'],
       address: {
         '@type': 'PostalAddress',
-        streetAddress: placeholder,
-        addressLocality: placeholder,
+        streetAddress: 'Barış Mah. Necip Fazıl Kısakürek Sokak No:1 Lotus İş Merkezi C Blok Kat:5 Ofis No:15',
+        addressLocality: 'Beylikdüzü, İstanbul',
+        postalCode: '34520',
         addressCountry: 'TR',
       },
     },
