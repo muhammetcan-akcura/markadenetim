@@ -2,11 +2,13 @@ import type { MetadataRoute } from 'next';
 import { siteUrl } from '@/lib/site';
 import { teamMembers } from '@/content/team';
 import { articles } from '@/content/insights';
+import { services } from '@/content/services';
 
-// Ana sayfa + ekip profilleri + yazılar + yasal metinler. Yeni sayfa eklendiğinde buraya da eklenir.
+// Ana sayfa + hizmetler + ekip profilleri + yazılar + yasal metinler. Yeni sayfa eklendiğinde buraya da eklenir.
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     { path: '', priority: 1 },
+    ...services.map((s) => ({ path: `/hizmetler/${s.slug}`, priority: 0.8 })),
     { path: '/guncel', priority: 0.6 },
     ...articles.map((a) => ({ path: `/guncel/${a.slug}`, priority: 0.5 })),
     { path: '/kvkk', priority: 0.3 },

@@ -59,32 +59,22 @@ export const tr = {
     keywords: ['MEVZUAT', 'DENETİM', 'STRATEJİ', 'SÜRDÜRÜLEBİLİR BÜYÜME'],
     cta: 'TÜM HİZMETLERİ GÖR',
     boardroomImage: '/img/services-boardroom.jpg',
-    items: [
-      {
-        num: '01',
-        title: 'Yeminli Mali Müşavirlik',
-        text: 'Tam tasdik, KDV iadesi tasdiki ve özel amaçlı raporlar. Her belgelendirilmiş bir inceleme sürecine dayanır.',
-        image: '/img/service-ymm.jpg',
-      },
-      {
-        num: '02',
-        title: 'Denetim',
-        text: 'Bağımsız denetim hizmetleri ile finansal tablolarınızın doğruluğunu, şeffaflığını ve güvenilirliğini sağlarız.',
-        image: '/img/service-denetim.jpg',
-      },
-      {
-        num: '03',
-        title: 'Vergi Danışmanlığı',
-        text: 'Vergi planlaması, vergi incelemeleri ve uyuşmazlıklar konusunda işletmenize özel çözümler sunarız.',
-        image: '/img/service-vergi.jpg',
-      },
-      {
-        num: '04',
-        title: 'Finansal Danışmanlık',
-        text: 'Finansal yapılandırma, raporlama ve sürdürülebilir büyüme için stratejik danışmanlık hizmetleri sunarız.',
-        image: '/img/service-finansal.jpg',
-      },
-    ],
+    // Hizmet içerikleri: src/content/services.ts
+    detail: {
+      back: 'Uzmanlık alanlarımız',
+      kicker: 'Uzmanlık alanı',
+      onThisPage: 'Bu sayfada',
+      scope: 'Kapsam',
+      process: 'Çalışma yöntemi',
+      processTitle: 'Her görev, aynı disiplinle dört adımda yürür.',
+      deliverables: 'Çıktılar',
+      deliverablesTitle: 'Her çalışma, yazılı bir çıktıyla sonuçlanır.',
+      basis: 'Yetki ve mevzuat dayanağı',
+      cta: 'Görüşme talep edin',
+      others: 'Diğer uzmanlık alanları',
+      disclaimer:
+        'Bu sayfadaki bilgiler genel niteliktedir; somut durumunuza ilişkin değerlendirme yerine geçmez.',
+    },
   },
   about: {
     title: 'MarkaDenetim',
@@ -208,32 +198,29 @@ export const tr = {
     },
   },
   contactSection: {
+    kicker: 'İletişim',
     title: 'Finansal yapınızı daha net değerlendirelim.',
-    cta: { label: 'İletişime Geç', href: '#iletisim-formu' },
-    details: [
+    lead: 'Görüşme talebinizi formla iletebilir ya da bize doğrudan ulaşabilirsiniz. Her başvuru gizlilik ilkelerimiz çerçevesinde ele alınır.',
+    channelsLabel: 'Doğrudan ulaşın',
+    // Tıklanabilir kanallar: mobilde tek dokunuşla arama / e-posta / mesaj
+    channels: [
+      { label: 'Telefon · İstanbul', value: '+90 535 029 79 13', href: 'tel:+905350297913' },
+      { label: 'Telefon · Mardin', value: '+90 541 811 80 86', href: 'tel:+905418118086' },
+      { label: 'E-posta', value: 'info@markadenetim.com.tr', href: 'mailto:info@markadenetim.com.tr' },
       {
-        label: 'İstanbul Merkez Ofis',
-        value: 'Barış Mah. Necip Fazıl Kısakürek Sok. No:1 Lotus İş Merkezi C Blok Kat:5 Ofis No:15, Beylikdüzü / İstanbul',
-      },
-      {
-        label: 'Mardin Ofis',
-        value: 'Sanayi Mah. 705 Sokak Biriz Yapı İş Merkezi No:2 Ofis No:28 Merkez / Mardin',
-      },
-      {
-        label: 'Telefon',
-        value: '+90 535 029 79 13 · +90 541 811 80 86',
-      },
-      {
-        label: 'E-posta',
-        value: 'info@markadenetim.com.tr',
-      },
-      {
-        label: 'Çalışma saatleri',
-        value: 'Pazartesi – Cuma: 08:30 – 18:00',
+        label: 'WhatsApp',
+        value: 'Mesaj gönderin',
+        href: 'https://wa.me/905350297913?text=Merhaba%2C%20MarkaDenetim%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.',
+        external: true,
       },
     ],
+    hours: { label: 'Çalışma saatleri', value: 'Pazartesi – Cuma · 08:30 – 18:00' },
+    newTab: '(yeni sekmede açılır)',
     form: {
       title: 'Bize yazın',
+      note: 'Aksi belirtilmedikçe tüm alanlar zorunludur.',
+      // Konu seçimi: yazmak yerine dokunarak seçilir; değer doğrudan "konu" alanına gider
+      topics: ['Yeminli mali müşavirlik', 'Bağımsız denetim', 'Vergi danışmanlığı', 'Finansal danışmanlık', 'Diğer'],
       fields: {
         name: 'Ad soyad',
         company: 'Şirket',
@@ -249,10 +236,13 @@ export const tr = {
       submit: 'Mesajı gönder',
       sending: 'Gönderiliyor',
       success: 'Mesajınız alındı. En kısa sürede size dönüş yapacağız.',
+      successTitle: 'Teşekkür ederiz.',
+      again: 'Yeni mesaj yaz',
+      counter: 'karakter',
       errors: {
         name: 'Ad soyad gerekli.',
         email: 'Geçerli bir e-posta adresi yazın.',
-        subject: 'Konu gerekli.',
+        subject: 'Bir konu seçin.',
         message: 'Mesajınızı yazın (en az 10 karakter).',
         consent: 'Devam etmek için KVKK onayını işaretleyin.',
         summary: 'Formda düzeltilmesi gereken alanlar var.',
@@ -263,8 +253,10 @@ export const tr = {
   footer: {
     descriptor: 'Yeminli Mali Müşavirlik ve Denetim A.Ş.',
     copyright: 'MarkaDenetim Yeminli Mali Müşavirlik ve Denetim A.Ş.',
-    officesLabel: 'Ofislerimiz ve Konumlar',
-    directionsLabel: 'Haritada Aç / Yol Tarifi',
+    officesLabel: 'Ofislerimiz',
+    officesTitle: 'İstanbul ve Mardin’de, aynı disiplinle.',
+    directionsLabel: 'Yol tarifi al',
+    mapTitle: 'konum haritası',
     offices: [
       {
         city: 'İstanbul Merkez Ofis',

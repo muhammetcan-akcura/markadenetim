@@ -1,3 +1,4 @@
+import { services as items } from '@/content/services';
 import type { Dictionary } from '@/content/tr';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -66,14 +67,14 @@ export function Services({ t }: { t: Dictionary }) {
         {/* Sağ Kolon: 4 Uzmanlık Alanı Listesi */}
         <div className={styles.listCol}>
           <ol className={styles.serviceList}>
-            {services.items.map((item) => (
+            {items.map((item) => (
               <li key={item.num} className={styles.serviceItem}>
-                <Link href="/#iletisim" className={styles.serviceRow}>
-                  {/* Sol Küçük Görsel */}
+                <Link href={`/hizmetler/${item.slug}`} className={styles.serviceRow}>
+                  {/* Sol küçük görsel: dekoratif, anlam başlıkta */}
                   <div className={styles.thumbWrap}>
                     <Image
                       src={item.image}
-                      alt={item.title}
+                      alt=""
                       fill
                       sizes="(min-width: 1024px) 160px, 120px"
                       className={styles.thumbImg}
@@ -86,7 +87,7 @@ export function Services({ t }: { t: Dictionary }) {
                       {item.num}
                     </span>
                     <h3 className={styles.itemTitle}>{item.title}</h3>
-                    <p className={styles.itemDesc}>{item.text}</p>
+                    <p className={styles.itemDesc}>{item.summary}</p>
                   </div>
 
                   {/* Sağ Dairesel Ok Butonu */}
