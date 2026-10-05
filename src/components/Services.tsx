@@ -61,19 +61,7 @@ export function Services({ t }: { t: Dictionary }) {
           </Link>
         </div>
 
-        {/* Orta Kolon: Dikey Yönetim / Ofis Görseli */}
-        <div className={styles.visualCol}>
-          <div className={styles.visualFrame}>
-            <Image
-              src={services.boardroomImage}
-              alt="MarkaDenetim Yönetim ve Strateji Ofisi"
-              fill
-              sizes="(min-width: 1200px) 28vw, (min-width: 768px) 40vw, 100vw"
-              className={styles.visualImg}
-              priority
-            />
-          </div>
-        </div>
+
 
         {/* Sağ Kolon: 4 Uzmanlık Alanı Listesi */}
         <div className={styles.listCol}>

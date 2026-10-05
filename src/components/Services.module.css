@@ -4,42 +4,36 @@
   position: relative;
   background: #090e17;
   color: var(--warm-100);
-  padding-block: clamp(4.5rem, 7vw, 7.5rem);
+  padding-block: clamp(4.5rem, 7.5vw, 8rem);
   overflow: hidden;
 }
 
-/* 3 Kolonlu Ana Yerleşim */
+/* 2 Kolonlu Dengeli Yerleşim */
 .layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--s-6);
 }
 
-@media (min-width: 768px) and (max-width: 1199px) {
+@media (min-width: 1024px) {
   .layout {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--s-6);
-  }
-
-  .listCol {
-    grid-column: 1 / -1;
-    margin-top: var(--s-4);
+    grid-template-columns: 1fr 1.35fr;
+    gap: clamp(2.5rem, 5vw, 5.5rem);
+    align-items: start;
   }
 }
 
-@media (min-width: 1200px) {
-  .layout {
-    grid-template-columns: 1.12fr 0.98fr 1.65fr;
-    gap: clamp(1.75rem, 2.6vw, 3rem);
-    align-items: stretch;
-  }
-}
-
-/* ==================== 1. SOL KOLON ==================== */
+/* ==================== 1. SOL KOLON (GENİŞLETİLMİŞ EDİTORYAL BLOK) ==================== */
 .introCol {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+}
+
+@media (min-width: 1024px) {
+  .introCol {
+    position: sticky;
+    top: calc(var(--header-h, 72px) + 2rem);
+  }
 }
 
 .kicker {
@@ -66,13 +60,14 @@
 .title {
   margin: 0 0 var(--s-4);
   font-family: var(--font-serif);
-  font-size: clamp(2.3rem, 3.4vw, 3.4rem);
-  line-height: 1.14;
+  font-size: clamp(2.4rem, 3.8vw, 4rem);
+  line-height: 1.1;
   font-weight: 300;
   color: #ffffff;
   letter-spacing: -0.025em;
   display: flex;
   flex-direction: column;
+  max-width: 18ch;
 }
 
 .italicTitle {
@@ -84,10 +79,10 @@
 
 .desc {
   margin: 0 0 var(--s-5);
-  font-size: 0.9375rem;
-  line-height: 1.68;
+  font-size: 1.0625rem;
+  line-height: 1.72;
   color: #9ea4b0;
-  max-width: 32ch;
+  max-width: 46ch;
 }
 
 /* Anahtar Kelimeler / Dikey Çizgili İndeks */
@@ -124,7 +119,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--s-3);
-  margin-top: auto;
+  margin-top: var(--s-2);
   text-decoration: none;
   color: var(--warm-100);
   transition: color 250ms var(--ease);
@@ -167,45 +162,10 @@
   color: var(--gold);
 }
 
-/* ==================== 2. ORTA KOLON (GÖRSEL) ==================== */
-.visualCol {
-  position: relative;
-  display: flex;
-  height: 100%;
-}
-
-.visualFrame {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 480px;
-  overflow: hidden;
-  border-radius: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: var(--navy-900);
-}
-
-@media (max-width: 767px) {
-  .visualFrame {
-    aspect-ratio: 4 / 3;
-    min-height: 300px;
-  }
-}
-
-.visualImg {
-  object-fit: cover;
-  transition: transform 900ms var(--ease);
-}
-
-.visualFrame:hover .visualImg {
-  transform: scale(1.03);
-}
-
-/* ==================== 3. SAĞ KOLON (HİZMET LİSTESİ) ==================== */
+/* ==================== 2. SAĞ KOLON (HİZMET LİSTESİ) ==================== */
 .listCol {
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .serviceList {
@@ -226,10 +186,10 @@
 
 .serviceRow {
   display: grid;
-  grid-template-columns: 140px 1fr 38px;
+  grid-template-columns: 150px 1fr 38px;
   gap: var(--s-4);
   align-items: center;
-  padding-block: 1.15rem;
+  padding-block: 1.35rem;
   text-decoration: none;
   color: inherit;
   transition: background 250ms var(--ease);
@@ -246,7 +206,7 @@
 /* Küçük Görsel Kutusu */
 .thumbWrap {
   position: relative;
-  width: 140px;
+  width: 150px;
   aspect-ratio: 16 / 10;
   border-radius: 2px;
   overflow: hidden;
@@ -285,7 +245,7 @@
 .itemTitle {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: 1.1875rem;
+  font-size: 1.25rem;
   font-weight: 400;
   color: #ffffff;
   letter-spacing: -0.015em;
@@ -300,10 +260,10 @@
 
 .itemDesc {
   margin: 0;
-  font-size: 0.8125rem;
+  font-size: 0.84rem;
   line-height: 1.55;
   color: #8c93a0;
-  max-width: 48ch;
+  max-width: 52ch;
 }
 
 @media (max-width: 640px) {
