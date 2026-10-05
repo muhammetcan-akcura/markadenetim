@@ -8,9 +8,10 @@ import styles from './Contact.module.css';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 const FIELD_ORDER: ContactField[] = ['name', 'email', 'subject', 'message', 'consent'];
-// public/__forms.html içindeki form adı ve dosya yolu; ikisi birlikte değişir
+// Netlify Forms form adı.
+// public/__forms.html içindeki form adıyla birebir aynı olmalı.
 const FORM_NAME = 'iletisim';
-const FORM_ENDPOINT = '/';
+const FORM_ENDPOINT = '/__forms.html';
 
 /*
   Çerçeveli form paneli. Alanlar alt çizgili (kutu yok); etiket alanın içinde durur,
@@ -68,8 +69,8 @@ export function ContactForm({ t }: { t: Dictionary }) {
     }
     setStatus('sending');
     try {
-      // Netlify Forms: gönderim, formun statik tanımının (public/__forms.html) adresine
-      // urlencoded olarak yapılır. Mesajlar Netlify panelinde saklanır, bildirim e-postası oradan gider.
+      // Netlify Forms: form adı ve alanlar URL-encoded olarak siteye POST edilir.
+      // Netlify, "form-name" alanı üzerinden gönderimi "iletisim" formuyla eşleştirir.
       const body = new URLSearchParams({
         'form-name': FORM_NAME,
         name: input.name.trim(),
