@@ -238,14 +238,16 @@ export default async function ServicePage({ params }: Params) {
 
         {/* 5 — Kapanış */}
         <section className={styles.closing} aria-labelledby="closing-title">
-          <div className="container">
-            <h2 className={styles.closingTitle} id="closing-title">
-              {service.closing}
-            </h2>
-            <a className={`link-arrow ${styles.closingCta}`} href={t.cta.href}>
-              <span>{d.cta}</span>
-              <ArrowIcon />
-            </a>
+          <div className={`container grid ${styles.closingGrid}`}>
+            <div className={styles.closingMain}>
+              <h2 className={styles.closingTitle} id="closing-title">
+                {service.closing}
+              </h2>
+              <a className={`link-arrow ${styles.closingCta}`} href={t.cta.href}>
+                <span>{d.cta}</span>
+                <ArrowIcon />
+              </a>
+            </div>
 
             <nav className={styles.others} aria-labelledby="others-title">
               <p className={`label ${styles.othersTitle}`} id="others-title">

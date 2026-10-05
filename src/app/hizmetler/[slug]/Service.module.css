@@ -383,7 +383,16 @@
 }
 .closingCta { margin-top: var(--s-4); }
 
-.others { margin-top: var(--s-8); }
+/* Mobil/tablet: başlık üstte, diğer alanlar altta. Masaüstü: diğer alanlar sağ kolona geçer ve
+   başlığın tabanına hizalanır; sağ yarı boş kalmaz, yeni öğe de eklenmez */
+.closingGrid { row-gap: var(--s-8); }
+.closingMain,
+.others { grid-column: 1 / -1; }
+@media (min-width: 1100px) {
+  .closingGrid { align-items: end; }
+  .closingMain { grid-column: 1 / span 7; }
+  .others { grid-column: 8 / -1; }
+}
 .othersTitle { margin-bottom: var(--s-3); color: var(--stone-300); }
 .others li:last-child .otherRow { border-bottom: 1px solid var(--rule-dark); }
 
@@ -428,6 +437,10 @@
 
 @media (min-width: 768px) {
   .otherRow { grid-template-columns: var(--s-7) 1fr auto; min-height: 120px; }
+}
+/* Masaüstünde liste dar sağ kolonda: numara kolonu daralır, başlık tek satırda kalır */
+@media (min-width: 1100px) {
+  .otherRow { grid-template-columns: var(--s-5) 1fr auto; min-height: 112px; }
 }
 @media (max-width: 767px) {
   /* Mobilde ok kısalır: başlığa yer kalsın */
