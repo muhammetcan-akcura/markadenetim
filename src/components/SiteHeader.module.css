@@ -31,7 +31,6 @@
   transition: transform 600ms var(--ease);
 }
 .scrolled .inner { transform: none; }
-.inner > :global(.wordmark),
 .brandLink {
   margin-right: auto;
   display: inline-flex;
@@ -102,12 +101,6 @@
   }
 }
 
-.brandLogo {
-  height: 38px;
-  width: auto;
-  object-fit: contain;
-  display: block;
-}
 .nav { display: none; }
 .navList { display: flex; gap: var(--s-5); }
 .navList a {

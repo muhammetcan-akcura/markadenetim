@@ -76,26 +76,6 @@ export const tr = {
         'Bu sayfadaki bilgiler genel niteliktedir; somut durumunuza ilişkin değerlendirme yerine geçmez.',
     },
   },
-  about: {
-    title: 'MarkaDenetim',
-    paragraphs: [
-      'MarkaDenetim Yeminli Mali Müşavirlik ve Denetim A.Ş., işletmelerin finansal kayıtlarını mevzuat çerçevesinde inceleyen ve sonuçlarını açık bir dille raporlayan bir meslek kuruluşudur.',
-      'Çalışmalarımızı bağımsızlık, mesleki özen ve gizlilik üzerine kurarız. Her görevde kapsamı baştan netleştirir, bulguları belgeleriyle birlikte sunar ve kararın yönetimde kalmasını gözetiriz.',
-    ],
-    principlesLabel: 'İlkelerimiz',
-    principles: [
-      { title: 'Uzmanlık', text: 'Her alanda, o alanın mevzuatını ve uygulamasını yakından izleyerek çalışırız.' },
-      { title: 'Güven', text: 'Bulgularımızı belgeye dayandırır, varsayımlarımızı açıkça yazarız.' },
-      { title: 'Disiplin', text: 'Her çalışmayı tanımlı bir yöntem ve kontrol adımlarıyla yürütürüz.' },
-      { title: 'Şeffaflık', text: 'Kapsamı, takvimi ve ücretlendirmeyi işin başında paylaşırız.' },
-    ],
-    // Geçici görsel: hero videosundan üretilmiş kent dokusu (scripts/make-stills.sh).
-    // [GÖRSEL GİRİLECEK] Önerilen kalıcı çekim: dikey 4:5, beton merdiven detayı, kuzey ışığı, navy ton.
-    image: { src: '/img/about-skyline.jpg', alt: 'Gece, yukarıdan görülen kent dokusu: cam kuleler ve aydınlık bulvar' },
-  },
-  break: {
-    text: 'Doğru kararlar, doğru finansal perspektifle başlar.',
-  },
   team: {
     title: 'Uzman Ekibimiz',
     intro: 'Her çalışma, sorumluluğu üstlenen bir yeminli mali müşavir veya sorumlu denetçinin gözetiminde yürür.',
@@ -104,10 +84,12 @@ export const tr = {
     profile: 'Profili incele',
     back: 'Uzman ekibimiz',
     about: 'Hakkında',
+    focus: 'Uzmanlık alanları',
     contact: 'İletişim',
     email: 'E-posta',
     next: 'Sonraki uzman',
     cta: 'Görüşme talep edin',
+    emailCta: 'E-posta gönderin',
   },
   approach: {
     title: 'Yaklaşımımız',

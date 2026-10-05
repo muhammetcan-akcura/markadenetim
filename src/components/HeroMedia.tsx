@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, type ReactNode } from 'react';
+import { useEffect } from 'react';
 import { sceneAt } from '@/lib/heroScenes';
 import { useHero } from './HeroStage';
 import styles from './Hero.module.css';
@@ -11,7 +11,7 @@ type VideoWithRvfc = HTMLVideoElement & {
   cancelVideoFrameCallback?: (id: number) => void;
 };
 
-export function HeroMedia({ sceneNames }: { poster?: ReactNode; sceneNames: string[] }) {
+export function HeroMedia() {
   const { videoRef, stageRef, barsRef, setScene } = useHero();
 
   useEffect(() => {

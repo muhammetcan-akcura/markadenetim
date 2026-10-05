@@ -6,15 +6,14 @@ import { HeroStage } from './HeroStage';
 import styles from './Hero.module.css';
 
 /*
-  4.2 Hero — "Net Bakış". Tam ekran video yumuşak ve kısık bir zemindir; imleci izleyen
-  dikdörtgen mercek içinde aynı video net ve gerçek renklidir (bkz. HeroMedia).
+  4.2 Hero — "Net Bakış". Tam ekran video yumuşak ve kısık bir zemindir (bkz. HeroMedia).
   Başlığın üç satırı videonun üç sahnesiyle sırayla yanar. Metin ve düzen sunucuda render
   edilir; poster SSR olduğu için LCP hidrasyona bağlı değildir.
 */
 export function Hero({ t }: { t: Dictionary }) {
   return (
     <HeroStage id="hero" className={styles.hero} labelledBy="hero-title">
-      <HeroMedia sceneNames={t.hero.scenes} />
+      <HeroMedia />
 
       <div className={`container ${styles.inner}`}>
         <h1 className={`t-display ${styles.title}`} id="hero-title">

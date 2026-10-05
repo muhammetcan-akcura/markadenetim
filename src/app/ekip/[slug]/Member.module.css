@@ -38,7 +38,35 @@
 .back:hover .backIcon { transform: scaleX(-1) translateX(6px); }
 
 .heading { grid-column: 1 / -1; }
-.mainTitle { color: var(--stone-300); margin-bottom: var(--s-2); }
+
+/* Satır maskesi (ana sayfa hero'suyla aynı dil): içerik maskenin altından yükselir.
+   Dikey pay, descender (g, ş, ç) ve aksanlar (Ü, İ) kesilmesin diye. */
+.mask {
+  overflow: hidden;
+  padding-block: .2em .28em;
+  margin-block: -.2em -.28em;
+}
+.rise { display: block; animation: rise var(--t-hero) var(--ease) backwards; }
+.eyebrow .rise { animation-delay: 100ms; }
+.name .rise { animation-delay: 200ms; }
+.otherTitles .rise { animation-delay: 320ms; }
+@keyframes rise {
+  from { transform: translateY(110%); }
+}
+
+/* Dizin: altın sıra numarası + ince altın çizgi + ana unvan (altın yalnızca bu 1px ve rakam) */
+.eyebrow { margin-bottom: var(--s-3); }
+.eyebrow .rise { display: flex; align-items: center; gap: var(--s-2); }
+.index {
+  font-size: var(--fs-label);
+  letter-spacing: .12em;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold);
+}
+.index span { color: var(--stone-500); }
+.rule { width: var(--s-6); height: 1px; background: var(--gold); }
+.eyebrow :global(.label) { color: var(--stone-300); }
+
 .name {
   font-family: var(--font-serif);
   font-weight: 300;
@@ -46,19 +74,50 @@
   line-height: 1;
   letter-spacing: var(--tracking-display);
 }
-.otherTitles { margin-top: var(--s-3); color: var(--stone-300); }
+.otherTitles { margin-top: var(--s-4); color: var(--stone-300); }
 
 /* --- Portre ve metin: mobilde portre koyu banda hafifçe taşar --- */
 .portraitTrack { grid-column: 1 / -1; }
 .portrait {
+  --frame-offset: var(--s-1);
   position: relative;
+  isolation: isolate;
   max-width: 26rem;
   margin: calc(var(--s-6) * -1) 0 0;
+}
+/* Portrenin arkasında kaydırılmış 1px altın çerçeve: fotoğrafa derinlik verir, gölge kullanmaz.
+   Perde açılmadan önce görselin geleceği yeri de işaret eder. */
+.portrait::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  translate: var(--frame-offset) var(--frame-offset);
+  border: 1px solid var(--gold);
+}
+/* Perde: görsel aşağıdan yukarı açılır (ana sayfadaki Hakkımızda görseliyle aynı hareket) */
+.portraitImage {
+  position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
   background: var(--warm-50);
+  animation: curtain var(--t-hero) var(--ease) 150ms backwards;
+}
+@keyframes curtain {
+  from { clip-path: inset(100% 0 0 0); }
 }
 .img { object-fit: cover; filter: saturate(.8); }
+/* Künye: portrenin altında, akışı etkilemez (sticky hesabı yalnızca görsel yüksekliğine dayanır) */
+.caption {
+  position: absolute;
+  top: calc(100% + var(--frame-offset) + var(--s-2));
+  left: 0;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--charcoal);
+}
+.caption span { font-weight: 400; }
 
 .text { grid-column: 1 / -1; margin-top: var(--s-6); padding-top: var(--s-2); }
 .sectionLabel {
@@ -67,13 +126,100 @@
   border-bottom: 1px solid var(--rule-light);
   color: var(--charcoal);
 }
-.bio { max-width: var(--measure); margin-bottom: var(--s-6); color: var(--charcoal); }
+.sectionLabel:not(:first-child) { margin-top: var(--s-6); }
+
+/* Giriş cümlesi: biyografinin ilk cümlesi serif ve büyük; düz paragraf hissini kırar */
+.lede {
+  max-width: 36ch;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  /* H3'ten bir kademe küçük: uzun ilk cümlelerde blok ağırlaşmasın */
+  font-size: clamp(1.375rem, 1.9vw, 1.875rem);
+  line-height: 1.3;
+  text-wrap: pretty; /* son satırda tek kelime kalmasın */
+  letter-spacing: -.01em;
+}
+.bio { max-width: var(--measure); margin-top: var(--s-3); color: var(--charcoal); }
+
+/* Uzmanlık alanları: ince çizgili numaralı liste, kart yok */
+.focus { display: grid; column-gap: var(--s-4); }
+.focus li {
+  display: grid;
+  grid-template-columns: var(--s-5) 1fr;
+  align-items: baseline;
+  padding-block: var(--s-2);
+  border-bottom: 1px solid var(--rule-light);
+}
+.focusNum {
+  font-size: var(--fs-label);
+  letter-spacing: .12em;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold);
+}
 
 .contact { display: grid; gap: var(--s-2); margin: 0 0 var(--s-5); }
-.contact div { display: grid; grid-template-columns: 8rem 1fr; gap: var(--s-2); align-items: baseline; }
+.contact div { display: grid; grid-template-columns: 5.5rem 1fr; gap: var(--s-2); align-items: baseline; }
+.contact dd { overflow-wrap: anywhere; }
 .contact dt { font-size: var(--fs-small); color: var(--charcoal); }
 .contact dd { margin: 0; font-weight: 600; }
-.contact a { text-decoration: underline 1px; text-underline-offset: .2em; }
+.contact a {
+  text-decoration: underline 1px;
+  text-underline-offset: .2em;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+.contact a:hover { text-decoration-color: var(--gold); }
+
+/* --- Eylemler: birincil dolu (lacivert, altın değil), ikincil ince çerçeveli; radius 0 --- */
+.actions { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.primary,
+.secondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 56px;
+  padding-inline: var(--s-4);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: .01em;
+  transition: background-color var(--t-hover) var(--ease), border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease), transform 120ms var(--ease);
+}
+.primary {
+  --focus-ring: var(--ink);
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+/* Hover: zemin bir ton açılır, altta 1px altın çizgi soldan uzar, ok ilerler */
+.primary::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 400ms var(--ease);
+}
+.primary:hover { background: var(--navy-700); }
+.primary:hover::after { transform: scaleX(1); }
+.actionIcon { stroke: currentColor; }
+.primary:hover .actionIcon { transform: translateX(6px); stroke: var(--gold); }
+.secondary {
+  border: 1px solid var(--charcoal);
+  color: var(--ink);
+}
+.secondary:hover { background: var(--ink); border-color: var(--ink); color: var(--warm-100); }
+/* Basılma geri bildirimi: dokunmatikte de görünür */
+.primary:active,
+.secondary:active { transform: translateY(1px); }
+/* Mobil: başparmak erişiminde, tam genişlik ve eşit butonlar */
+@media (max-width: 767px) {
+  .primary, .secondary { flex: 1 1 100%; justify-content: space-between; }
+}
+@media (min-width: 768px) {
+  .contact div { grid-template-columns: 8rem 1fr; }
+}
 
 @media (min-width: 768px) {
   /* Portre yüksekliği kolon genişliğinden hesaplanır (cqw = ızgaranın iç genişliği) */
@@ -100,16 +246,17 @@
     margin-bottom: calc(-1 * (var(--s-7) + var(--portrait-h)));
   }
   .portrait {
+    --frame-offset: var(--s-2);
     position: sticky;
     top: var(--portrait-y);
     margin: 0;
     max-width: none;
   }
-  /* Kısa biyografide portre "Sonraki uzman" satırına taşmasın */
+  /* Kısa biyografide portre ve künyesi "Sonraki uzman" satırına taşmasın */
   .text {
     grid-column: 1 / span 6;
     grid-row: 2;
-    min-height: calc(var(--s-7) + var(--portrait-h));
+    min-height: calc(var(--s-7) + var(--portrait-h) + var(--s-5));
     margin-top: 0;
     padding-top: var(--s-7);
   }
@@ -118,24 +265,79 @@
   .profileGrid { --portrait-w: calc(4 * var(--col-w) + 3 * var(--col-gap)); }
   .heading { grid-column: 1 / span 8; }
   .portraitTrack { grid-column: 9 / span 4; }
+  .focus { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* --- Sonraki uzman: tam genişlik satır, ince çizgiler arasında --- */
+/* --- Sonraki uzman: tam genişlik satır, ince çizgiler arasında. Hover/odakta satır soldan
+   lacivertle dolar ve metin açılır: tıklanabilirlik tek bakışta okunur. Fareyle sıradaki
+   kişinin küçük portresi imleci izler (NextMember.tsx) --- */
 .next {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  gap: var(--s-1) var(--s-3);
+  gap: var(--s-2) var(--s-3);
   margin-top: var(--s-7);
-  padding-block: var(--s-4);
+  padding-block: var(--s-5);
   border-block: 1px solid var(--rule-light);
+  transition: color 400ms var(--ease);
 }
-.next :global(.label) { grid-column: 1 / -1; color: var(--charcoal); }
+.next::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -1px calc(var(--s-3) * -1);
+  background: var(--navy-900);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 600ms var(--ease);
+}
+.next :global(.label) { grid-column: 1 / -1; color: var(--charcoal); transition: color 400ms var(--ease); }
 .nextName {
   font-family: var(--font-serif);
   font-weight: 300;
-  font-size: var(--fs-h3);
-  line-height: 1.1;
+  font-size: clamp(2.25rem, 4.5vw, 4rem);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  transition: transform 400ms var(--ease);
 }
-.nextIcon { stroke: var(--ink); transition: transform var(--t-hover) var(--ease); }
-.next:hover .nextIcon { transform: translateX(6px); }
+/* Ok, kare çerçeve içinde: düz metinden ayrışan, basılabilir bir hedef */
+.nextArrow {
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border: 1px solid var(--charcoal);
+  transition: border-color 400ms var(--ease), background-color 400ms var(--ease);
+}
+.nextIcon { stroke: var(--ink); transition: transform var(--t-hover) var(--ease), stroke 400ms var(--ease); }
+
+.next:is(:hover, :focus-visible, :active) { color: var(--warm-100); }
+.next:is(:hover, :focus-visible, :active)::before { transform: scaleX(1); }
+.next:is(:hover, :focus-visible, :active) :global(.label) { color: var(--stone-300); }
+.next:is(:hover, :focus-visible) .nextName { transform: translateX(var(--s-2)); }
+.next:is(:hover, :focus-visible, :active) .nextArrow { border-color: var(--gold); }
+.next:is(:hover, :focus-visible, :active) .nextIcon { stroke: var(--gold); transform: translateX(4px); }
+
+/* Önizleme yalnızca fareli cihazlarda; konum (translate) anında, görünürlük yumuşak */
+.nextPreview { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .nextPreview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: block;
+    width: 10rem;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    pointer-events: none;
+    translate: calc(var(--x, 0px) + var(--s-4)) calc(var(--y, 0px) - 50%);
+    opacity: 0;
+    scale: .94;
+    transition: opacity 300ms var(--ease), scale 300ms var(--ease);
+  }
+  .nextPreview img { object-fit: cover; filter: saturate(.8); }
+  .next:hover .nextPreview { opacity: 1; scale: 1; }
+}

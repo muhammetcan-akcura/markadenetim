@@ -12,10 +12,7 @@
   color: var(--warm-100);
 }
 
-/* --- Medya: zemin + mercek ---
-   .media bir "size container"dır: mercek konumu ve boyutu cqw/cqh ile CSS'te hesaplanır,
-   JS yalnızca transform yazar. Zemin ve mercek içi aynı kutu + object-fit:cover olduğu için
-   birebir hizalıdır. */
+/* --- Medya: tam ekran video zemini --- */
 .media {
   position: absolute;
   inset: 0;
@@ -65,7 +62,7 @@
   flex-direction: column;
   margin: 0;
   font-size: min(var(--fs-display), 11.2vw, 14svh);
-  /* Okunurluk halesi: mercek (parlak şehir ışıkları) başlığın altına girince harfler kaybolmasın.
+  /* Okunurluk halesi: videodaki parlak şehir ışıkları başlığın altına girince harfler kaybolmasın.
      Zemin renginde, çok yumuşak; dekoratif gölge değil. Ölçümle doğrulandı. */
   text-shadow: 0 0 .32em color-mix(in srgb, var(--navy-950) 60%, transparent);
 }
@@ -158,13 +155,8 @@
 .play { width: 0; height: 0; border-left: 8px solid currentColor; border-block: 5px solid transparent; }
 
 /* --- Mobil / tablet dikey: ayrı kompozisyon (masaüstünün küçültülmüşü değil) ---
-   Mercek üst yarıda, başlık altta. HUD üstte, başparmak alanında CTA. */
+   Başlık altta. HUD üstte, başparmak alanında CTA. */
 @media (max-width: 1023px) {
-  .lens {
-    --lw: min(58cqw, 26rem);
-    --rx: calc(50cqw - var(--lw) / 2);
-    --ry: max(calc(var(--header-h) + 4.75rem), calc(34cqh - var(--lh) / 2));
-  }
   .hud {
     top: calc(var(--header-h) + var(--s-1));
     bottom: auto;
@@ -203,15 +195,12 @@
   100% { transform: translateY(100%); }
 }
 
-/* --- Hareket azaltma: süpürme, yükselme, süzülme ve sönme yok; mercek dinlenme konumunda --- */
+/* --- Hareket azaltma: süpürme, yükselme, süzülme ve sönme yok --- */
 @media (prefers-reduced-motion: reduce) {
-  .lens,
-  .lensInner,
   .lineInner,
   .lead,
   .strip,
   .hud { animation: none; }
   .hero[data-scene] .lineInner { transition: none; }
-  .baseCanvas { transition: none; }
   .scroll span { animation: none; transform: none; }
 }

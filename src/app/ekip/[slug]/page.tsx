@@ -8,6 +8,7 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { teamMembers } from '@/content/team';
 import { tr } from '@/content/tr';
 import { placeholder } from '@/lib/site';
+import { NextMember } from './NextMember';
 import styles from './Member.module.css';
 
 type Params = { params: Promise<{ slug: string }> };
@@ -30,7 +31,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 /*
   Uzman profili. Üst bant koyu (sabit header açık metinlidir), portre koyu banttan açık
   gövdeye taşar: ana sayfadaki koyu/açık ritmin tek sayfadaki karşılığı. Kart, gölge, ikon yok.
+  Hareket iki türle sınırlı (BRIEF §08): satır maskesinden yükselen başlık, perde gibi açılan portre.
 */
+const pad = (n: number) => String(n).padStart(2, '0');
 export default async function MemberPage({ params }: Params) {
   const t = tr;
   const { slug } = await params;
@@ -39,6 +42,8 @@ export default async function MemberPage({ params }: Params) {
   const member = teamMembers[index];
   const next = teamMembers[(index + 1) % teamMembers.length];
   const [mainTitle, ...otherTitles] = member.titles;
+  // İlk cümle büyük serif giriş olur; tek cümlelik biyografide yalnızca giriş kalır
+  const [, lede = member.biography, rest] = member.biography.match(/^(.+?[.!?])\s+(.+)$/s) ?? [];
 
   return (
     <>
@@ -57,14 +62,26 @@ export default async function MemberPage({ params }: Params) {
                 <span>{t.team.back}</span>
               </Link>
               <div className={styles.heading}>
-                <p className={`label ${styles.mainTitle}`}>{mainTitle}</p>
-                <h1 className={styles.name} id="member-name">
-                  {member.name}
+                {/* Dizin: ekipteki sıra (gerçek veri) + ince altın çizgi + ana unvan */}
+                <p className={`${styles.mask} ${styles.eyebrow}`}>
+                  <span className={styles.rise}>
+                    <span className={styles.index} aria-hidden="true">
+                      {pad(index + 1)}
+                      <span> / {pad(teamMembers.length)}</span>
+                    </span>
+                    <span className={styles.rule} aria-hidden="true" />
+                    <span className="label">{mainTitle}</span>
+                  </span>
+                </p>
+                <h1 className={`${styles.mask} ${styles.name}`} id="member-name">
+                  <span className={styles.rise}>{member.name}</span>
                 </h1>
                 {otherTitles.length > 0 && (
-                  <ul className={styles.otherTitles}>
+                  <ul className={`${styles.mask} ${styles.otherTitles}`}>
                     {otherTitles.map((title) => (
-                      <li key={title}>{title}</li>
+                      <li key={title} className={styles.rise}>
+                        {title}
+                      </li>
                     ))}
                   </ul>
                 )}
@@ -73,20 +90,42 @@ export default async function MemberPage({ params }: Params) {
 
             <div className={styles.portraitTrack}>
               <figure className={styles.portrait}>
-                <Image
-                  src={member.image}
-                  alt={`${member.name} portresi`}
-                  fill
-                  preload
-                  sizes="(min-width: 1100px) 30vw, (min-width: 768px) 40vw, 80vw"
-                  className={styles.img}
-                />
+                <div className={styles.portraitImage}>
+                  <Image
+                    src={member.image}
+                    alt={`${member.name} portresi`}
+                    fill
+                    preload
+                    sizes="(min-width: 1100px) 30vw, (min-width: 768px) 40vw, 80vw"
+                    className={styles.img}
+                  />
+                </div>
+                <figcaption className={styles.caption}>
+                  {member.name} <span>— {mainTitle}</span>
+                </figcaption>
               </figure>
             </div>
 
             <div className={styles.text}>
               <h2 className={`label ${styles.sectionLabel}`}>{t.team.about}</h2>
-              <p className={styles.bio}>{member.biography}</p>
+              <p className={styles.lede}>{lede}</p>
+              {rest && <p className={styles.bio}>{rest}</p>}
+
+              {member.focus && (
+                <>
+                  <h2 className={`label ${styles.sectionLabel}`}>{t.team.focus}</h2>
+                  <ol className={styles.focus}>
+                    {member.focus.map((item, i) => (
+                      <li key={item}>
+                        <span className={styles.focusNum} aria-hidden="true">
+                          {pad(i + 1)}
+                        </span>
+                        {item}
+                      </li>
+                    ))}
+                  </ol>
+                </>
+              )}
 
               <h2 className={`label ${styles.sectionLabel}`}>{t.team.contact}</h2>
               <dl className={styles.contact}>
@@ -106,19 +145,23 @@ export default async function MemberPage({ params }: Params) {
                 )}
               </dl>
 
-              <a className="link-arrow" href="/#iletisim">
-                <span>{t.team.cta}</span>
-                <ArrowIcon />
-              </a>
+              {/* Eylemler: dolu birincil buton + çerçeveli ikincil; ikisi de 56px, net basılma hissi */}
+              <div className={styles.actions}>
+                <a className={styles.primary} href="/#iletisim">
+                  <span>{t.team.cta}</span>
+                  <ArrowIcon className={`link-arrow__icon ${styles.actionIcon}`} />
+                </a>
+                {member.email && (
+                  <a className={styles.secondary} href={`mailto:${member.email}`}>
+                    {t.team.emailCta}
+                  </a>
+                )}
+              </div>
             </div>
           </div>
 
           <div className="container">
-            <Link href={`/ekip/${next.slug}`} className={styles.next}>
-              <span className="label">{t.team.next}</span>
-              <span className={styles.nextName}>{next.name}</span>
-              <ArrowIcon className={`link-arrow__icon ${styles.nextIcon}`} />
-            </Link>
+            <NextMember href={`/ekip/${next.slug}`} label={t.team.next} name={next.name} image={next.image} />
           </div>
         </section>
       </main>

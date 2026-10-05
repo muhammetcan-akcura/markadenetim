@@ -1,5 +1,5 @@
 /*
-  Hero videosunun kurgu zaman çizelgesi. scripts/encode-hero-video.sh ile birebir aynı olmalı:
+  Hero videosunun (public/video/file.mp4) kurgu zaman çizelgesi:
   8,25 sn kesintisiz döngü, üç sahne, aralarında 0,75 sn çapraz geçiş.
 
     döngü zamanı (sn)   0 ──── 2.375 ──────── 5.125 ──────── 7.875 ─ 8.25
@@ -10,7 +10,6 @@
   sonuna taşar ([7.875, 8.25) → -0.375…0), bu yüzden sceneAt zamanı o aralıkta eksiye çevirir.
 */
 export const LOOP_SECONDS = 8.25;
-export const SCENE_COUNT = 3;
 export const SCENE_SPAN = 2.75;
 /** Sahne bitiş (= sonraki sahne başlangıç) zamanları: kent|rüzgâr, rüzgâr|hasat, hasat|kent */
 export const SCENE_BOUNDS = [2.375, 5.125, 7.875] as const;

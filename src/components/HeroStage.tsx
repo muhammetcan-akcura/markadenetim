@@ -15,26 +15,20 @@ import { SCENE_JUMP_TO } from '@/lib/heroScenes';
 
 /*
   Hero'nun tek client kabuğu. Metin ve düzen sunucuda render edilip children olarak gelir.
-  Burada üç şey yönetilir:
+  Burada iki şey yönetilir:
   - video: oynat/durdur, ekran dışında durma, hareket azaltma / veri tasarrufunda otomatik oynatmama
-  - tek rAF döngüsü ("ticker"): mercek motoru buraya abone olur; hero görünür ve sekme açıkken çalışır
-  - sahne durumu: videodaki üç sahne; HUD ve mercek etiketi aynı durumu paylaşır
+  - sahne durumu: videodaki üç sahne; HUD aynı durumu paylaşır
 */
-export type Tick = (now: number, dt: number) => void;
-
 type HeroContextValue = {
   videoRef: RefObject<HTMLVideoElement | null>;
   stageRef: RefObject<HTMLElement | null>;
-  /** HUD'daki sahne ilerleme çubukları: hareket motoru doğrudan transform yazar (React render yok) */
+  /** HUD'daki sahne ilerleme çubukları: HeroMedia doğrudan transform yazar (React render yok) */
   barsRef: MutableRefObject<(HTMLElement | null)[]>;
-  /** Kullanıcı "Durdur"a bastıysa true: video ve kendiliğinden gezinme durur */
-  userPausedRef: MutableRefObject<boolean>;
   playing: boolean;
   scene: number;
   setScene: (index: number) => void;
   toggle: () => void;
   jumpTo: (index: number) => void;
-  subscribe: (cb: Tick) => () => void;
 };
 
 const HeroContext = createContext<HeroContextValue | null>(null);
@@ -59,17 +53,10 @@ export function HeroStage({
   const stageRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const barsRef = useRef<(HTMLElement | null)[]>([]);
+  /** Kullanıcı "Durdur"a bastıysa true: görünürlük değişse de video kendiliğinden başlamaz */
   const userPausedRef = useRef(false);
-  const subs = useRef(new Set<Tick>());
   const [playing, setPlaying] = useState(false);
   const [scene, setScene] = useState(0);
-
-  const subscribe = useCallback((cb: Tick) => {
-    subs.current.add(cb);
-    return () => {
-      subs.current.delete(cb);
-    };
-  }, []);
 
   /*
     Video: hareket azaltma veya veri tasarrufu açıksa otomatik oynamaz (poster görünür).
@@ -108,48 +95,6 @@ export function HeroStage({
     };
   }, []);
 
-  /* Tek rAF döngüsü: yalnızca hero görünürken, sekme açıkken ve hareket azaltma kapalıyken */
-  useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage) return;
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let raf = 0;
-    let running = false;
-    let visible = false;
-    let last = 0;
-    const frame = (now: number) => {
-      const dt = Math.min(64, now - last);
-      last = now;
-      subs.current.forEach((cb) => cb(now, dt));
-      raf = requestAnimationFrame(frame);
-    };
-    const update = () => {
-      const should = visible && !document.hidden && !mq.matches;
-      if (should && !running) {
-        running = true;
-        last = performance.now();
-        raf = requestAnimationFrame(frame);
-      } else if (!should && running) {
-        running = false;
-        cancelAnimationFrame(raf);
-      }
-    };
-    const io = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      update();
-    });
-    io.observe(stage);
-    document.addEventListener('visibilitychange', update);
-    mq.addEventListener('change', update);
-    return () => {
-      running = false;
-      cancelAnimationFrame(raf);
-      io.disconnect();
-      document.removeEventListener('visibilitychange', update);
-      mq.removeEventListener('change', update);
-    };
-  }, []);
-
   const toggle = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -178,7 +123,7 @@ export function HeroStage({
 
   return (
     <HeroContext.Provider
-      value={{ videoRef, stageRef, barsRef, userPausedRef, playing, scene, setScene, toggle, jumpTo, subscribe }}
+      value={{ videoRef, stageRef, barsRef, playing, scene, setScene, toggle, jumpTo }}
     >
       <section ref={stageRef} id={id} className={className} aria-labelledby={labelledBy}>
         {children}
