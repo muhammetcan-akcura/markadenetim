@@ -1,16 +1,18 @@
-import type { Dictionary } from '@/content/tr';
-import { ArrowIcon } from './ArrowIcon';
 import Image from 'next/image';
+import Link from 'next/link';
+import type { Dictionary } from '@/content/tr';
+import { articles, readingMinutes } from '@/content/insights';
+import { ArrowIcon } from './ArrowIcon';
 import styles from './Insights.module.css';
 
 /*
   4.9 Güncel. Blog ızgarası değil, dergi düzeni: solda tek manşet, sağda üst üste iki kısa yazı.
   Kategori metni mürekkep renginde; altın yalnızca önündeki kısa çizgide (açık zeminde altın
-  metin AA kontrastı sağlamaz). İçerikler yayın sistemi kurulana kadar örnektir; görseller hero videosundan üretilmiş
-  geçicilerdir ve dekoratiftir (alt=""), anlam başlıkta.
+  metin AA kontrastı sağlamaz). Son üç yazı gösterilir; tamamı /guncel'de. İçerikler örnektir,
+  görseller geçicidir ve dekoratiftir (alt=""), anlam başlıkta.
 */
 export function Insights({ t }: { t: Dictionary }) {
-  const [lead, ...rest] = t.insights.items;
+  const [lead, ...rest] = articles.slice(0, 3);
 
   return (
     <section id="guncel" className={styles.insights} aria-labelledby="insights-title">
@@ -20,10 +22,10 @@ export function Insights({ t }: { t: Dictionary }) {
             {t.insights.title}
           </h2>
           <span className={`label ${styles.sample}`}>{t.insights.sample}</span>
-          <a className={`link-arrow ${styles.all}`} href={t.insights.all.href}>
+          <Link className={`link-arrow ${styles.all}`} href={t.insights.all.href}>
             <span>{t.insights.all.label}</span>
             <ArrowIcon />
-          </a>
+          </Link>
         </header>
 
         <div className={`grid ${styles.layout}`}>
@@ -35,31 +37,34 @@ export function Insights({ t }: { t: Dictionary }) {
             </div>
             <p className={styles.category}>{lead.category}</p>
             <h3 className={styles.leadTitle}>
-              {/* [BİLGİ GİRİLECEK] Yazı sayfası kurulunca gerçek bağlantı */}
-              <a href={t.insights.all.href} className={styles.link}>
+              <Link href={`/guncel/${lead.slug}`} className={styles.link}>
                 {lead.title}
-              </a>
+              </Link>
             </h3>
-            {'excerpt' in lead && <p className={styles.excerpt}>{lead.excerpt}</p>}
+            <p className={styles.excerpt}>{lead.excerpt}</p>
             <p className={styles.meta}>
               <span>{lead.date}</span>
-              <span>{lead.readingTime}</span>
+              <span>
+                {readingMinutes(lead)} {t.insights.minutes}
+              </span>
             </p>
           </article>
 
           <div className={styles.side}>
             {rest.map((item) => (
-              <article key={item.title} className={`${styles.article} ${styles.small}`}>
+              <article key={item.slug} className={`${styles.article} ${styles.small}`}>
                 <div className={styles.smallText}>
                   <p className={styles.category}>{item.category}</p>
                   <h3 className={styles.smallTitle}>
-                    <a href={t.insights.all.href} className={styles.link}>
+                    <Link href={`/guncel/${item.slug}`} className={styles.link}>
                       {item.title}
-                    </a>
+                    </Link>
                   </h3>
                   <p className={styles.meta}>
                     <span>{item.date}</span>
-                    <span>{item.readingTime}</span>
+                    <span>
+                      {readingMinutes(item)} {t.insights.minutes}
+                    </span>
                   </p>
                 </div>
                 <div className={`${styles.media} ${styles.thumb}`}>

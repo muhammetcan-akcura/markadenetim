@@ -1,0 +1,101 @@
+/* ===================== YAZI DİZİNİ ===================== */
+.list { border-bottom: 1px solid var(--rule-light); }
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: var(--s-3);
+  row-gap: var(--s-1);
+  padding-block: var(--s-4);
+  border-top: 1px solid var(--rule-light);
+}
+/* Hover'da üst çizginin üzerinde soldan uzayan altın çizgi */
+.row::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -1px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 600ms var(--ease);
+}
+.row:hover::before,
+.row:focus-within::before { transform: scaleX(1); }
+
+/* Tüm satır tıklanabilir: başlık bağlantısı satırı örter (tek odak durağı) */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+/* Kategori: kısa altın çizgi + mürekkep etiket (açık zeminde altın metin AA geçmez) */
+.category {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--charcoal);
+}
+.category::before {
+  content: "";
+  width: var(--s-2);
+  height: 1px;
+  background: var(--gold);
+}
+
+.title {
+  grid-column: 1 / -1;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -.015em;
+  text-wrap: balance;
+  transition: transform var(--t-hover) var(--ease);
+}
+.row:hover .title { transform: translateX(var(--s-2)); }
+
+.meta {
+  grid-column: 1;
+  display: flex;
+  gap: var(--s-3);
+  font-size: .8125rem;
+  color: var(--charcoal);
+}
+
+.icon {
+  grid-column: 2;
+  grid-row: 3;
+  align-self: center;
+  stroke: var(--ink);
+}
+.row:hover .icon { transform: translateX(6px); stroke: var(--gold); }
+
+/* Masaüstü: kategori | başlık | künye | ok — tek satırda, 12 kolonlu ızgaraya oturur */
+@media (min-width: 1100px) {
+  .row {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    align-items: baseline;
+    min-height: 8rem;
+    padding-block: var(--s-5);
+  }
+  .category { grid-column: 1 / span 2; }
+  .title { grid-column: 3 / span 7; }
+  .meta {
+    grid-column: 10 / span 2;
+    flex-direction: column;
+    gap: 0;
+  }
+  .icon { grid-column: 12; grid-row: 1; justify-self: end; align-self: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row:hover .title { transform: none; }
+}

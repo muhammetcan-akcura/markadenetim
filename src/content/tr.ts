@@ -50,28 +50,39 @@ export const tr = {
     note: 'MarkaDenetim, yeminli mali müşavirlik ve bağımsız denetim alanında işletmelere eşlik eder. Her çalışmayı mevzuata uygunluk, belgelendirme ve açık iletişim üzerine kurarız. Amacımız, sayıların arkasındaki yapıyı yönetim için okunur hâle getirmek.',
   },
   services: {
-    title: 'Uzmanlık Alanlarımız',
-    intro: 'Dört alanda tek bir disiplinle çalışırız: kayıtların doğruluğu, mevzuata uygunluk ve yönetime açık raporlama.',
+    kicker: 'UZMANLIK ALANLARIMIZ',
+    titleLine1: 'İşletmenize',
+    titleEmphasis: 'değer katan',
+    titleLine2: 'uzmanlık alanları.',
+    intro:
+      'Dört ana alanda, tek bir disiplinle çalışırız: Mevzuata uygunluk, finansal şeffaflık ve sürdürülebilir büyüme için güvenilir çözümler sunarız.',
+    keywords: ['MEVZUAT', 'DENETİM', 'STRATEJİ', 'SÜRDÜRÜLEBİLİR BÜYÜME'],
+    cta: 'TÜM HİZMETLERİ GÖR',
+    boardroomImage: '/img/services-boardroom.jpg',
     items: [
       {
+        num: '01',
         title: 'Yeminli Mali Müşavirlik',
-        text: 'Tam tasdik, KDV iadesi tasdiki ve özel amaçlı raporlar. Her tasdik, belgelendirilmiş bir inceleme sürecine dayanır.',
-        image: '/img/service-1-new.jpg',
+        text: 'Tam tasdik, KDV iadesi tasdiki ve özel amaçlı raporlar. Her belgelendirilmiş bir inceleme sürecine dayanır.',
+        image: '/img/service-ymm.jpg',
       },
       {
+        num: '02',
         title: 'Denetim',
-        text: 'Finansal tabloların bağımsız denetimi ve sınırlı denetimi. Mesleki şüphecilik ve bağımsızlık ilkesiyle yürütülür.',
-        image: '/img/service-2-new.jpg',
+        text: 'Bağımsız denetim hizmetleri ile finansal tablolarınızın doğruluğunu, şeffaflığını ve güvenilirliğini sağlarız.',
+        image: '/img/service-denetim.jpg',
       },
       {
+        num: '03',
         title: 'Vergi Danışmanlığı',
-        text: 'Vergi planlaması, mevzuat değişikliklerinin etkisinin değerlendirilmesi ve vergi incelemelerinde süreç desteği.',
-        image: '/img/service-3-new.jpg',
+        text: 'Vergi planlaması, vergi incelemeleri ve uyuşmazlıklar konusunda işletmenize özel çözümler sunarız.',
+        image: '/img/service-vergi.jpg',
       },
       {
+        num: '04',
         title: 'Finansal Danışmanlık',
-        text: 'Finansal yapı analizi, raporlama düzeninin kurulması ve yatırım kararlarına yönelik değerlendirme.',
-        image: '/img/service-4-new.jpg',
+        text: 'Finansal yapılandırma, raporlama ve sürdürülebilir büyüme için stratejik danışmanlık hizmetleri sunarız.',
+        image: '/img/service-finansal.jpg',
       },
     ],
   },
@@ -110,38 +121,57 @@ export const tr = {
   },
   approach: {
     title: 'Yaklaşımımız',
+    intro: 'Her görevde aynı dört aşamalı disiplini izleriz. Önce yapıyı anlar, sonra karar verilecek noktaları birlikte netleştiririz.',
+    scopeLabel: 'Bu aşamada',
+    outputLabel: 'Çıktı',
     steps: [
       {
         title: 'Analiz',
         text: 'Finansal tabloları, kayıt düzenini ve mevzuat yükümlülüklerini birlikte inceleriz. Çalışmanın kapsamını bu ilk tespitler belirler.',
+        scope: ['Finansal tablolar ve hesap planı', 'Kayıt düzeni ve iç kontrol işleyişi', 'Mevzuat ve beyan yükümlülükleri'],
+        output: 'Kapsam ve ilk tespit notu',
       },
       {
         title: 'Değerlendirme',
         text: 'Bulguları önem ve risk düzeyine göre sınıflandırırız. Her bulgu, dayandığı belgeyle birlikte kayda geçer.',
+        scope: ['Önem ve risk düzeyine göre sınıflandırma', 'Bulguların dayanak belgeyle eşleştirilmesi', 'Yönetimle bulgu görüşmesi'],
+        output: 'Belgelendirilmiş bulgu dosyası',
       },
       {
         title: 'Strateji',
         text: 'Yönetimle birlikte öncelikleri ve uygulanabilir adımları belirleriz. Öneriler, işletmenin yapısına ve takvimine göre şekillenir.',
+        scope: ['Önceliklerin yönetimle belirlenmesi', 'Uygulanabilir adımlar ve sorumluluklar', 'İşletme takvimine uygun yol haritası'],
+        output: 'Önceliklendirilmiş eylem planı',
       },
       {
         title: 'Sonuç',
         text: 'Rapor, tasdik veya görüş açık bir dille teslim edilir. Uygulama sürecindeki takibi birlikte yürütürüz.',
+        scope: ['Raporun yönetimle birlikte okunması', 'Uygulama takviminin belirlenmesi', 'Dönemsel takip görüşmeleri'],
+        output: 'Rapor, tasdik veya mesleki görüş',
       },
     ],
   },
   trust: {
     label: 'Çalışma ilkelerimiz',
-    quote: 'Güven; belgelenen, doğrulanan ve zamanında paylaşılan bilgiyle kurulur.',
+    // Alıntı üç parçaya bölünür: vurgulu orta kısım tam parlaklıkta, çerçeve sözcükler kısık
+    quote: {
+      lead: 'Güven; ',
+      emphasis: 'belgelenen, doğrulanan ve zamanında paylaşılan',
+      tail: ' bilgiyle kurulur.',
+    },
     commitments: [
       {
+        mark: 'İlke I',
         title: 'Bağımsızlık',
         text: 'Denetim ve tasdik görevlerinde bağımsızlığımızı etkileyebilecek her ilişkiyi görev öncesinde değerlendiririz.',
       },
       {
+        mark: 'İlke II',
         title: 'Gizlilik',
         text: 'Çalışma sırasında edindiğimiz her bilgi, mesleki sır yükümlülüğü ve KVKK kapsamında korunur.',
       },
       {
+        mark: 'İlke III',
         title: 'Mesleki standartlar',
         text: 'Çalışmalarımızı yürürlükteki mevzuata, meslek ilkelerine ve ilgili denetim standartlarına uygun yürütürüz.',
       },
@@ -157,32 +187,25 @@ export const tr = {
   insights: {
     title: 'Güncel',
     sample: '[ÖRNEK İÇERİK]',
-    all: { label: 'Tüm yazılar', href: '/#guncel' },
-    // [BİLGİ GİRİLECEK] Yayın sistemi kurulunca gerçek yazılar ve bağlantılarıyla değiştirilir
-    items: [
-      {
-        category: 'Vergi',
-        title: 'Transfer fiyatlandırması belgelendirmesinde sık yapılan hatalar',
-        excerpt: 'Yıllık raporun hazırlanmasında karşılaştırılabilirlik analizi ve belge düzeni neden belirleyicidir?',
-        date: '[TARİH]',
-        readingTime: '[OKUMA SÜRESİ]',
-        image: '/img/insight-1-new.jpg',
-      },
-      {
-        category: 'Denetim',
-        title: 'Sınırlı denetim ile bağımsız denetim arasındaki farklar',
-        date: '[TARİH]',
-        readingTime: '[OKUMA SÜRESİ]',
-        image: '/img/insight-2-new.jpg',
-      },
-      {
-        category: 'Finans',
-        title: 'Enflasyon düzeltmesi sonrası finansal tabloları okumak',
-        date: '[TARİH]',
-        readingTime: '[OKUMA SÜRESİ]',
-        image: '/img/insight-3-new.jpg',
-      },
-    ],
+    all: { label: 'Tüm yazılar', href: '/guncel' },
+    // Yazıların kendisi content/insights.ts'te; burada yalnızca arayüz metinleri durur
+    minutes: 'dk okuma',
+    page: {
+      title: 'Güncel',
+      metaTitle: 'Güncel | MarkaDenetim',
+      intro: 'Vergi, denetim ve finans alanındaki gelişmelere dair kısa ve uygulamaya dönük notlar.',
+      featured: 'Öne çıkan',
+      index: 'Tüm yazılar',
+    },
+    article: {
+      back: 'Tüm yazılar',
+      contents: 'Bu yazıda',
+      more: 'Diğer yazılar',
+      // Meslek kuralları: yazı danışmanlık yerine geçmez; okuru doğrudan görüşmeye yönlendirir
+      disclaimer:
+        'Bu yazı genel bilgilendirme amaçlıdır ve mesleki danışmanlık yerine geçmez. Kendi durumunuza ilişkin değerlendirme için bizimle görüşebilirsiniz.',
+      cta: { label: 'Görüşme talep edin', href: '/#iletisim' },
+    },
   },
   contactSection: {
     title: 'Finansal yapınızı daha net değerlendirelim.',
@@ -231,6 +254,9 @@ export const tr = {
     ],
     legalNav: 'Yasal bilgiler',
     footerNav: 'Alt gezinme',
+    sectionsLabel: 'Bölümler',
+    contactLabel: 'İletişim',
+    backToTop: 'Başa dön',
   },
   legal: {
     back: 'Ana sayfaya dön',

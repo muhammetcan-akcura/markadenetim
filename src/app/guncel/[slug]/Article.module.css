@@ -1,0 +1,202 @@
+/* ===================== GÜNCEL — YAZI ===================== */
+.main {
+  --focus-ring: var(--ink);
+  background: var(--warm-100);
+  color: var(--ink);
+}
+
+/* Görselin koyu banda taşan payı; bant alt boşluğu bu payı da taşır */
+.intro,
+.media { --overlap: var(--s-6); }
+@media (min-width: 1100px) {
+  .intro,
+  .media { --overlap: var(--s-8); }
+}
+
+/* --- Üst bant: koyu zemin, başlık ve özet --- */
+.intro {
+  --focus-ring: var(--gold);
+  padding-block: calc(var(--header-h) + var(--s-7)) calc(var(--overlap) + var(--s-6));
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+.introGrid { row-gap: var(--s-6); }
+.back { grid-column: 1 / -1; justify-self: start; color: var(--stone-300); }
+.back:hover { color: var(--warm-100); }
+/* Aynı ince ok, geriye dönük */
+.backIcon { transform: scaleX(-1); }
+.back:hover .backIcon { transform: scaleX(-1) translateX(6px); }
+
+.heading { grid-column: 1 / -1; }
+/* Koyu zeminde altın küçük çizgi + taş renkli etiket */
+.category {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  margin-bottom: var(--s-3);
+  color: var(--stone-300);
+}
+.category::before {
+  content: "";
+  width: var(--s-2);
+  height: 1px;
+  background: var(--gold);
+}
+.title {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-optical-sizing: auto;
+  font-size: clamp(2.5rem, 5.6vw, 5.75rem);
+  line-height: 1.02;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+.excerpt {
+  margin-top: var(--s-4);
+  max-width: 44ch;
+  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--stone-300);
+}
+
+@media (min-width: 768px) {
+  .heading { grid-column: 1 / span 10; }
+}
+@media (min-width: 1100px) {
+  .heading { grid-column: 1 / span 9; }
+}
+
+/* --- Görsel: tam kap genişliği, geniş en-boy; banda taşar --- */
+.media {
+  position: relative;
+  margin: calc(var(--overlap) * -1) 0 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--navy-800);
+}
+.media img { object-fit: cover; filter: saturate(.8); }
+@media (min-width: 768px) {
+  .media { aspect-ratio: 21 / 9; }
+}
+
+/* --- Gövde: solda künye + içindekiler, sağda okuma kolonu --- */
+.bodyGrid {
+  row-gap: var(--s-5);
+  padding-block: var(--s-6) var(--section-mid);
+}
+
+.aside { grid-column: 1 / -1; }
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-3);
+  margin: 0;
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--rule-light);
+  font-size: .8125rem;
+  color: var(--charcoal);
+}
+.facts dd { margin: 0; }
+
+.toc { padding-top: var(--s-3); }
+.tocTitle { margin-bottom: var(--s-2); color: var(--charcoal); }
+.toc ol { display: grid; gap: var(--s-1); counter-reset: toc; }
+.toc li { counter-increment: toc; }
+.toc a {
+  display: grid;
+  grid-template-columns: var(--s-4) 1fr;
+  align-items: baseline;
+  min-height: 44px;
+  padding-block: var(--s-1);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--charcoal);
+  transition: color var(--t-hover) var(--ease);
+}
+/* Küçük altın sıra numarası (§03: altın yalnızca küçük numara/etiket) */
+.toc a::before {
+  content: counter(toc, decimal-leading-zero);
+  font-size: var(--fs-label);
+  letter-spacing: .08em;
+  color: var(--gold);
+}
+.toc a:hover { color: var(--ink); }
+
+/* Okuma kolonu: gövde ölçüsü 62ch */
+.prose { grid-column: 1 / -1; max-width: var(--measure); color: var(--charcoal); }
+.prose > * + * { margin-top: var(--s-3); }
+.prose > p:first-child {
+  font-size: clamp(1.1875rem, 1.6vw, 1.375rem);
+  line-height: 1.55;
+  color: var(--ink);
+}
+.prose h2 {
+  margin-top: var(--s-6);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  line-height: 1.15;
+  letter-spacing: -.015em;
+  color: var(--ink);
+  text-wrap: balance;
+  scroll-margin-top: calc(var(--header-h) + var(--s-3));
+}
+.prose h2 + * { margin-top: var(--s-2); }
+.prose ul { display: grid; gap: var(--s-1); }
+.prose li {
+  position: relative;
+  padding-left: var(--s-4);
+}
+/* Madde işareti: ince mürekkep çizgi, ikon yok */
+.prose li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .82em;
+  width: var(--s-2);
+  height: 1px;
+  background: var(--ink);
+}
+.prose blockquote {
+  margin-block: var(--s-6);
+  padding: var(--s-1) 0 var(--s-1) var(--s-4);
+  border-left: 1px solid var(--gold);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.625rem, 2.6vw, 2.375rem);
+  line-height: 1.2;
+  letter-spacing: -.015em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.prose blockquote + * { margin-top: 0; }
+
+.closing {
+  margin-top: var(--s-7);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--rule-light);
+}
+.disclaimer { margin-bottom: var(--s-3); font-size: var(--fs-small); color: var(--charcoal); }
+
+@media (min-width: 1100px) {
+  .bodyGrid { padding-top: var(--s-7); }
+  .aside {
+    grid-column: 1 / span 3;
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-4));
+    align-self: start;
+  }
+  .facts {
+    flex-direction: column;
+    gap: var(--s-1);
+  }
+  .prose { grid-column: 5 / span 7; }
+}
+
+/* --- Diğer yazılar --- */
+.more {
+  padding-block: var(--section-tight) var(--section-mid);
+  background: var(--warm-50);
+  border-top: 1px solid var(--rule-light);
+}
+.moreTitle { margin-bottom: var(--s-3); color: var(--charcoal); }

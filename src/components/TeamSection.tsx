@@ -6,8 +6,10 @@ import { ArrowIcon } from './ArrowIcon';
 import styles from './TeamSection.module.css';
 
 /*
-  Uzman Ekibimiz. Tüm ekip tek ve dengeli bir ızgarada bir arada gösterilir.
-  Portreler hafif desatüre, üzerine gelince canlanır ve hafif yakınlaşır.
+  Uzman Ekibimiz. Ekip, sayfanın ana anlatısını bölmemesi için kompakt tutulur:
+  masaüstünde tek satırlık editoryal şerit (6 portre), mobilde küçük portreli
+  dizin listesi. Yapıyı kartlar değil 1px çizgiler kurar; numara küçük altın etiket.
+  Ayrıntı her kişinin profil sayfasında (/ekip/[slug]).
 */
 export function TeamSection({ t }: { t: Dictionary }) {
   return (
@@ -20,36 +22,34 @@ export function TeamSection({ t }: { t: Dictionary }) {
           <p className={styles.intro}>{t.team.intro}</p>
         </header>
 
-        <ul className={styles.teamGrid}>
+        <ul className={styles.list}>
           {teamMembers.map((m, i) => (
             <li key={m.slug} className={styles.item}>
-              <Link href={`/ekip/${m.slug}`} className={styles.card}>
-                <span className={styles.portrait}>
+              <Link href={`/ekip/${m.slug}`} className={styles.member}>
+                <div className={styles.portrait}>
                   <Image
                     src={m.image}
                     alt={`${m.name} portresi`}
                     fill
-                    sizes="(min-width: 1100px) 30vw, (min-width: 768px) 45vw, 90vw"
+                    sizes="(min-width: 1024px) 16vw, 88px"
                     className={styles.img}
                   />
-                  <span className={styles.num} aria-hidden="true">
+                </div>
+                <div className={styles.info}>
+                  <span className={`label ${styles.num}`} aria-hidden="true">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                </span>
-                <div className={styles.info}>
                   <h3 className={styles.name}>{m.name}</h3>
-                  <div className={styles.titles}>
+                  <p className={styles.titles}>
                     {m.titles.map((title) => (
                       <span key={title} className={styles.titleItem}>
                         {title}
                       </span>
                     ))}
-                  </div>
-                  <span className={`link-arrow ${styles.more}`}>
-                    <span>{t.team.profile}</span>
-                    <ArrowIcon className="link-arrow__icon" />
-                  </span>
+                  </p>
                 </div>
+                <span className="sr-only">{t.team.profile}</span>
+                <ArrowIcon className={`link-arrow__icon ${styles.arrow}`} />
               </Link>
             </li>
           ))}

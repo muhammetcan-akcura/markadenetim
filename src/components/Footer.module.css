@@ -1,24 +1,43 @@
 /* ===================== 4.11 FOOTER ===================== */
 .footer {
+  --focus-ring: var(--warm-100);
   background: var(--navy-950);
   color: var(--warm-100);
   font-size: var(--fs-small);
 }
 
+/* --- Üst: marka / bölümler / iletişim ------------------------------------
+   Mobil/tablet: marka tam genişlik, altında iki sütun yan yana.
+   Masaüstü (≥1024): marka 5 kolon, boşluk, bölümler 3, iletişim 3 kolon. */
 .top {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--s-5);
+  row-gap: var(--s-5);
   padding-block: var(--s-7) var(--s-6);
 }
-.legalName { margin-top: var(--s-1); color: var(--stone-500); }
 
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-1) var(--s-4);
+.brand { grid-column: 1 / -1; }
+.legalName { margin: var(--s-1) 0 0; color: var(--stone-500); }
+
+.col { grid-column: span 2; }
+
+@media (min-width: 768px) {
+  .colNav { grid-column: 1 / span 6; }
+  .colContact { grid-column: 7 / span 6; }
 }
+
+@media (min-width: 1024px) {
+  .brand { grid-column: 1 / span 5; }
+  .colNav { grid-column: 7 / span 3; }
+  .colContact { grid-column: 10 / span 3; }
+}
+
+/* Sütun etiketi: küçük, büyük harf; üstünde sütunu kuran 1px çizgi */
+.colLabel {
+  margin: 0 0 var(--s-2);
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--rule-dark);
+  color: var(--stone-500);
+}
+
 .nav a,
 .legal a {
   display: inline-flex;
@@ -30,35 +49,69 @@
 .nav a:hover,
 .legal a:hover { color: var(--warm-100); }
 
-/* Dev wordmark: container genişliğini dolduracak boyutta (12 harf + geniş aralık).
-   Rengi zeminden bir ton açık: imza gibi okunur, metin hiyerarşisini bozmaz. */
-.giant {
-  overflow: hidden;
-  padding-bottom: var(--s-4);
-}
-.giant span {
-  display: block;
-  font-size: calc((min(100vw, var(--container)) - 2 * var(--gutter)) / 8.8);
-  margin-right: -.08em; /* son harfin izleme boşluğu satır sonunu taşırmasın */
-  font-weight: 600;
-  /* İ'nin noktası kırpılmasın: satır yüksekliği aksan payıyla */
-  line-height: 1.1;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: var(--navy-800);
-}
+/* Bölüm bağlantıları alt alta: sütun düzeni, satır içi bağlantı duvarı değil */
+.nav a { min-height: 40px; }
 
+.contact { margin: 0; }
+.contact div + div { margin-top: var(--s-2); }
+.contact dt { font-size: .8125rem; color: var(--stone-500); }
+.contact dd { margin: 2px 0 0; color: var(--stone-300); overflow-wrap: anywhere; }
+
+.cta { margin-top: var(--s-3); color: var(--warm-100); }
+
+/* --- Yasal satır --------------------------------------------------------- */
 .bottom {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
-  gap: var(--s-2) var(--s-5);
-  padding-block: var(--s-2) var(--s-4);
+  gap: 0 var(--s-5);
+  padding-block: var(--s-2);
   border-top: 1px solid var(--rule-dark);
   color: var(--stone-500);
   font-size: .8125rem;
 }
+.bottom p { margin: 0; padding-block: var(--s-1); }
+
 .legal { display: flex; flex-wrap: wrap; gap: 0 var(--s-4); }
 .legal a { font-size: .8125rem; }
+
+/* Başa dön: yasal satırın sağ ucunda; ok yukarı bakar, hover'da altın */
+.toTop {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  min-height: 44px;
+  margin-left: auto;
+  color: var(--stone-300);
+  transition: color var(--t-hover) var(--ease);
+}
+.toTop:hover { color: var(--warm-100); }
+.toTopIcon {
+  width: 10px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  transition: transform var(--t-hover) var(--ease), stroke var(--t-hover) var(--ease);
+}
+.toTop:hover .toTopIcon { transform: translateY(-4px); stroke: var(--gold); }
+
+@media (max-width: 767px) {
+  .bottom { flex-direction: column; align-items: flex-start; }
+  .toTop { margin-left: 0; }
+}
+
+/* --- İmza wordmark --------------------------------------------------------
+   Rengi zeminden bir ton açık: imza gibi okunur, metin hiyerarşisini bozmaz. */
+.signature { padding-bottom: var(--s-3); }
+.signature svg { display: block; width: 100%; height: auto; overflow: visible; }
+.signature text {
+  font-family: var(--font-sans);
+  font-size: 92px; /* viewBox birimi; ölçek SVG genişliğinden gelir */
+  font-weight: 600;
+  fill: var(--navy-800);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toTop:hover .toTopIcon { transform: none; }
+}

@@ -1,0 +1,119 @@
+/* ===================== GÜNCEL — YAZI LİSTESİ ===================== */
+
+/* Manşet görselinin koyu banda taşan payı; bant alt boşluğu bu payı da taşır */
+.intro,
+.media { --overlap: var(--s-6); }
+@media (min-width: 1100px) {
+  .intro,
+  .media { --overlap: var(--s-7); }
+}
+
+/* --- Üst bant: koyu zemin, dev serif başlık; açıklama sağa kaydırılmış --- */
+.intro {
+  padding-block: calc(var(--header-h) + var(--s-8)) calc(var(--overlap) + var(--s-6));
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+.introGrid { row-gap: var(--s-4); align-items: end; }
+.title { grid-column: 1 / -1; }
+.lede { grid-column: 1 / -1; max-width: 34ch; color: var(--stone-300); }
+.sample { margin-top: var(--s-2); color: var(--stone-500); }
+
+@media (min-width: 768px) {
+  .title { grid-column: 1 / span 7; }
+  .lede { grid-column: 9 / span 4; }
+}
+
+/* --- Manşet: görsel koyu banttan açık zemine taşar --- */
+.featured {
+  --focus-ring: var(--ink);
+  background: var(--warm-100);
+  color: var(--ink);
+}
+.featuredGrid { row-gap: var(--s-4); }
+
+.media {
+  grid-column: 1 / -1;
+  margin-top: calc(var(--overlap) * -1);
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+}
+.mediaInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 700ms var(--ease);
+}
+.mediaInner img { object-fit: cover; filter: saturate(.8); }
+.featured:hover .mediaInner { transform: scale(1.03); }
+
+.featuredText { grid-column: 1 / -1; position: relative; }
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  margin-bottom: var(--s-2);
+  color: var(--charcoal);
+}
+.kicker::before {
+  content: "";
+  width: var(--s-2);
+  height: 1px;
+  background: var(--gold);
+}
+.featuredTitle {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2rem, 3.4vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+/* Tüm manşet tıklanabilir: başlık bağlantısı bölümü örter */
+.featured { position: relative; }
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+.featured:hover .link,
+.link:focus-visible { text-decoration-color: currentColor; }
+
+.excerpt { margin-top: var(--s-3); max-width: 44ch; color: var(--charcoal); }
+.meta {
+  display: flex;
+  gap: var(--s-3);
+  margin-top: var(--s-3);
+  font-size: .8125rem;
+  color: var(--charcoal);
+}
+
+@media (min-width: 1100px) {
+  .featuredGrid { align-items: end; }
+  /* Daha dikey görsel: metin bloğu banttan uzakta, görselin alt hizasına oturur */
+  .media { grid-column: 1 / span 7; aspect-ratio: 4 / 3; }
+  .featuredText { grid-column: 9 / span 4; padding-top: var(--s-6); }
+}
+
+/* --- Fihrist --- */
+.index {
+  --focus-ring: var(--ink);
+  padding-block: var(--section-mid);
+  background: var(--warm-100);
+  color: var(--ink);
+}
+.indexTitle {
+  margin-bottom: var(--s-3);
+  color: var(--charcoal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featured:hover .mediaInner { transform: none; }
+}
