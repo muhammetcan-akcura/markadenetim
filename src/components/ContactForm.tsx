@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { Dictionary } from '@/content/tr';
+import { routes } from '@/lib/routes';
 import { limits, validateContact, type ContactField, type ContactInput } from '@/lib/contact';
 import { ArrowIcon } from './ArrowIcon';
 import styles from './Contact.module.css';
@@ -20,7 +21,16 @@ const FORM_ENDPOINT = '/__forms.html';
   Gönderimde ilk hatalı alana odak gider; başarıda panel teşekkür ekranına döner
   ve odak onun başlığına taşınır.
 */
-export function ContactForm({ t }: { t: Dictionary }) {
+// idPrefix: form aynı sayfada iki kez bulunabilir (ana sayfa bölümü + "Teklif alın" paneli);
+// önek, etiket/alan kimliklerinin çakışmasını önler. Sayfadaki asıl form öneksiz kalır (#iletisim-formu bağlantısı).
+export function ContactForm({
+  t,
+  idPrefix = '',
+}: {
+  t: Pick<Dictionary, 'locale' | 'contactSection'>;
+  idPrefix?: string;
+}) {
+  const id = (name: string) => `${idPrefix}${name}`;
   const f = t.contactSection.form;
   const formRef = useRef<HTMLFormElement>(null);
   const doneRef = useRef<HTMLHeadingElement>(null);
@@ -80,6 +90,8 @@ export function ContactForm({ t }: { t: Dictionary }) {
         message: input.message.trim(),
         consent: 'KVKK aydınlatma metni okundu, onaylandı',
         website: input.website,
+        // Başvurunun dili: İngilizce talepler ayırt edilip İngilizce yanıtlanır
+        dil: t.locale,
       });
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
@@ -100,13 +112,13 @@ export function ContactForm({ t }: { t: Dictionary }) {
   };
 
   const err = (k: ContactField) => errors.includes(k);
-  const describedBy = (k: ContactField) => (err(k) ? `hata-${k}` : undefined);
+  const describedBy = (k: ContactField) => (err(k) ? id(`hata-${k}`) : undefined);
   const fieldClass = (k: ContactField | null, extra = '') =>
     [styles.field, extra, k && err(k) ? styles.invalid : ''].filter(Boolean).join(' ');
 
   const errorText = (k: ContactField) =>
     err(k) && (
-      <p className={styles.error} id={`hata-${k}`}>
+      <p className={styles.error} id={id(`hata-${k}`)}>
         {f.errors[k]}
       </p>
     );
@@ -114,7 +126,7 @@ export function ContactForm({ t }: { t: Dictionary }) {
   const field = (k: 'name' | 'email', type: string, autoComplete: string) => (
     <div className={fieldClass(k)}>
       <input
-        id={`f-${k}`}
+        id={id(`f-${k}`)}
         name={k}
         type={type}
         autoComplete={autoComplete}
@@ -125,14 +137,14 @@ export function ContactForm({ t }: { t: Dictionary }) {
         aria-describedby={describedBy(k)}
         onInput={() => clear(k)}
       />
-      <label htmlFor={`f-${k}`}>{f.fields[k]}</label>
+      <label htmlFor={id(`f-${k}`)}>{f.fields[k]}</label>
       {errorText(k)}
     </div>
   );
 
   if (status === 'success') {
     return (
-      <div className={`${styles.panel} ${styles.done}`} id="iletisim-formu">
+      <div className={`${styles.panel} ${styles.done}`} id={id(routes[t.locale].ids.contactForm)}>
         <span className={styles.doneRule} aria-hidden="true" />
         <h3 className={styles.doneTitle} ref={doneRef} tabIndex={-1}>
           {f.successTitle}
@@ -152,17 +164,17 @@ export function ContactForm({ t }: { t: Dictionary }) {
     <form
       ref={formRef}
       className={styles.panel}
-      id="iletisim-formu"
+      id={id(routes[t.locale].ids.contactForm)}
       noValidate
       onSubmit={onSubmit}
-      aria-labelledby="form-title"
-      aria-describedby="form-note"
+      aria-labelledby={id('form-title')}
+      aria-describedby={id('form-note')}
     >
       <div className={styles.panelHead}>
-        <h3 className={styles.formTitle} id="form-title">
+        <h3 className={styles.formTitle} id={id('form-title')}>
           {f.title}
         </h3>
-        <p className={styles.note} id="form-note">
+        <p className={styles.note} id={id('form-note')}>
           {f.note}
         </p>
       </div>
@@ -188,34 +200,34 @@ export function ContactForm({ t }: { t: Dictionary }) {
         {field('email', 'email', 'email')}
         <div className={fieldClass(null, styles.full)}>
           <input
-            id="f-company"
+            id={id('f-company')}
             name="company"
             type="text"
             autoComplete="organization"
             maxLength={limits.company}
             placeholder=" "
           />
-          <label htmlFor="f-company">
+          <label htmlFor={id('f-company')}>
             {f.fields.company} <span className={styles.optional}>{f.optional}</span>
           </label>
         </div>
         <div className={fieldClass('message', styles.full)}>
           <textarea
-            id="f-message"
+            id={id('f-message')}
             name="message"
             rows={4}
             maxLength={limits.message}
             placeholder=" "
             required
             aria-invalid={err('message') || undefined}
-            aria-describedby={['f-message-count', describedBy('message')].filter(Boolean).join(' ')}
+            aria-describedby={[id('f-message-count'), describedBy('message')].filter(Boolean).join(' ')}
             onInput={(e) => {
               setMsgLen(e.currentTarget.value.length);
               clear('message');
             }}
           />
-          <label htmlFor="f-message">{f.fields.message}</label>
-          <p className={styles.counter} id="f-message-count">
+          <label htmlFor={id('f-message')}>{f.fields.message}</label>
+          <p className={styles.counter} id={id('f-message-count')}>
             {msgLen} / {limits.message} {f.counter}
           </p>
           {errorText('message')}
@@ -225,13 +237,13 @@ export function ContactForm({ t }: { t: Dictionary }) {
       {/* Honeypot: ekranda ve odak sırasında yok; botlar doldurur, gönderim sessizce yapılmaz
           (Netlify ayrıca netlify-honeypot ile aynı alanı süzer) */}
       <div className={styles.honeypot} aria-hidden="true">
-        <label htmlFor="f-website">{f.honeypot}</label>
-        <input id="f-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+        <label htmlFor={id('f-website')}>{f.honeypot}</label>
+        <input id={id('f-website')} name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
       <div className={`${styles.consent}${err('consent') ? ` ${styles.invalid}` : ''}`}>
         <input
-          id="f-consent"
+          id={id('f-consent')}
           name="consent"
           type="checkbox"
           required
@@ -239,9 +251,9 @@ export function ContactForm({ t }: { t: Dictionary }) {
           aria-describedby={describedBy('consent')}
           onChange={() => clear('consent')}
         />
-        <label htmlFor="f-consent">
+        <label htmlFor={id('f-consent')}>
           {f.consentBefore}
-          <a href="/kvkk" target="_blank" rel="noopener">
+          <a href={routes[t.locale].kvkk} target="_blank" rel="noopener">
             {f.consentLink}
           </a>
           {f.consentAfter}

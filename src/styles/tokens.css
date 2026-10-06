@@ -32,8 +32,11 @@
 
   /* --- Tipografi --- */
   /* Aileler next/font'tan gelir (app/layout.tsx); ölçü uyumlu yedekler otomatik eklenir */
-  --font-serif: var(--font-newsreader), Georgia, 'Times New Roman', serif;
-  --font-sans: var(--font-manrope), system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-serif: var(--font-source-serif), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-plex-sans), system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+
+  /* Serif başlık ağırlığı: 300 fazla ince ve jenerik duruyordu; 400 daha net ve kurumsal */
+  --fw-serif: 400;
 
   --fs-display: clamp(3.5rem, 8vw, 9rem);
   --fs-h2: clamp(2.25rem, 5vw, 5rem);

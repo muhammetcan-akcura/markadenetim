@@ -44,7 +44,7 @@
 }
 .title {
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-optical-sizing: auto;
   font-size: clamp(2.5rem, 5.6vw, 5.75rem);
   line-height: 1.02;
@@ -162,7 +162,7 @@
   padding: var(--s-1) 0 var(--s-1) var(--s-4);
   border-left: 1px solid var(--gold);
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-size: clamp(1.625rem, 2.6vw, 2.375rem);
   line-height: 1.2;
   letter-spacing: -.015em;

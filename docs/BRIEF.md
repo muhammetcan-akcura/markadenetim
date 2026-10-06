@@ -86,6 +86,7 @@ Kontrast: tüm metinler WCAG AA (normal metin ≥ 4.5:1).
 ### Tipografi
 - Başlık: modern editorial serif (**Fraunces**, **Newsreader**, **Instrument Serif**; Playfair Display kullanma). Seçimi gerekçelendir.
 - Gövde/UI: **Geist**, **Manrope** veya **Inter**.
+- **Onaylı sapma (Ekim 2026):** Başlık **Source Serif 4** (optik boyut ekseniyle, ağırlık 400), gövde **IBM Plex Sans**. Newsreader + Manrope jenerik bir "yapay zekâ sitesi" görünümü verdiği için değiştirildi; Inter ve Geist aynı nedenle kullanılmaz.
 - Küçük etiketler: büyük harf, letter-spacing 0.12–0.18em, 11–12px.
 - Türkçe karakter ve büyük harf dönüşümünü doğrula. `uppercase` kullanırken `lang="tr"` set et.
 

@@ -1,0 +1,114 @@
+/* ===================== TEKLİF ALIN KULAKÇIĞI + PANEL ===================== */
+/* Mobil ve tablette yok; yalnızca masaüstünde sağ kenarın ortasında */
+.tab { display: none; }
+
+@media (min-width: 1024px) {
+  .tab {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    z-index: 45; /* header (50) ve çerez bildirimi (55) altında */
+    display: grid;
+    place-items: center;
+    width: 44px;
+    padding: var(--s-3) 0;
+    background: var(--navy-900);
+    border: 1px solid var(--rule-dark);
+    border-right: 0;
+    border-left: 1px solid var(--gold);
+    color: var(--warm-100);
+    font: inherit;
+    cursor: pointer;
+    transform: translate(0, -50%);
+    transition: background-color var(--t-hover) var(--ease);
+  }
+  .tab:hover,
+  .tab:focus-visible { background: var(--navy-700); }
+}
+
+/* Dikey yazı: aşağıdan yukarı okunur */
+.text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* --- Panel katmanı: header ve mobil menünün de üstünde --- */
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+}
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 13, 26, .6); /* navy-950, yarı opak; blur yok (BRIEF) */
+  opacity: 0;
+  transition: opacity 400ms var(--ease);
+}
+/* Panel sağ kenardan sola kayar */
+.panel {
+  --focus-ring: var(--gold);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(36rem, 100%);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--s-5) var(--s-4) var(--s-6);
+  background: var(--navy-900);
+  border-left: 1px solid var(--gold);
+  color: var(--warm-100);
+  transform: translateX(100%);
+  transition: transform 500ms var(--ease);
+}
+.open .backdrop { opacity: 1; }
+.open .panel { transform: none; }
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+.kicker { margin: 0 0 var(--s-1); color: var(--stone-300); }
+.title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: var(--fw-serif);
+  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -.015em;
+}
+.lead { margin: var(--s-2) 0 var(--s-4); font-size: var(--fs-small); line-height: 1.6; color: var(--stone-300); }
+
+.close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin: -6px -10px 0 0;
+  border: 0;
+  background: none;
+  color: var(--warm-100);
+  cursor: pointer;
+}
+.closeLines { position: relative; display: block; width: 22px; height: 22px; }
+.closeLines::before,
+.closeLines::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+}
+.closeLines::before { transform: rotate(45deg); }
+.closeLines::after { transform: rotate(-45deg); }

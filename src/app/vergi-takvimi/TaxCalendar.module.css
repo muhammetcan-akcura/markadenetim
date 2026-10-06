@@ -1,0 +1,137 @@
+/* ===================== VERGİ TAKVİMİ ===================== */
+.wrap {
+  display: grid;
+  gap: var(--s-6);
+  max-width: 64rem;
+  padding-block: var(--s-6) var(--section-mid);
+}
+
+/* Sıradaki son gün: koyu şerit, tek satırlık özet */
+.next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-1) var(--s-3);
+  margin: 0 0 var(--s-5);
+  padding: var(--s-3);
+  background: var(--navy-900);
+  border-left: 2px solid var(--gold);
+  color: var(--warm-100);
+}
+.nextLabel { flex-basis: 100%; color: var(--stone-300); }
+.nextDate {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-serif);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1;
+}
+.nextTitle { font-size: 1.0625rem; }
+.nextDays { margin-left: auto; font-size: var(--fs-small); color: var(--gold); }
+
+/* Ay seçimi */
+.toolbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--s-2);
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--ink);
+}
+.month {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: var(--fw-serif);
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  line-height: 1.1;
+  color: var(--ink);
+}
+.currentTag {
+  padding: 2px var(--s-1);
+  background: var(--navy-700);
+  font-family: var(--font-sans);
+  font-size: .625rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--warm-100);
+}
+.step {
+  justify-self: start;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--charcoal);
+  cursor: pointer;
+}
+.step:last-child { justify-self: end; }
+.step:hover { color: var(--ink); }
+/* Dar ekranda yalnızca ok; metin ekran okuyucuya kalır, ok 44px dokunma alanında */
+@media (max-width: 479px) {
+  .step { position: relative; min-width: 44px; font-size: 1.25rem; }
+  .stepText { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+}
+
+/* Liste: satır = tarih bloğu + başlık + durum */
+.list { margin: 0; padding: 0; list-style: none; }
+.row {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: var(--s-1) var(--s-3);
+  align-items: center;
+  padding-block: var(--s-3);
+  border-bottom: 1px solid var(--rule-light);
+}
+.date { display: grid; gap: 2px; }
+.day {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-serif);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--ink);
+}
+.weekday { font-size: .75rem; color: var(--charcoal); }
+.title { margin: 0 0 4px; font-size: 1.0625rem; font-weight: 600; line-height: 1.35; color: var(--ink); }
+.meta { margin: 0; font-size: var(--fs-small); line-height: 1.5; color: var(--charcoal); }
+.shifted {
+  display: inline-block;
+  margin-left: var(--s-1);
+  padding: 0 6px;
+  border: 1px solid var(--rule-light);
+  font-size: .75rem;
+}
+.status {
+  grid-column: 2;
+  justify-self: start;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+@media (min-width: 768px) {
+  .row { grid-template-columns: 6rem minmax(0, 1fr) auto; }
+  .status { grid-column: 3; justify-self: end; }
+}
+/* Durum tonları: geçmiş soluk, bugün dolu lacivert etiket, yaklaşan altın */
+.passed .day,
+.passed .title { color: var(--stone-500); }
+.passed .status { color: var(--stone-500); }
+.today .status { padding: 4px var(--s-1); background: var(--navy-900); color: var(--warm-100); }
+.upcoming .status { color: var(--navy-700); }
+
+.empty { margin: var(--s-4) 0 0; color: var(--charcoal); }
+
+/* Kalıcı bilgilendirme notu */
+.note {
+  padding: var(--s-4);
+  background: var(--warm-50);
+  border: 1px solid var(--rule-light);
+}
+.noteTitle { margin: 0 0 var(--s-1); color: var(--charcoal); }
+.note p { margin: 0; max-width: 62ch; font-size: var(--fs-small); line-height: 1.6; color: var(--charcoal); }
+.noteLinks { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-4); margin-top: var(--s-3); }

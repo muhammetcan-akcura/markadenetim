@@ -1,0 +1,201 @@
+/* ===================== BAŞKANIN MESAJI ===================== */
+.main { overflow-x: clip; }
+
+/* --- 1. Alıntı: yalnızca tipografi --- */
+.hero {
+  --focus-ring: var(--gold);
+  padding-block: calc(var(--header-h) + var(--s-8)) var(--s-8);
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0 0 var(--s-4);
+  color: var(--stone-300);
+}
+.kicker::before {
+  content: "";
+  width: var(--s-4);
+  height: 1px;
+  background: var(--gold);
+}
+.quote {
+  max-width: 15em;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: var(--fw-serif);
+  font-style: italic;
+  font-optical-sizing: auto;
+  font-size: clamp(2.5rem, 6vw, 6.25rem);
+  line-height: 1.04;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+/* İmza satırı: kısa altın çizgi + ad ve unvan */
+.byline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-2);
+  margin: var(--s-6) 0 0;
+  font-size: var(--fs-small);
+  color: var(--stone-300);
+}
+.byline::before {
+  content: "";
+  width: var(--s-5);
+  height: 1px;
+  background: var(--gold);
+}
+.bylineName { color: var(--warm-100); font-weight: 500; }
+/* Taslak uyarısı: görünür, ama alıntıyla yarışmaz */
+.draft {
+  display: inline-block;
+  margin: var(--s-4) 0 0;
+  padding: var(--s-1) var(--s-2);
+  border: 1px dashed var(--stone-500);
+  color: var(--stone-300);
+}
+
+/* --- 2. Mektup --- */
+.letter {
+  --focus-ring: var(--ink);
+  padding-block: var(--section-mid);
+  background: var(--warm-100);
+  color: var(--ink);
+}
+.letterGrid { row-gap: var(--s-6); }
+.card,
+.message { grid-column: 1 / -1; }
+
+/* Künye fotoğrafı ölçüsü: kaynak görsel küçük olduğu için büyütülmez */
+.card { margin: 0; display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: var(--s-3); align-items: end; }
+.portrait {
+  position: relative;
+  aspect-ratio: 287 / 323;
+  overflow: hidden;
+  background: var(--navy-800);
+}
+.portrait img { object-fit: cover; filter: grayscale(.15); }
+.card figcaption { display: grid; gap: 4px; }
+.cardName {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-serif);
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+.cardTitle { font-size: .875rem; color: var(--charcoal); }
+
+.message { max-width: var(--measure); }
+.message p { margin: 0; font-size: 1.125rem; line-height: 1.7; color: var(--charcoal); }
+.message p + p { margin-top: var(--s-3); }
+/* İlk paragraf mektubun girişi: serif ve daha büyük */
+.message p:first-child {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-serif);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1.3;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+.message .sign {
+  display: grid;
+  gap: 4px;
+  margin-top: var(--s-6);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--ink);
+  max-width: 22rem;
+}
+.signName {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: var(--fw-serif);
+  font-size: 1.75rem;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.signTitle { font-size: .875rem; color: var(--charcoal); }
+
+@media (min-width: 1100px) {
+  .card {
+    grid-column: 1 / span 3;
+    grid-template-columns: 1fr;
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-4));
+    max-width: 15rem;
+  }
+  .message { grid-column: 5 / span 7; }
+}
+
+/* --- 3. Meslekteki yolu --- */
+.path {
+  --focus-ring: var(--gold);
+  padding-block: var(--section-tight);
+  background: var(--navy-950);
+  color: var(--warm-100);
+}
+.pathLabel { margin: 0 0 var(--s-3); color: var(--stone-300); }
+.steps {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule-dark);
+}
+.steps li {
+  display: grid;
+  grid-template-columns: var(--s-5) minmax(0, 1fr);
+  /* Eşit yükseklikteki sütunlarda fazla boşluk satırlara dağılmasın: başlıklar aynı hizada başlar */
+  align-content: start;
+  column-gap: var(--s-2);
+  padding-block: var(--s-4);
+  border-bottom: 1px solid var(--rule-dark);
+}
+.stepNum {
+  grid-row: 1 / span 3;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold);
+}
+.stepYear { font-size: .8125rem; color: var(--stone-500); }
+.stepTitle {
+  margin: var(--s-1) 0;
+  font-family: var(--font-serif);
+  font-weight: var(--fw-serif);
+  font-size: var(--fs-h3);
+  line-height: 1.12;
+  letter-spacing: -.015em;
+}
+.stepText { margin: 0; max-width: 34ch; font-size: var(--fs-small); line-height: 1.6; color: var(--stone-300); }
+
+.focus { margin-top: var(--s-6); }
+.focus ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-body);
+  color: var(--warm-100);
+}
+
+/* Masaüstü: üç durak yan yana, aralarında ince dikey çizgi */
+@media (min-width: 900px) {
+  .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--rule-dark); }
+  .steps li { border-bottom: 0; padding: var(--s-5) var(--s-4) var(--s-5) 0; }
+  .steps li + li { padding-left: var(--s-4); border-left: 1px solid var(--rule-dark); }
+}
+
+/* --- 4. Kapanış --- */
+.closing {
+  --focus-ring: var(--ink);
+  padding-block: var(--s-7);
+  background: var(--warm-100);
+  color: var(--ink);
+}
+.closingInner { display: flex; flex-wrap: wrap; gap: var(--s-2); }

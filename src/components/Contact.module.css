@@ -186,7 +186,7 @@
   margin: 0;
   font-family: var(--font-serif);
   font-size: var(--fs-h3);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   line-height: 1.1;
   letter-spacing: -.01em;
 }
@@ -473,7 +473,7 @@
   margin: 0;
   font-family: var(--font-serif);
   font-size: var(--fs-h2);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   line-height: var(--lh-h2);
   letter-spacing: -.02em;
 }

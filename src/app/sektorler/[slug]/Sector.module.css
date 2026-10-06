@@ -1,0 +1,136 @@
+/* ===================== SEKTÖR SAYFASI — gövde ===================== */
+.label { margin: 0; color: var(--charcoal); }
+
+/* --- 1. Genel bakış: etiket solda, büyük paragraf sağda --- */
+.overview { padding-block: var(--s-7) var(--s-6); }
+.overviewGrid { row-gap: var(--s-2); }
+.overviewGrid > * { grid-column: 1 / -1; }
+.intro {
+  margin: 0;
+  max-width: 40ch;
+  font-family: var(--font-serif);
+  font-weight: var(--fw-serif);
+  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  line-height: 1.3;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+@media (min-width: 1100px) {
+  .overviewGrid .label { grid-column: 1 / span 3; padding-top: .6em; }
+  .intro { grid-column: 4 / -1; }
+}
+
+/* --- 2. Konular: numaralı kartlar --- */
+.topicsSection { padding-bottom: var(--section-tight); }
+.sectionTitle {
+  margin: 0 0 var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule-light);
+  font-family: var(--font-serif);
+  font-weight: var(--fw-serif);
+  font-size: var(--fs-h3);
+  line-height: 1.15;
+  letter-spacing: -.015em;
+  color: var(--ink);
+}
+.topics {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 768px) {
+  .topics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
+}
+/* Kart: açık zemin, 1px çerçeve, solda 2px altın kenar (tek vurgu); köşe yok, gölge yok */
+.topic {
+  display: grid;
+  grid-template-columns: var(--s-5) minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--s-2);
+  padding: var(--s-3);
+  background: var(--warm-50);
+  border: 1px solid var(--rule-light);
+  border-left: 2px solid var(--gold);
+}
+.topicNum {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--navy-700);
+}
+.topic p { margin: 0; font-size: 1.0625rem; line-height: 1.55; color: var(--ink); }
+
+/* --- 3. Destek paneli: koyu bant --- */
+.support {
+  --focus-ring: var(--gold);
+  padding-block: var(--section-tight);
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+.supportGrid { row-gap: var(--s-5); }
+.supportText,
+.services { grid-column: 1 / -1; }
+.supportTitle {
+  margin: 0 0 var(--s-3);
+  font-family: var(--font-serif);
+  font-weight: var(--fw-serif);
+  font-size: clamp(1.875rem, 3vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.supportText p { margin: 0; max-width: 46ch; font-size: 1.0625rem; line-height: 1.65; color: var(--stone-300); }
+.servicesLabel { margin: 0 0 var(--s-2); color: var(--stone-300); }
+.services ul { display: grid; gap: var(--s-1); margin: 0; padding: 0; list-style: none; }
+/* Hizmet kartı: bir ton açık lacivert, 1px çizgi; hover'da çerçeve açılır, ok ilerler */
+.service {
+  display: grid;
+  grid-template-columns: var(--s-5) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 64px;
+  padding: var(--s-2) var(--s-3);
+  background: var(--navy-800);
+  border: 1px solid var(--rule-dark);
+  color: var(--warm-100);
+  text-decoration: none;
+  transition: border-color var(--t-hover) var(--ease);
+}
+.service:hover { border-color: var(--gold); }
+.serviceNum { font-size: var(--fs-label); font-weight: 500; letter-spacing: .08em; color: var(--gold); }
+.serviceName { font-size: 1.0625rem; }
+.serviceArrow { width: 32px; color: var(--stone-300); }
+.service:hover .serviceArrow { transform: translateX(6px); stroke: var(--gold); }
+@media (min-width: 1100px) {
+  .supportText { grid-column: 1 / span 5; }
+  .services { grid-column: 7 / -1; }
+}
+
+/* --- 4. Kapanış ve diğer sektörler --- */
+.closing { padding-block: var(--section-tight) var(--section-mid); }
+.closingGrid { row-gap: var(--s-6); }
+.cta,
+.others { grid-column: 1 / -1; }
+.disclaimer { margin: 0 0 var(--s-3); max-width: 46ch; font-size: var(--fs-small); line-height: 1.6; color: var(--charcoal); }
+.others .label { margin-bottom: var(--s-2); }
+.others ul { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule-light); }
+.others a {
+  display: grid;
+  grid-template-columns: var(--s-4) minmax(0, 1fr);
+  align-items: baseline;
+  min-height: 48px;
+  padding-block: var(--s-1);
+  border-bottom: 1px solid var(--rule-light);
+  font-size: var(--fs-small);
+  color: var(--ink);
+  text-decoration: none;
+}
+.others a:hover { color: var(--navy-700); }
+@media (min-width: 768px) {
+  .others ul { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s-4); }
+}
+@media (min-width: 1100px) {
+  .cta { grid-column: 1 / span 5; }
+  .others { grid-column: 7 / -1; }
+}

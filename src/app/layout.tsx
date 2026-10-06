@@ -9,7 +9,10 @@ import { brandName, legalName, siteUrl } from '@/lib/site';
 import { defaultOgImage } from '@/lib/seo';
 import { fontClassName } from '@/lib/fonts';
 import { MobileActionBar } from '@/components/MobileActionBar';
+import { QuoteTab } from '@/components/QuoteTab';
 import { CookieNotice } from '@/components/CookieNotice';
+import { en } from '@/content/en';
+import { pickChrome } from '@/lib/chrome';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -61,6 +64,9 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
+// Kök bileşenlerin iki dildeki metinleri (dil, adresten seçilir)
+const chrome = { tr: pickChrome(tr), en: pickChrome(en) };
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     // "js" sınıfı hidrasyondan önce eklendiği için uyarı bastırılır
@@ -71,8 +77,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body id="top">
         {children}
-        <MobileActionBar />
-        <CookieNotice t={tr} />
+        <MobileActionBar texts={chrome} />
+        <QuoteTab texts={chrome} />
+        <CookieNotice texts={chrome} />
       </body>
     </html>
   );

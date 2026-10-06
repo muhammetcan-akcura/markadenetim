@@ -84,8 +84,10 @@ export function HeroStage({
     // dikkate alınmaz: mobilde zaten 720p (~2,7 MB) sürüm yüklenir.
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) userPausedRef.current = true;
 
-    // Tarayıcı yine de reddederse (ör. iOS düşük güç modu) ilk dokunuş/kaydırmada tekrar denenir.
-    const gestureEvents = ['pointerdown', 'touchstart', 'scroll', 'keydown'] as const;
+    // Tarayıcı yine de reddederse (ör. iOS düşük güç modu) ilk kullanıcı etkileşiminde tekrar denenir.
+    // iOS Safari play() iznini yalnızca "etkinleştiren" olaylarda verir: touchend / click / keydown.
+    // touchstart, pointerdown ve scroll bu izni vermez; yalnızca onlar dinlenirse dokunmak videoyu başlatmaz.
+    const gestureEvents = ['touchend', 'click', 'keydown'] as const;
     const removeGestureRetry = () =>
       gestureEvents.forEach((e) => window.removeEventListener(e, retryOnGesture));
     const retryOnGesture = () => {
@@ -105,6 +107,18 @@ export function HeroStage({
         );
       });
     };
+
+    // iOS, Safari arka plana geçince (uygulama değişimi, kilit ekranı) videoyu duraklatır ve
+    // geri dönüldüğünde kendiliğinden başlatmaz; IntersectionObserver da tetiklenmez.
+    // Sayfa yeniden görünür olduğunda (ve geri/ileri önbelleğinden dönüldüğünde) tekrar denenir.
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') playIfAllowed();
+    };
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) playIfAllowed();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('pageshow', onPageShow);
 
     const io = new IntersectionObserver(([entry]) => {
       inView = entry.isIntersecting;
@@ -127,6 +141,8 @@ export function HeroStage({
     return () => {
       io.disconnect();
       removeGestureRetry();
+      document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('pageshow', onPageShow);
       window.removeEventListener('load', whenIdle);
       (window.cancelIdleCallback ?? window.clearTimeout)(idleId);
       video.removeEventListener('play', onPlay);

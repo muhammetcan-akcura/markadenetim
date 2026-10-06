@@ -2,7 +2,8 @@
 // [BİLGİ GİRİLECEK] Metinler ÖRNEKTİR: yayın öncesi sorumlu YMM / sorumlu denetçi tarafından
 // gözden geçirilmelidir. Bilinçli olarak genel tutuldu; oran, süre, tutar, madde numarası,
 // müşteri veya sonuç vaadi içermez (BRIEF §05–06).
-// Görseller dekoratiftir (alt=""); anlam başlıkta. 01–04 görselleri geçicidir.
+// Görseller dekoratiftir (alt=""); anlam başlıkta. 01 ve 04 görselleri geçicidir.
+// 02 Denetim: Jonny James, 03 Vergi: Magic Fan (Unsplash Lisansı).
 // 05–08 görselleri Unsplash Lisansı ile (ticari kullanım serbest, atıf zorunlu değil):
 //   KDV iadesi: Kurt z (unsplash.com/photos/tp0BLGIv4dU)
 //   Bilgi sistemleri denetimi: Scott Rodgerson (unsplash.com/photos/PSpf_XgOM5w)
@@ -13,9 +14,14 @@ export type ServiceEntry = { title: string; text: string };
 
 export type Service = {
   slug: string;
+  /** Başka dildeki karşılığın anahtarı (lib/alternates.ts). Türkçede slug'ın kendisi anahtardır;
+   *  İngilizce kayıtlar burada Türkçe slug'ı taşır. */
+  pair?: string;
   num: string;
   /** Ana sayfada dört temel alan listelenir (BRIEF 4.4); uzmanlaşmış hizmetler yalnızca /hizmetler'de */
   group: 'temel' | 'uzman';
+  /** Dar alanlar için kısa ad (sektör matrisi sütun başlığı) */
+  short: string;
   title: string;
   /** <title> ve og:title: aramada kullanılan ifadeyle (≤ 45 karakter; marka son eki ayrıca eklenir) */
   metaTitle: string;
@@ -41,6 +47,7 @@ export const services: Service[] = [
     slug: 'yeminli-mali-musavirlik',
     num: '01',
     group: 'temel',
+    short: 'YMM ve tasdik',
     title: 'Yeminli Mali Müşavirlik',
     metaTitle: 'Yeminli Mali Müşavirlik ve Tam Tasdik',
     summary:
@@ -96,12 +103,13 @@ export const services: Service[] = [
     slug: 'denetim',
     num: '02',
     group: 'temel',
+    short: 'Bağımsız denetim',
     title: 'Denetim',
     metaTitle: 'Bağımsız Denetim ve Sınırlı Denetim',
     summary:
       'Bağımsız denetim hizmetleri ile finansal tablolarınızın doğruluğunu, şeffaflığını ve güvenilirliğini sağlarız.',
     lead: 'Bağımsız denetim, finansal tabloların tüm önemli yönleriyle gerçeğe uygun sunulup sunulmadığına dair makul güvence sağlar. Bu görüşü bağımsızlık ilkesinden ödün vermeden oluştururuz.',
-    image: '/img/service-denetim.webp',
+    image: '/img/service-denetim-beton.webp',
     scopeHeading: 'Bir görüşün değeri, ona ulaşılan yolun açıklığındadır.',
     scope: [
       {
@@ -151,12 +159,13 @@ export const services: Service[] = [
     slug: 'vergi-danismanligi',
     num: '03',
     group: 'temel',
+    short: 'Vergi',
     title: 'Vergi Danışmanlığı',
     metaTitle: 'Vergi Danışmanlığı ve Transfer Fiyatlandırması',
     summary:
       'Vergi planlaması, vergi incelemeleri ve uyuşmazlıklar konusunda işletmenize özel çözümler sunarız.',
     lead: 'Vergi kararları, işin ilk adımında verildiğinde en az maliyetle sonuçlanır. Mevzuatı işletmenizin işlemleri üzerinden okur, seçenekleri gerekçeleriyle birlikte sunarız.',
-    image: '/img/service-vergi.webp',
+    image: '/img/service-vergi-defter.webp',
     scopeHeading: 'Doğru soru, çoğu zaman beyannameden önce sorulur.',
     scope: [
       {
@@ -210,6 +219,7 @@ export const services: Service[] = [
     slug: 'finansal-danismanlik',
     num: '04',
     group: 'temel',
+    short: 'Finansal danışmanlık',
     title: 'Finansal Danışmanlık',
     metaTitle: 'Finansal Danışmanlık ve Kurumsal Finansman',
     summary:
@@ -269,6 +279,7 @@ export const services: Service[] = [
     slug: 'kdv-iadesi',
     num: '05',
     group: 'uzman',
+    short: 'KDV iadesi',
     title: 'KDV İadesi',
     metaTitle: 'KDV İadesi Tasdiki ve İade Süreçleri',
     summary:
@@ -324,6 +335,7 @@ export const services: Service[] = [
     slug: 'bilgi-sistemleri-denetimi',
     num: '06',
     group: 'uzman',
+    short: 'Bilgi sistemleri',
     title: 'Bilgi Sistemleri Denetimi',
     metaTitle: 'Bilgi Sistemleri Denetimi',
     summary:
@@ -380,6 +392,7 @@ export const services: Service[] = [
     slug: 'ozel-entegrator-bilgi-sistemleri-denetimi',
     num: '07',
     group: 'uzman',
+    short: 'Özel entegratör',
     title: 'Özel Entegratör Bilgi Sistemleri Denetimi',
     metaTitle: 'Özel Entegratör Bilgi Sistemleri Denetimi',
     summary:
@@ -436,6 +449,7 @@ export const services: Service[] = [
     slug: 'kvkk-uyum',
     num: '08',
     group: 'uzman',
+    short: 'KVKK',
     title: 'Kişisel Verilerin Korunması',
     metaTitle: 'KVKK Uyum Danışmanlığı',
     summary:

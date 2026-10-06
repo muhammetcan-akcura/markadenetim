@@ -1,5 +1,6 @@
 import type { Dictionary } from '@/content/tr';
-import { legal } from '@/content/legal';
+import { getContent } from '@/lib/content';
+import { routes } from '@/lib/routes';
 import { SiteHeader } from './SiteHeader';
 import { Footer } from './Footer';
 import styles from './LegalPage.module.css';
@@ -11,7 +12,7 @@ import styles from './LegalPage.module.css';
 */
 export function LegalPage({ t, page }: { t: Dictionary; page: keyof Dictionary['legal']['pages'] }) {
   const data = t.legal.pages[page];
-  const doc = legal[page];
+  const doc = getContent(t.locale).legal[page];
   return (
     <>
       <SiteHeader t={t} />
@@ -42,7 +43,7 @@ export function LegalPage({ t, page }: { t: Dictionary; page: keyof Dictionary['
               )}
             </section>
           ))}
-          <a className="link-arrow" href="/">
+          <a className="link-arrow" href={routes[t.locale].home}>
             <span>{t.legal.back}</span>
           </a>
         </div>

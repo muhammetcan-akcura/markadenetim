@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Dictionary } from '@/content/tr';
+import { routes } from '@/lib/routes';
 import { ArrowIcon } from './ArrowIcon';
 import styles from './StatusPage.module.css';
 
@@ -43,7 +44,7 @@ export function StatusPage({
             {note && <p className={styles.note}>{note}</p>}
             <div className={styles.actions}>
               {/* Tam sayfa yüklemesi: hata durumunda istemci yönlendiricisine güvenilmez */}
-              <a className="link-arrow" href="/">
+              <a className="link-arrow" href={routes[t.locale].home}>
                 <span>{s.home}</span>
                 <ArrowIcon />
               </a>

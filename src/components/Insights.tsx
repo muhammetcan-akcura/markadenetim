@@ -1,7 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Dictionary } from '@/content/tr';
-import { articles, readingMinutes } from '@/content/insights';
+import { readingMinutes } from '@/content/insights';
+import { getContent } from '@/lib/content';
+import { routes } from '@/lib/routes';
 import { ArrowIcon } from './ArrowIcon';
 import styles from './Insights.module.css';
 
@@ -13,10 +15,14 @@ import styles from './Insights.module.css';
   görseller geçicidir ve dekoratiftir (alt=""), anlam başlıkta.
 */
 export function Insights({ t }: { t: Dictionary }) {
+  const articleHref = routes[t.locale].article;
+  const articles = getContent(t.locale).articles;
+  // Bu dilde yazı yoksa bölüm hiç çizilmez (İngilizcede yazılar sonraki adımda)
+  if (!articleHref || articles.length === 0) return null;
   const [lead, ...rest] = articles.slice(0, 3);
 
   return (
-    <section id="guncel" className={styles.insights} aria-labelledby="insights-title">
+    <section id={routes[t.locale].ids.insights} className={styles.insights} aria-labelledby="insights-title">
       <div className="container">
         <header className={`grid ${styles.head}`}>
           <h2 className={`t-h2 ${styles.title}`} id="insights-title">
@@ -42,7 +48,7 @@ export function Insights({ t }: { t: Dictionary }) {
                 <span className={styles.date}>{lead.date}</span>
               </p>
               <h3 className={styles.leadTitle}>
-                <Link href={`/guncel/${lead.slug}`} className={styles.link}>
+                <Link href={articleHref(lead.slug)} className={styles.link}>
                   {lead.title}
                 </Link>
               </h3>
@@ -69,7 +75,7 @@ export function Insights({ t }: { t: Dictionary }) {
                     <span className={styles.date}>{item.date}</span>
                   </p>
                   <h3 className={styles.smallTitle}>
-                    <Link href={`/guncel/${item.slug}`} className={styles.link}>
+                    <Link href={articleHref(item.slug)} className={styles.link}>
                       {item.title}
                     </Link>
                   </h3>

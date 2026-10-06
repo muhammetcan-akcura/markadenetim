@@ -44,7 +44,7 @@
 
 .title {
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-optical-sizing: auto;
   font-size: clamp(2.875rem, 7vw, 7.5rem);
   line-height: var(--lh-display);
@@ -156,7 +156,7 @@
 .scopeTitle {
   max-width: 16ch;
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-optical-sizing: auto;
   font-size: clamp(2.125rem, 3.8vw, 3.75rem);
   line-height: 1.06;
@@ -222,7 +222,7 @@
 .processTitle {
   max-width: 20ch;
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-optical-sizing: auto;
   font-size: clamp(2.125rem, 4.2vw, 4.25rem);
   line-height: 1.06;
@@ -313,7 +313,7 @@
 .deliverablesTitle {
   max-width: 14ch;
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-optical-sizing: auto;
   font-size: clamp(2.125rem, 3.8vw, 3.75rem);
   line-height: 1.06;
@@ -375,7 +375,7 @@
 .closingTitle {
   max-width: 17ch;
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-optical-sizing: auto;
   font-size: var(--fs-h2);
   line-height: var(--lh-h2);
@@ -424,7 +424,7 @@
 .otherNum { font-size: var(--fs-label); letter-spacing: .08em; color: var(--gold); }
 .otherName {
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-size: var(--fs-h3);
   line-height: 1.15;
   letter-spacing: -.015em;

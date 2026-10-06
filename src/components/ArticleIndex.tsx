@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Dictionary } from '@/content/tr';
 import { readingMinutes, type Article } from '@/content/insights';
+import { routes } from '@/lib/routes';
 import { ArrowIcon } from './ArrowIcon';
 import styles from './ArticleIndex.module.css';
 
@@ -32,7 +33,7 @@ export function ArticleIndex({
           </div>
           <p className={styles.category}>{item.category}</p>
           <Heading className={styles.title}>
-            <Link href={`/guncel/${item.slug}`} className={styles.link}>
+            <Link href={routes[t.locale].article?.(item.slug) ?? routes[t.locale].home} className={styles.link}>
               {item.title}
             </Link>
           </Heading>

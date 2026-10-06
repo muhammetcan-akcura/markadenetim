@@ -81,7 +81,7 @@
 .title {
   grid-column: 2 / -1;
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-size: clamp(1.25rem, 2.2vw, 2.25rem);
   line-height: 1.15;
   letter-spacing: -.015em;

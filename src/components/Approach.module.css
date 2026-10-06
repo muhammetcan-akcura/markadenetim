@@ -99,7 +99,7 @@
   align-items: baseline;
   gap: var(--s-2);
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-size: clamp(2.125rem, 9vw, 5.5rem);
   line-height: 1;
   letter-spacing: -.01em;

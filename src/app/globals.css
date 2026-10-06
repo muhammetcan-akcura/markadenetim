@@ -47,8 +47,8 @@ section[id] { scroll-margin-top: var(--header-h); }
 .t-h2,
 .t-statement {
   font-family: var(--font-serif);
-  font-weight: 300;
-  /* Newsreader'ın optik boyut ekseni: büyük boyutta daha ince kontrast, daha sıkı iç boşluk */
+  font-weight: var(--fw-serif);
+  /* Source Serif 4'ün optik boyut ekseni: büyük boyutta display kesimi (keskin kontrast) */
   font-optical-sizing: auto;
   letter-spacing: var(--tracking-display);
   text-wrap: balance;

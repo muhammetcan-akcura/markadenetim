@@ -66,6 +66,8 @@
      Zemin renginde, çok yumuşak; dekoratif gölge değil. Ölçümle doğrulandı. */
   text-shadow: 0 0 .32em color-mix(in srgb, var(--navy-950) 60%, transparent);
 }
+/* İngilizce satırlar daha uzun ("Sustainable structure."): dar ekranda kesilmesin diye oran düşer */
+.title:lang(en) { font-size: min(var(--fs-display), 9.6vw, 14svh); }
 /* Satır maskesi: descender (ş, ç, ğ, y) ve aksanlar (Ü, İ) kesilmesin diye maske dikeyde
    genişletilip negatif margin ile ritim korunur. */
 .line {

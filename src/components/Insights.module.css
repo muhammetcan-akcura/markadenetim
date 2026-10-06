@@ -106,7 +106,7 @@
 
 .leadTitle {
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-size: var(--fs-h3);
   line-height: 1.12;
   letter-spacing: -.02em;

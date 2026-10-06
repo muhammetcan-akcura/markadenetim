@@ -63,7 +63,7 @@
 }
 .featuredTitle {
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-size: clamp(2rem, 3.4vw, 3.25rem);
   line-height: 1.08;
   letter-spacing: -.02em;

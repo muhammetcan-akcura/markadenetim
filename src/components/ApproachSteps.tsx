@@ -12,6 +12,8 @@ type Props = {
   scopeLabel: string;
   outputLabel: string;
   steps: readonly Step[];
+  /** Diyagramdaki risk satırı etiketleri */
+  riskLevels: readonly string[];
 };
 
 /*
@@ -24,7 +26,7 @@ type Props = {
   ekranın ortasına gelen aşama vurgulanır.
   İki hareket türü: opaklık + çizgi/maske kayması (transform). Hareket azaltmada hepsi tam görünür, yapışma yok.
 */
-export function ApproachSteps({ title, intro, scopeLabel, outputLabel, steps }: Props) {
+export function ApproachSteps({ title, intro, scopeLabel, outputLabel, steps, riskLevels }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLSpanElement>(null);
   const [active, setActive] = useState(0);
@@ -109,6 +111,7 @@ export function ApproachSteps({ title, intro, scopeLabel, outputLabel, steps }: 
             total={steps.length}
             caption={steps[active].figure}
             captions={steps.map((s) => s.figure)}
+            riskLevels={riskLevels}
             className={styles.figShared}
           />
           <ol className={styles.steps}>
@@ -135,6 +138,7 @@ export function ApproachSteps({ title, intro, scopeLabel, outputLabel, steps }: 
                       stage={i}
                       total={steps.length}
                       caption={step.figure}
+                      riskLevels={riskLevels}
                       className={styles.figInline}
                     />
                     <p className={styles.stepText}>{step.text}</p>

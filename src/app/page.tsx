@@ -10,7 +10,8 @@ import { Footer } from '@/components/Footer';
 import { tr } from '@/content/tr';
 import { services } from '@/content/services';
 import { legalName, brandName, siteUrl } from '@/lib/site';
-import { jsonLdString } from '@/lib/seo';
+import type { Metadata } from 'next';
+import { jsonLdString, languageAlternates } from '@/lib/seo';
 
 // Yapılandırılmış veri. Kurum tek; iki ofis ayrı yerel işletme (AccountingService) olarak
 // tanımlanır ki her şehir kendi adresi ve telefonuyla yerel aramada eşleşsin.
@@ -104,6 +105,9 @@ const jsonLd = {
     },
   ],
 };
+
+// Ana sayfa başlığı ve açıklaması layout'tan gelir; burada yalnızca diller arası karşılık eklenir
+export const metadata: Metadata = { alternates: { canonical: '/', ...languageAlternates('/') } };
 
 export default function Home() {
   const t = tr;

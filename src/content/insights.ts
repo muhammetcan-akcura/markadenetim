@@ -2,7 +2,8 @@
 // [BİLGİ GİRİLECEK] Tüm yazılar ÖRNEKTİR: yayın öncesi sorumlu YMM tarafından gözden geçirilmeli
 // ya da gerçek yazılarla değiştirilmelidir. Metinler bilinçli olarak genel tutuldu; oran, tutar,
 // süre ve madde numarası gibi doğrulanması gereken ayrıntı içermez.
-// Görseller geçicidir ve dekoratiftir (alt=""); anlam başlıkta.
+// Görseller dekoratiftir (alt=""); anlam başlıkta. Unsplash Lisansı (ticari kullanım serbest):
+//   Europeana, Kian Lem, Kir Simakov, camera obscura, Arturo Castaneyra, MJ K
 
 export type ArticleBlock =
   | { type: 'p'; text: string }
@@ -13,7 +14,10 @@ export type ArticleBlock =
 
 export type Article = {
   slug: string;
-  category: 'Vergi' | 'Denetim' | 'Finans';
+  /** Başka dildeki karşılığıyla ortak anahtar (lib/alternates.ts); yoksa yazı yalnızca bu dilde yaşar */
+  pair?: string;
+  /** Kategori etiketi (dile göre: Vergi / Tax …) */
+  category: string;
   title: string;
   excerpt: string;
   /** [BİLGİ GİRİLECEK] Gerçek yayın tarihi; girilince ISO biçimine (YYYY-AA-GG) çevrilecek */
@@ -30,7 +34,7 @@ export const articles: Article[] = [
     excerpt:
       'Yıllık raporun hazırlanmasında karşılaştırılabilirlik analizi ve belge düzeni neden belirleyicidir?',
     date: '28 Eylül 2026',
-    image: '/img/insight-1-new.webp',
+    image: '/img/insight-transfer.webp',
     body: [
       {
         type: 'p',
@@ -76,7 +80,7 @@ export const articles: Article[] = [
     title: 'Sınırlı denetim ile bağımsız denetim arasındaki farklar',
     excerpt: 'İki çalışma da finansal tablolarla ilgilidir; ancak sundukları güvence düzeyi aynı değildir.',
     date: '15 Eylül 2026',
-    image: '/img/insight-2-new.webp',
+    image: '/img/insight-sinirli.webp',
     body: [
       {
         type: 'p',
@@ -121,7 +125,7 @@ export const articles: Article[] = [
     title: 'Enflasyon düzeltmesi sonrası finansal tabloları okumak',
     excerpt: 'Düzeltilmiş tablolar, aynı işletmeyi önceki dönemlerden farklı gösterebilir. Farkı okumak için nereye bakmalı?',
     date: '2 Eylül 2026',
-    image: '/img/insight-3-new.webp',
+    image: '/img/insight-enflasyon.webp',
     body: [
       {
         type: 'p',
@@ -158,11 +162,13 @@ export const articles: Article[] = [
   },
   {
     slug: 'kdv-iadesi-belge-duzeni',
+    // İngilizce karşılığı: content/en/insights.ts (vat-refunds-exporters-documentation)
+    pair: 'kdv-belge',
     category: 'Vergi',
     title: 'KDV iadesi taleplerinde belge düzeni neden belirleyicidir?',
     excerpt: 'İade sürecinin hızı çoğu zaman talebin kendisinden çok, onu destekleyen belgelerin düzenine bağlıdır.',
     date: '18 Ağustos 2026',
-    image: '/img/service-3-new.webp',
+    image: '/img/insight-kdv.webp',
     body: [
       {
         type: 'p',
@@ -203,7 +209,7 @@ export const articles: Article[] = [
     title: 'Bağımsız denetimde önemlilik kavramı',
     excerpt: 'Denetçinin hangi yanlışlığı önemli saydığı, raporun anlamını doğrudan belirler.',
     date: '4 Ağustos 2026',
-    image: '/img/service-2-new.webp',
+    image: '/img/insight-onemlilik.webp',
     body: [
       {
         type: 'p',
@@ -244,7 +250,7 @@ export const articles: Article[] = [
     title: 'Nakit akış tablosunu yönetim için okumak',
     excerpt: 'Kâr ile nakit arasındaki fark, işletmenin gerçek finansal hareket alanını gösterir.',
     date: '21 Temmuz 2026',
-    image: '/img/service-4-new.webp',
+    image: '/img/insight-nakit.webp',
     body: [
       {
         type: 'p',
@@ -278,12 +284,19 @@ export const articles: Article[] = [
 ];
 
 /** Gövde metninden hesaplanan okuma süresi (dakika); dakikada ~200 kelime varsayımıyla */
-export function readingMinutes(article: Article): number {
-  const text = article.body
-    .map((block) => (block.type === 'list' ? block.items.join(' ') : block.text))
-    .join(' ');
-  const words = text.trim().split(/\s+/).length;
+/** Blok dizisinin düz metni (okuma süresi ve dizin araması için) */
+export function blocksText(blocks: ArticleBlock[]): string {
+  return blocks.map((block) => (block.type === 'list' ? block.items.join(' ') : block.text)).join(' ');
+}
+
+/** Blok dizisinin okuma süresi (dakika); yazı, rehber ve sirküler aynı hesabı kullanır */
+export function blocksMinutes(blocks: ArticleBlock[]): number {
+  const words = blocksText(blocks).trim().split(/\s+/).length;
   return Math.max(1, Math.ceil(words / 200));
+}
+
+export function readingMinutes(article: Article): number {
+  return blocksMinutes(article.body);
 }
 
 export function getArticle(slug: string) {

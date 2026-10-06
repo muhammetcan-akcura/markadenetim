@@ -1,104 +1,43 @@
-import { coreServices as items } from '@/content/services';
-import type { Dictionary } from '@/content/tr';
-import Image from 'next/image';
 import Link from 'next/link';
+import { getContent } from '@/lib/content';
+import { routes } from '@/lib/routes';
+import type { Dictionary } from '@/content/tr';
+import { ArrowIcon } from './ArrowIcon';
+import { ServiceList } from './ServiceList';
 import styles from './Services.module.css';
 
-function RightArrow({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path d="M5 12h14M12 5l7 7-7 7" />
-    </svg>
-  );
-}
-
+/*
+  4.4 Uzmanlık alanları. Kart yok: solda yapışkan başlık, sağda ince çizgilerle ayrılmış
+  büyük editoryal liste (numara + serif başlık + ok). Hover davranışı ve imleci takip eden
+  önizleme ServiceList'te (tek istemci parçası); metin ve bağlantılar sunucuda üretilir.
+*/
 export function Services({ t }: { t: Dictionary }) {
-  const { services } = t;
+  const s = t.services;
+  const r = routes[t.locale];
+  const items = getContent(t.locale).coreServices.map(({ slug, num, title, summary, image }) => ({
+    href: r.service(slug),
+    num,
+    title,
+    summary,
+    image,
+  }));
 
   return (
-    <section id="hizmetler" className={styles.services} aria-labelledby="services-title">
-      <div className={`container ${styles.layout}`}>
-        {/* Sol Kolon: Başlık, Anlatım, Anahtar Kavramlar & CTA */}
-        <div className={styles.introCol}>
-          <div className={styles.kicker}>
-            <span className={styles.kickerLine} aria-hidden="true" />
-            <span className={`label ${styles.kickerText}`}>{services.kicker}</span>
-          </div>
-
-          <h2 className={styles.title} id="services-title">
-            <span>{services.titleLine1}</span>
-            <em className={styles.italicTitle}>{services.titleEmphasis}</em>
-            <span>{services.titleLine2}</span>
+    <section id={routes[t.locale].ids.services} className={styles.services} aria-labelledby="services-title">
+      <div className={`container grid ${styles.layout}`}>
+        <div className={styles.intro}>
+          <p className={`label ${styles.kicker}`}>{s.kicker}</p>
+          <h2 className={`t-h2 ${styles.title}`} id="services-title">
+            {s.title}
           </h2>
-
-          <p className={styles.desc}>{services.intro}</p>
-
-          <div className={styles.keywordsBlock}>
-            <span className={styles.keywordsBorder} aria-hidden="true" />
-            <div className={styles.keywordsList}>
-              {services.keywords.map((kw) => (
-                <span key={kw} className={styles.keywordItem}>
-                  {kw}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <Link href="/hizmetler" className={styles.ctaLink}>
-            <span className={styles.ctaIconWrap} aria-hidden="true">
-              <RightArrow className={styles.ctaIcon} />
-            </span>
-            <span className={styles.ctaText}>{services.cta}</span>
+          <p className={styles.desc}>{s.intro}</p>
+          <Link href={r.services} className={`link-arrow ${styles.all}`}>
+            <span>{s.cta}</span>
+            <ArrowIcon />
           </Link>
         </div>
 
-
-
-        {/* Sağ Kolon: 4 Uzmanlık Alanı Listesi */}
-        <div className={styles.listCol}>
-          <ol className={styles.serviceList}>
-            {items.map((item) => (
-              <li key={item.num} className={styles.serviceItem}>
-                <Link href={`/hizmetler/${item.slug}`} className={styles.serviceRow}>
-                  {/* Sol küçük görsel: dekoratif, anlam başlıkta */}
-                  <div className={styles.thumbWrap}>
-                    <Image
-                      src={item.image}
-                      alt=""
-                      fill
-                      sizes="(min-width: 1024px) 160px, 120px"
-                      className={styles.thumbImg}
-                    />
-                  </div>
-
-                  {/* Metin İçeriği */}
-                  <div className={styles.itemContent}>
-                    <span className={styles.itemNum} aria-hidden="true">
-                      {item.num}
-                    </span>
-                    <h3 className={styles.itemTitle}>{item.title}</h3>
-                    <p className={styles.itemDesc}>{item.summary}</p>
-                  </div>
-
-                  {/* Sağ Dairesel Ok Butonu */}
-                  <div className={styles.circleBtn} aria-hidden="true">
-                    <RightArrow className={styles.circleArrow} />
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <ServiceList items={items} />
       </div>
     </section>
   );

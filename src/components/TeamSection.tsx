@@ -1,5 +1,6 @@
 import type { Dictionary } from '@/content/tr';
-import { teamMembers } from '@/content/team';
+import { getContent } from '@/lib/content';
+import { routes } from '@/lib/routes';
 import { TeamIndex } from './TeamIndex';
 import styles from './TeamSection.module.css';
 
@@ -10,7 +11,7 @@ import styles from './TeamSection.module.css';
 */
 export function TeamSection({ t }: { t: Dictionary }) {
   return (
-    <section id="ekip" className={styles.team} aria-labelledby="team-title">
+    <section id={routes[t.locale].ids.team} className={styles.team} aria-labelledby="team-title">
       <div className="container">
         <header className={`grid ${styles.head}`}>
           <h2 className={`t-h2 ${styles.title}`} id="team-title">
@@ -19,7 +20,10 @@ export function TeamSection({ t }: { t: Dictionary }) {
           <p className={styles.intro}>{t.team.intro}</p>
         </header>
 
-        <TeamIndex members={teamMembers} profileLabel={t.team.profile} />
+        <TeamIndex
+          members={getContent(t.locale).team.map((m) => ({ ...m, href: routes[t.locale].member(m.slug) }))}
+          profileLabel={t.team.profile}
+        />
       </div>
     </section>
   );

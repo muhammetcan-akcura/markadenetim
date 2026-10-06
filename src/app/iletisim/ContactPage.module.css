@@ -37,7 +37,7 @@
 .title {
   margin: 0;
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-optical-sizing: auto;
   font-size: clamp(2.625rem, 6.2vw, 6.75rem);
   line-height: var(--lh-display);
@@ -239,7 +239,7 @@
   max-width: 16em;
   margin: 0 0 var(--s-5);
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-optical-sizing: auto;
   font-size: clamp(1.875rem, 3vw, 3rem);
   line-height: 1.08;

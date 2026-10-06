@@ -18,7 +18,8 @@ export function TeamIndex({
   members,
   profileLabel,
 }: {
-  members: TeamMember[];
+  /** href sunucuda dile göre hesaplanır (istemci bileşenine fonksiyon geçirilemez) */
+  members: (TeamMember & { href: string })[];
   profileLabel: string;
 }) {
   const [active, setActive] = useState(0);
@@ -31,7 +32,7 @@ export function TeamIndex({
         {members.map((m, i) => (
           <li key={m.slug} className={styles.item} data-active={i === active || undefined}>
             <Link
-              href={`/ekip/${m.slug}`}
+              href={m.href}
               className={styles.member}
               onMouseEnter={() => setActive(i)}
               onFocus={() => setActive(i)}

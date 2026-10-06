@@ -1,8 +1,11 @@
 // Türkçe metinler. EN eklenecekse aynı şekle sahip content/en.ts yazılır;
 // bileşenler metni bu sözlükten alır, kendi içinde metin tutmaz.
+import type { Locale } from '@/lib/i18n';
 import { legalName } from '@/lib/site';
 
 export const tr = {
+  // Sözlüğün dili: header dil seçicisi ve lang niteliği buradan okur
+  locale: 'tr' as Locale,
   meta: {
     // ~60 karakter: marka + ana hizmet; arama sonucunda kesilmeden görünür
     title: 'MarkaDenetim | Yeminli Mali Müşavirlik ve Bağımsız Denetim',
@@ -13,6 +16,10 @@ export const tr = {
   },
   a11y: {
     skip: 'İçeriğe geç',
+    // Breadcrumb (JSON-LD) ilk halkası
+    breadcrumbHome: 'Ana sayfa',
+    // Dil seçici etiketi (ekran okuyucu ve mobil menü başlığı)
+    language: 'Dil',
     home: 'MarkaDenetim, sayfa başı',
     mainNav: 'Ana gezinme',
     mobileNav: 'Mobil gezinme',
@@ -22,15 +29,53 @@ export const tr = {
     pauseVideo: 'Arka plan videosunu durdur',
     playVideo: 'Arka plan videosunu oynat',
   },
+  // İletişim menüde yok: header'daki "İletişime Geç" butonu karşılar.
+  // footer: false → footer'da gösterilmez (BRIEF 4.11: footer'da en fazla 5 bağlantı)
   nav: [
     { href: '/hakkimizda', label: 'Hakkımızda' },
     { href: '/hizmetler', label: 'Hizmetler' },
-    { href: '/#ekip', label: 'Ekibimiz' },
-    { href: '/#yaklasim', label: 'Yaklaşımımız' },
-    { href: '/#guncel', label: 'Güncel' },
-    { href: '/iletisim', label: 'İletişim' },
+    { href: '/sektorler', label: 'Sektörler', footer: false },
+    { href: '/#ekip', label: 'Ekibimiz', footer: false },
+    { href: '/guncel', label: 'Güncel' },
+    { href: '/sirkuler', label: 'Sirküler' },
+    { href: '/rehber', label: 'Rehberler' },
   ],
+  // Açılır menüler: içerik services.ts ve team.ts'ten sunucuda üretilir (SiteHeader.tsx)
+  navMenu: {
+    insights: [
+      { href: '/guncel', label: 'Yazılar', meta: 'Vergi, denetim ve finans' },
+      { href: '/vergi-takvimi', label: 'Vergi takvimi', meta: 'Bu ayın son günleri' },
+    ],
+    allServices: 'Tüm hizmetler',
+    allTeam: 'Ekibin tamamı',
+    allSectors: 'Tüm sektörler',
+    about: [
+      { href: '/hakkimizda', label: 'Hakkımızda', meta: 'Kurum, yetki ve ilkeler' },
+      { href: '/hakkimizda/baskanin-mesaji', label: 'Başkanın mesajı', meta: 'Fatih Olgun, YMM' },
+      { href: '/kalite-ve-bagimsizlik', label: 'Kalite ve bağımsızlık', meta: 'Etik, şeffaflık, yetki' },
+    ],
+    // Ekran okuyucu: "Hizmetler alt menüsü"
+    submenu: 'alt menüsü',
+  },
   cta: { label: 'İletişime Geç', href: '/iletisim' },
+  // Mobil hızlı iletişim şeridi (MobileActionBar); masaüstünde yok
+  mobileBar: {
+    label: 'Hızlı iletişim',
+    whatsapp: {
+      label: 'WhatsApp',
+      href: 'https://wa.me/905350297913?text=Merhaba%2C%20MarkaDenetim%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.',
+    },
+    form: { label: 'Teklif alın', href: '/iletisim#iletisim-formu' },
+    call: { label: 'Ara', href: 'tel:+905350297913' },
+  },
+  // Masaüstü sağ kenar kulakçığı (QuoteTab): sayfadan çıkmadan formu yan panelde açar
+  quoteTab: {
+    label: 'Teklif alın',
+    kicker: 'Teklif ve görüşme',
+    title: 'Talebinizi iletin',
+    lead: 'Konunuzu kısaca yazın; ilgili sorumlu ortak sizinle iletişime geçsin. Bilgileriniz gizlilik ilkelerimiz çerçevesinde korunur.',
+    close: 'Paneli kapat',
+  },
   contact: {
     phoneLabel: 'Telefon',
     phone: '+90 535 029 79 13',
@@ -65,6 +110,9 @@ export const tr = {
       // Mühür kompozisyonunun çevresindeki yazı (dekoratif; ekran okuyucudan gizli)
       seal: 'YEMİNLİ MALİ MÜŞAVİRLİK · TAM TASDİK · BAĞIMSIZ DENETİM · 3568 SAYILI KANUN · ',
       sealCaption: 'İmza · Mühür · Tasdik',
+      // Mührün içindeki iki kısa yazı (üstte marka, altta eylem)
+      sealTop: 'MARKADENETİM',
+      sealBottom: 'TASDİK',
     },
     lexicon: {
       label: 'Unvan',
@@ -74,16 +122,19 @@ export const tr = {
         {
           word: 'Yeminli',
           kind: 'sf.',
+          kindTitle: 'sıfat',
           text: 'Mesleğe yeminle başlar. Dürüstlük, tarafsızlık ve sır saklama yükümlülüğü altında çalışır.',
         },
         {
           word: 'Mali',
           kind: 'sf.',
+          kindTitle: 'sıfat',
           text: 'Konusu işletmenin defterleri, beyanları ve finansal tablolarıdır. Her tutar belgesiyle değerlendirilir.',
         },
         {
           word: 'Müşavir',
           kind: 'a.',
+          kindTitle: 'ad',
           text: 'Yönetime görüş verir. Tespitlerini yazılı, dayanaklı ve anlaşılır biçimde paylaşır.',
         },
       ],
@@ -170,15 +221,12 @@ export const tr = {
     },
   },
   services: {
-    kicker: 'UZMANLIK ALANLARIMIZ',
-    titleLine1: 'İşletmenize',
-    titleEmphasis: 'değer katan',
-    titleLine2: 'uzmanlık alanları.',
+    // Ana sayfa 4.4: sade başlık, vurgu ve slogan yok
+    kicker: 'Uzmanlık alanları',
+    title: 'Dört alan, tek disiplin.',
     intro:
-      'Dört ana alanda, tek bir disiplinle çalışırız: Mevzuata uygunluk, finansal şeffaflık ve sürdürülebilir büyüme için güvenilir çözümler sunarız.',
-    keywords: ['MEVZUAT', 'DENETİM', 'STRATEJİ', 'SÜRDÜRÜLEBİLİR BÜYÜME'],
-    cta: 'TÜM HİZMETLERİ GÖR',
-    boardroomImage: '/img/services-boardroom.webp',
+      'Her çalışmanın kapsamını baştan yazılı olarak tanımlar, sorumluluğunu bir meslek mensubunun gözetiminde üstleniriz.',
+    cta: 'Tüm hizmetler',
     // Hizmet içerikleri: src/content/services.ts
     // Hizmetler sayfası (/hizmetler): sekiz alan, iki grup. Sayı vaadi ve üstünlük iddiası yok.
     page: {
@@ -219,12 +267,18 @@ export const tr = {
     next: 'Sonraki uzman',
     cta: 'Görüşme talep edin',
     emailCta: 'E-posta gönderin',
+    // Portre alt metni; {name} kişinin adıyla değiştirilir
+    portraitAlt: '{name} portresi',
+    // Profil sayfası meta açıklamasında uzmanlık listesinin öneki
+    focusMeta: 'Uzmanlık alanları',
   },
   approach: {
     title: 'Yaklaşımımız',
     intro: 'Her görevde aynı dört aşamalı disiplini izleriz. Önce yapıyı anlar, sonra karar verilecek noktaları birlikte netleştiririz.',
     scopeLabel: 'Bu aşamada',
     outputLabel: 'Çıktı',
+    // Diyagramdaki risk satırı etiketleri (büyük harf CSS ile değil, metin olarak)
+    riskLevels: ['YÜKSEK', 'ORTA', 'DÜŞÜK'],
     steps: [
       {
         title: 'Analiz',
@@ -306,6 +360,10 @@ export const tr = {
       back: 'Tüm yazılar',
       contents: 'Bu yazıda',
       more: 'Diğer yazılar',
+      // Künye etiketleri (ekran okuyucu)
+      dateLabel: 'Tarih',
+      readingLabel: 'Okuma süresi',
+      statusLabel: 'Durum',
       // Meslek kuralları: yazı danışmanlık yerine geçmez; okuru doğrudan görüşmeye yönlendirir
       disclaimer:
         'Bu yazı genel bilgilendirme amaçlıdır ve mesleki danışmanlık yerine geçmez. Kendi durumunuza ilişkin değerlendirme için bizimle görüşebilirsiniz.',
@@ -394,6 +452,196 @@ export const tr = {
       ],
       privacy: 'Paylaştığınız bilgiler meslek sırrı ve gizlilik ilkelerimiz çerçevesinde korunur.',
     },
+  },
+  // Dizin araması ve konu filtresi (sirküler, rehber); tamamen tarayıcıda çalışır
+  finder: {
+    label: 'Ara',
+    placeholder: 'Başlık veya içerikte ara',
+    topics: 'Konu',
+    all: 'Tümü',
+    results: 'sonuç',
+    none: 'Aramanızla eşleşen içerik bulunamadı.',
+    clear: 'Filtreleri temizle',
+  },
+  // Dizin sayfalaması (sirküler, rehber)
+  pagination: {
+    label: 'Sayfalama',
+    prev: 'Önceki',
+    next: 'Sonraki',
+    page: 'Sayfa',
+    // Başlık eki: "Sirküler — Sayfa 2"
+    titleSuffix: 'Sayfa',
+  },
+  // Vergi takvimi (/vergi-takvimi). Tarihler content/taxCalendar.ts kurallarından hesaplanır.
+  taxCalendar: {
+    kicker: 'Beyan ve ödeme son günleri',
+    title: 'Vergi takvimi',
+    metaTitle: 'Vergi Takvimi: Aylık Beyan ve Ödeme Son Günleri',
+    intro: 'Bu ayın vergi beyan ve ödeme son günleri tek listede. Hafta sonu ve resmî tatile denk gelen tarihler ilk iş gününe kaydırılmıştır.',
+    next: 'Sıradaki son gün',
+    today: 'Bugün',
+    daysLeft: 'gün kaldı',
+    passed: 'Geçti',
+    shifted: 'Tatil nedeniyle kaydı',
+    period: 'Dönem',
+    prev: 'Önceki ay',
+    nextMonth: 'Sonraki ay',
+    current: 'Bu ay',
+    empty: 'Bu ay için listelenmiş son gün yok.',
+    noteTitle: 'Önemli not',
+    note: 'Bu takvim genel bilgilendirme amaçlıdır. Dini bayramlar, idari izinler ve mevzuat değişiklikleri nedeniyle tarihler değişebilir; kesin tarihler için Gelir İdaresi Başkanlığı vergi takvimi esas alınır.',
+    // [BİLGİ GİRİLECEK] GİB vergi takvimi sayfasının güncel adresi doğrulanınca buraya yazılmalı
+    gib: { label: 'Gelir İdaresi Başkanlığı', href: 'https://www.gib.gov.tr/' },
+    cta: 'Beyan süreçleriniz için görüşelim',
+  },
+  // Sektörler (/sektorler). İçerik content/sectors.ts'te. Müşteri/deneyim iddiası yok.
+  sectorsPage: {
+    kicker: 'Sektöre özgü yükümlülükler',
+    title: 'Sektörler',
+    metaTitle: 'Sektörler: İhracat, İnşaat, Enerji, Finans, Sanayi ve Teknoloji',
+    intro:
+      'Her sektörün kendine özgü vergi, tasdik ve raporlama yükümlülükleri vardır. Hizmetlerimizi bu yükümlülüklere göre bir araya getiririz.',
+    read: 'Sektörü incele',
+    num: 'Sektör',
+    servicesCount: 'ilgili hizmet',
+    matrix: {
+      label: 'Bir bakışta',
+      title: 'Sektör ve hizmet eşleşmesi',
+      text: 'Hangi sektörde hangi hizmetlerin öne çıktığını tek tabloda görebilirsiniz. Her işaret, ilgili hizmet sayfasına bağlanır.',
+      sector: 'Sektör',
+      related: 'İlgili',
+      // Dar ekranda tablo yatay kayar; ipucu yalnızca mobilde görünür
+      scrollHint: 'Tabloyu yana kaydırabilirsiniz',
+    },
+    back: 'Tüm sektörler',
+    overview: 'Genel bakış',
+    topics: 'Sektöre özgü konular',
+    support: 'Nasıl destek oluyoruz?',
+    related: 'İlgili hizmetler',
+    others: 'Diğer sektörler',
+    disclaimer:
+      'Bu sayfadaki bilgiler genel niteliktedir; işletmenize özgü yükümlülükler ön görüşmede birlikte değerlendirilir.',
+    cta: 'Görüşme talep edin',
+  },
+  // Sirküler (/sirkuler). İçerik content/circulars.ts'te.
+  circularsPage: {
+    kicker: 'Mevzuat duyuruları',
+    title: 'Sirküler',
+    metaTitle: 'Sirküler: Vergi ve Mevzuat Duyuruları',
+    intro:
+      'Vergi ve meslek mevzuatındaki gelişmelere ilişkin numaralı duyurularımız. Her sirküler, sorumlu meslek mensubunun imzasıyla yayımlanır.',
+    sample: 'Örnek sirküler — yayın öncesi gerçek sirkülerle değiştirilecek',
+    back: 'Tüm sirküler',
+    contents: 'Bu sirkülerde',
+    read: 'Sirküleri oku',
+    date: 'Tarih',
+    topic: 'Konu',
+    signature: 'İmza',
+    publisher: 'Yayımlayan',
+    profile: 'Profili incele',
+    disclaimer:
+      'Bu sirküler genel bilgilendirme amaçlıdır ve mesleki danışmanlık yerine geçmez. Kendi durumunuza ilişkin değerlendirme için bizimle görüşebilirsiniz.',
+    cta: 'Görüşme talep edin',
+  },
+  // Rehberler (/rehber). İçerik content/guides.ts'te.
+  guidesPage: {
+    kicker: 'Bilgi merkezi',
+    title: 'Rehberler',
+    metaTitle: 'Rehberler: Tasdik, Denetim, Vergi ve Uyum',
+    intro:
+      'Müşterilerimizin en sık sorduğu sorulara sade cevaplar: tasdik, iade, denetim, vergi ve uyum süreçleri adım adım.',
+    back: 'Tüm rehberler',
+    contents: 'Bu rehberde',
+    read: 'Rehberi oku',
+    // Kart numarası öneki: "Rehber 01"
+    num: 'Rehber',
+    service: 'İlgili hizmet',
+    disclaimer:
+      'Bu rehber genel bilgilendirme amaçlıdır; tutar, oran ve süreler dönemsel olarak değişebilir. Kendi durumunuza ilişkin değerlendirme için bizimle görüşebilirsiniz.',
+    cta: 'Görüşme talep edin',
+  },
+  // Başkanın mesajı (/hakkimizda/baskanin-mesaji). Kişi bilgileri content/team.ts'ten (fatih-olgun).
+  // [BİLGİ GİRİLECEK] Mesaj TASLAKTIR: Fatih Olgun'un onayı olmadan yayımlanmamalı. Yıllar bilinmiyor.
+  chairman: {
+    metaTitle: 'Başkanın Mesajı',
+    metaDescription:
+      'MarkaDenetim Yönetim Kurulu Başkanı, Yeminli Mali Müşavir Fatih Olgun’un mesajı ve meslekteki yolu.',
+    kicker: 'Başkanın mesajı',
+    quote: 'Bir imza, taşıdığı sorumluluk kadar değerlidir.',
+    draft: 'Taslak — onay bekliyor',
+    message: [
+      'Vergi müfettişliğinden yeminli mali müşavirliğe uzanan meslek hayatım boyunca öğrendiğim en önemli şey şudur: Bir belgenin altındaki imza, o belgenin doğruluğuna verilmiş yazılı bir sözdür.',
+      'MarkaDenetim’i bu sözün ağırlığını bilen bir yapı olarak kurduk. Tasdik ettiğimiz her raporda, denetlediğimiz her finansal tabloda aynı soruyu sorarız: Bu imzanın arkasında duruyor muyuz?',
+      'Müşterilerimizle ilişkimizi bağımsızlık ve gizlilik üzerine kurarız. İşletmelerin kararlarını sağlam bir mali zemine oturtmak, ancak doğru bilgiyle ve açık bir dille mümkündür.',
+      'Ekibimizle birlikte, mesleğimizin bize yüklediği sorumluluğu her gün aynı özenle taşımaya devam edeceğiz.',
+    ],
+    pathLabel: 'Meslekteki yolu',
+    // Unvanlardan türetilmiş sıralama; yıllar [BİLGİ GİRİLECEK]
+    path: [
+      { title: 'Vergi Müfettişliği', text: 'Kamu görevinde vergi incelemesi ve denetimi.', year: '[YIL]' },
+      { title: 'Yeminli Mali Müşavirlik', text: '3568 sayılı Kanun kapsamında tasdik ve danışmanlık.', year: '[YIL]' },
+      { title: 'MarkaDenetim Yönetim Kurulu Başkanlığı', text: 'Kurumun yönetimi ve tasdik süreçlerinin sorumluluğu.', year: '[YIL]' },
+    ],
+    focusLabel: 'Uzmanlık alanları',
+    profile: 'Profili incele',
+    circulars: 'İmzalı sirküler',
+  },
+  // Kalite ve bağımsızlık (/kalite-ve-bagimsizlik). İlkeler meslek standartlarına dayanır; firmaya özgü
+  // olgular (rapor yılları, kalite sistemi ayrıntıları) [BİLGİ GİRİLECEK] olarak işaretlidir.
+  quality: {
+    metaTitle: 'Kalite, Bağımsızlık ve Şeffaflık',
+    metaDescription:
+      'MarkaDenetim’in bağımsızlık ilkeleri, kalite güvencesi yaklaşımı, etik kuralları, şeffaflık raporları ve yetki bilgileri.',
+    kicker: 'Kalite ve bağımsızlık',
+    title: 'Güven, ilan edilmez; gösterilir.',
+    lead: 'Tasdik ve bağımsız denetim, ancak bağımsızlığından şüphe edilmeyen bir yapıda anlam taşır. Çalışma ilkelerimizi, kalite güvencesi yaklaşımımızı ve yetki bilgilerimizi burada bir arada bulabilirsiniz.',
+    contents: 'Bu sayfada',
+    sections: [
+      {
+        id: 'bagimsizlik',
+        title: 'Bağımsızlık',
+        text: 'Bağımsızlık, görüşümüzün değerini belirleyen ilk koşuldur. Bağımsız Denetim Standartları ve Etik Kurallar’ın öngördüğü şekilde çalışırız:',
+        items: [
+          'Her görev öncesinde bağımsızlık ve çıkar çatışması değerlendirmesi yapılır.',
+          'Denetim yapılan kuruluşa, bağımsızlığı zedeleyecek nitelikte hizmet verilmez.',
+          'Görev ekibi, denetlenen kuruluşla mali çıkar ilişkisi bulunmadığını beyan eder.',
+        ],
+      },
+      {
+        id: 'kalite',
+        title: 'Kalite güvencesi',
+        text: 'Kalite, raporun son sayfasında değil, görevin kabul edildiği anda başlar. Kalite yönetimi yaklaşımımız şu unsurlar üzerine kuruludur:',
+        items: [
+          'Görev kabulü ve sürdürülmesi: Her görev, yetkinlik ve bağımsızlık açısından değerlendirilerek kabul edilir.',
+          'Ekip yetkinliği: Görevler, alanında deneyimli meslek mensuplarının gözetiminde yürütülür.',
+          'Gözden geçirme: Raporlar imzadan önce gözden geçirilir; standartların öngördüğü görevlerde bu gözden geçirme görev ekibi dışından bir meslek mensubunca yapılır.',
+          'İzleme: Kalite yönetimi sistemi düzenli olarak izlenir ve iyileştirilir.',
+        ],
+        note: '[BİLGİ GİRİLECEK] Kalite yönetimi sistemine ilişkin firmaya özgü açıklama.',
+      },
+      {
+        id: 'gizlilik',
+        title: 'Gizlilik ve meslek sırrı',
+        text: 'Görevlerimiz sırasında edindiğimiz bilgiler meslek sırrıdır. Bu bilgiler, yasal zorunluluklar dışında hiçbir koşulda üçüncü kişilerle paylaşılmaz; kişisel veriler 6698 sayılı Kanun çerçevesinde korunur.',
+      },
+      {
+        id: 'etik',
+        title: 'Etik kurallar',
+        text: 'Çalışmalarımızda TÜRMOB meslek ahlakı kuralları ile Kamu Gözetimi Kurumu’nun yayımladığı Etik Kurallar esas alınır. Dürüstlük, tarafsızlık, mesleki yeterlilik ve özen, gizlilik ve mesleki davranış bu kuralların temelidir.',
+      },
+    ],
+    reports: {
+      id: 'seffaflik',
+      title: 'Şeffaflık raporları',
+      text: 'Mevzuatın öngördüğü durumlarda yayımlanan şeffaflık raporlarımız aşağıda yer alır.',
+      // [BİLGİ GİRİLECEK] Gerçek rapor PDF'leri public/raporlar/ altına konunca href eklenecek
+      items: [
+        { year: '[YIL]', label: 'Şeffaflık raporu', status: '[PDF YÜKLENECEK]' },
+        { year: '[YIL]', label: 'Şeffaflık raporu', status: '[PDF YÜKLENECEK]' },
+      ],
+    },
+    credentials: { id: 'yetki', title: 'Yetki ve kayıt bilgileri' },
+    cta: 'Görüşme talep edin',
   },
   footer: {
     // Marka tanımlayıcısı (header/footer imzası); resmi unvan legalName'de. Kısa tutulur: mobil header'a sığmalı

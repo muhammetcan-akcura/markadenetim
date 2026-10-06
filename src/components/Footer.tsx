@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import Image from 'next/image';
 import type { Dictionary } from '@/content/tr';
+import { routes } from '@/lib/routes';
 import { ArrowIcon } from './ArrowIcon';
 import { ConsentMap } from './ConsentMap';
 import { CookieSettingsButton } from './CookieNotice';
@@ -37,9 +38,8 @@ function SocialIcon({ name }: { name: string }) {
 export function Footer({ t }: { t: Dictionary }) {
   const year = new Date().getFullYear();
   const f = t.footer;
-  // Brief: en fazla 5 bağlantı. İletişim, sağdaki iletişim sütunu ve hemen üstteki
-  // kapanış bölümüyle zaten karşılandığı için gezinmeden çıkarılır.
-  const links = t.nav.filter((item) => item.href !== t.cta.href);
+  // Brief: en fazla 5 bağlantı. Menüde footer: false işaretli öğeler burada gösterilmez.
+  const links = t.nav.filter((item) => item.footer !== false);
 
   return (
     <footer className={styles.footer}>
@@ -105,7 +105,7 @@ export function Footer({ t }: { t: Dictionary }) {
 
       <div className={`container grid ${styles.top}`}>
         <div className={styles.brand}>
-          <a className={styles.brandLink} href="/#top" aria-label={t.a11y.home}>
+          <a className={styles.brandLink} href={routes[t.locale].top} aria-label={t.a11y.home}>
             <Image
               src="/brand/logo-horizontal.svg"
               alt="MarkaDenetim"
@@ -188,7 +188,7 @@ export function Footer({ t }: { t: Dictionary }) {
             </li>
           </ul>
         </nav>
-        <a className={styles.toTop} href="/#top">
+        <a className={styles.toTop} href={routes[t.locale].top}>
           {f.backToTop}
           {/* Yatay oku döndürmek ucu kaybettiriyor; kısa dikey ok ayrıca çizilir */}
           <svg className={styles.toTopIcon} viewBox="0 0 10 16" aria-hidden="true" focusable="false">

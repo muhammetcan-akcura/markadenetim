@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect } from 'react';
-import type { Dictionary } from '@/content/tr';
+import type { ChromeTexts } from '@/lib/chrome';
+import { routes } from '@/lib/routes';
 import { setConsent, useConsent } from '@/lib/consent';
 import styles from './CookieNotice.module.css';
+import { useChrome } from './useChrome';
 
 /*
   Çerez bildirimi. Modal değil: sayfayı kilitlemez, okumayı engellemez; masaüstünde sol altta
@@ -11,9 +13,10 @@ import styles from './CookieNotice.module.css';
   (KVKK: reddetmek kabul etmek kadar kolay). Tercih verilince kaybolur; footer'daki
   "Çerez tercihleri" ile yeniden açılır.
 */
-export function CookieNotice({ t }: { t: Dictionary }) {
+export function CookieNotice({ texts }: { texts: ChromeTexts }) {
   const consent = useConsent();
   const open = consent === null;
+  const t = useChrome(texts);
   const c = t.cookies;
 
   // Açıkken mobildeki hızlı iletişim çubuğu gizlenir: ikisi aynı alt kenarı paylaşır
@@ -25,7 +28,7 @@ export function CookieNotice({ t }: { t: Dictionary }) {
   if (!open) return null;
 
   return (
-    <section className={styles.notice} aria-labelledby="cookie-title" lang="tr">
+    <section className={styles.notice} aria-labelledby="cookie-title" lang={t.locale}>
       <h2 className={`label ${styles.label}`} id="cookie-title">
         <span className={styles.rule} aria-hidden="true" />
         <span className="sr-only">{c.title}: </span>
@@ -33,7 +36,7 @@ export function CookieNotice({ t }: { t: Dictionary }) {
       </h2>
       <p className={styles.text}>
         {c.text}{' '}
-        <a className={styles.policy} href="/cerez">
+        <a className={styles.policy} href={routes[t.locale].cookies}>
           {c.policy}
         </a>
       </p>

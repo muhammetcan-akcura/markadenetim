@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { exactCounterpart } from '@/lib/alternates';
+import { localeFromPath, locales, ogLocale, publishedLocales, type Locale } from '@/lib/i18n';
 import { brandName, siteUrl } from '@/lib/site';
 
 // Sayfa metadata'sı için tek kaynak. Next, openGraph/twitter nesnelerini segmentler arasında
@@ -37,10 +39,10 @@ export function pageMetadata({
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: path, ...languageAlternates(path) },
     openGraph: {
       type,
-      locale: 'tr_TR',
+      locale: ogLocale[localeFromPath(path)],
       siteName: brandName,
       title: ogTitle,
       description,
@@ -53,13 +55,31 @@ export function pageMetadata({
   };
 }
 
-const TR_MONTHS = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+/**
+ * hreflang: yalnızca yayındaki dillerde birebir karşılığı olan sayfalar için yazılır.
+ * Karşılığı olmayan sayfa (ör. yalnızca Türkçe sirküler) hreflang almaz; x-default Türkçe sürümdür.
+ */
+export function languageAlternates(path: string): { languages?: Record<string, string> } {
+  const own = localeFromPath(path);
+  const languages: Partial<Record<Locale | 'x-default', string>> = {};
+  for (const l of locales) {
+    if (!publishedLocales.includes(l)) continue;
+    const p = l === own ? path : exactCounterpart(path, l);
+    if (p) languages[l] = p;
+  }
+  if (Object.keys(languages).length < 2) return {};
+  languages['x-default'] = languages.tr;
+  return { languages: languages as Record<string, string> };
+}
 
-/** "28 Eylül 2026" → "2026-09-28". Biçim tanınmazsa undefined (JSON-LD'ye yanlış tarih yazılmaz). */
+const TR_MONTHS = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+const EN_MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/** "28 Eylül 2026" ya da "28 September 2026" → "2026-09-28". Biçim tanınmazsa undefined (JSON-LD'ye yanlış tarih yazılmaz). */
 export function trDateToIso(date: string): string | undefined {
   const m = date.trim().match(/^(\d{1,2})\s+(\S+)\s+(\d{4})$/);
   if (!m) return undefined;
-  const month = TR_MONTHS.indexOf(m[2]);
+  const month = TR_MONTHS.includes(m[2]) ? TR_MONTHS.indexOf(m[2]) : EN_MONTHS.indexOf(m[2]);
   if (month === -1) return undefined;
   return `${m[3]}-${String(month + 1).padStart(2, '0')}-${m[1].padStart(2, '0')}`;
 }

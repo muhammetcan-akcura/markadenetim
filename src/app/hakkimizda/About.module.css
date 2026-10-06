@@ -18,7 +18,7 @@
 .authorityTitle,
 .dutyStatement {
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-optical-sizing: auto;
   letter-spacing: -.02em;
   text-wrap: balance;
@@ -54,7 +54,7 @@
 /* Başlık: en uzun satır 10 harf; 360px'te tek satıra sığacak alt sınır */
 .title {
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-optical-sizing: auto;
   font-size: clamp(3.25rem, 8.2vw, 8.75rem);
   line-height: var(--lh-display);
@@ -118,7 +118,7 @@
   fill: var(--warm-100);
   font-family: var(--font-serif);
   font-size: 64px;
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   letter-spacing: .06em;
 }
 .sealSub {
@@ -224,7 +224,7 @@
   overflow: hidden;
   padding-block: .06em .16em;
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-optical-sizing: auto;
   font-size: clamp(3.75rem, 11vw, 11rem);
   line-height: .9;
@@ -338,7 +338,7 @@
   margin-block: var(--s-1) var(--s-2);
   font-family: var(--font-serif);
   font-size: clamp(1.5rem, 2.2vw, 2rem);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   line-height: 1.15;
   letter-spacing: -.015em;
   color: var(--warm-100);
@@ -504,7 +504,7 @@
 .partnerName {
   margin-top: var(--s-1);
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   font-size: var(--fs-h3);
   line-height: 1.1;
   letter-spacing: -.015em;
@@ -572,7 +572,7 @@
 .bodyAbbr {
   font-family: var(--font-serif);
   font-size: clamp(1.875rem, 2.6vw, 2.75rem);
-  font-weight: 300;
+  font-weight: var(--fw-serif);
   line-height: 1;
   letter-spacing: -.01em;
 }

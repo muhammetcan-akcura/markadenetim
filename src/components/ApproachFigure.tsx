@@ -55,10 +55,12 @@ type Props = {
   caption: string;
   /** Masaüstü sahnesinde dört alt yazı üst üste durur, yalnızca aktif olan görünür */
   captions?: readonly string[];
+  /** Değerlendirme aşamasındaki risk satırı etiketleri (dile göre) */
+  riskLevels: readonly string[];
   className?: string;
 };
 
-export function ApproachFigure({ stage, total, caption, captions, className }: Props) {
+export function ApproachFigure({ stage, total, caption, captions, riskLevels, className }: Props) {
   const pts = stages[stage];
   const guide = (i: number) => `${styles.guide}${i === stage ? ` ${styles.guideOn}` : ''}`;
   const pad = (n: number) => String(n).padStart(2, '0');
@@ -96,7 +98,7 @@ export function ApproachFigure({ stage, total, caption, captions, className }: P
           {/* Değerlendirme: risk satırları ve etiketleri */}
           <g className={guide(1)}>
             <path d={ROWS_PATH} />
-            {['YÜKSEK', 'ORTA', 'DÜŞÜK'].map((t, i) => (
+            {riskLevels.map((t, i) => (
               <text key={t} x={28} y={ROWS[i] + 3} className={styles.figText}>
                 {t}
               </text>
