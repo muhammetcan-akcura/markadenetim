@@ -83,8 +83,9 @@ export const tr = {
     email: 'info@markadenetim.com.tr',
   },
   hero: {
-    lines: ['Finansal güven.', 'Stratejik bakış.', 'Sürdürülebilir yapı.'],
-    lead: 'Bağımsız denetim, vergi ve finansal danışmanlıkla işletmelerin kararlarını sağlam bir mali zemine oturtuyoruz.',
+    // Tasdik sürecinin üç fiili: mesleğin özü (imza ve kişisel sorumluluk, 3568 s. K. md. 12); iddiasız
+    lines: ['İnceleriz.', 'Doğrularız.', 'İmzalarız.'],
+    lead: 'Beyan edilen her rakamı belgesiyle inceler, doğrular ve sorumluluğunu imzamızla üstleniriz.',
     cta: { label: 'Görüşme talep edin', href: '/#iletisim' },
     tag: 'Yeminli Mali Müşavirlik ve Denetim',
     // Videodaki üç sahne; sıra videodaki ve başlık satırlarındaki sırayla aynıdır

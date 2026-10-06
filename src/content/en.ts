@@ -75,8 +75,8 @@ export const en: Dictionary = {
     email: 'info@markadenetim.com.tr',
   },
   hero: {
-    lines: ['Financial trust.', 'Strategic insight.', 'Sustainable structure.'],
-    lead: 'Through independent audit, tax and financial advisory, we place business decisions on a sound financial footing.',
+    lines: ['We examine.', 'We verify.', 'We sign.'],
+    lead: 'We examine every declared figure against its evidence, verify it, and take responsibility for it with our signature.',
     cta: { label: 'Request a meeting', href: '/en#contact' },
     tag: 'Sworn-in CPA and Audit',
     scenes: ['City', 'Energy', 'Harvest'],

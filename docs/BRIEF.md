@@ -130,9 +130,10 @@ Her bölümün **farklı bir kompozisyonu** olmalı. Sıra ve ritim zorunlu.
 ### 4.2 Hero (sayfanın en güçlü bölümü)
 - 100svh, koyu zemin (`--navy-900`).
 - Büyük serif headline, 3 satır:
-  > Finansal güven.
-  > Stratejik bakış.
-  > Sürdürülebilir yapı.
+  > İnceleriz.
+  > Doğrularız.
+  > İmzalarız.
+  - **Onaylı sapma (Ekim 2026):** İlk metin ("Finansal güven. Stratejik bakış. Sürdürülebilir yapı.") her finans kurumuna uyduğu için tasdik sürecinin üç fiiliyle değiştirildi. İngilizce: "We examine. We verify. We sign."
 - Altında tek cümlelik açıklama (≤ 20 kelime) ve minimal CTA (metin + ince ok, buton kutusu değil).
 - Sağ/alt tarafta kontrollü görsel: mimari detay, belge/rapor makro çekimi, geometrik cephe. **Gerçek görsel yoksa** CSS/SVG ile geometrik kompozisyon (ince çizgiler, kesişen düzlemler); stock fotoğraf taklidi yapma.
 - İnce scroll göstergesi (1px dikey çizgi, yavaş hareket).
