@@ -252,7 +252,8 @@
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
-.topics.invalid .chip span { border-color: var(--stone-500); }
+.topics.invalid .legend { color: var(--error); }
+.topics.invalid .chip span { border-color: var(--error); }
 
 /* --- Alanlar: alt çizgili, etiket alanın içinde ---------------------------- */
 .fields {
@@ -324,9 +325,20 @@
   box-shadow: 0 0 0 100px var(--navy-800) inset;
 }
 
+/* Hatalı alan: kiremit renkli kalın alt çizgi + hafif zemin tonu + etiket rengi.
+   Renk tek başına taşımaz (WCAG 1.4.1): altındaki hata metni de görünür. */
 .invalid input,
-.invalid textarea { border-bottom-color: var(--warm-100); }
-.invalid label { color: var(--warm-100); }
+.invalid textarea,
+.invalid input:hover,
+.invalid textarea:hover,
+.invalid input:focus-visible,
+.invalid textarea:focus-visible {
+  border-bottom-color: var(--error);
+  box-shadow: 0 1px 0 0 var(--error);
+  background: var(--error-soft);
+}
+.invalid label,
+.field.invalid:focus-within label { color: var(--error); }
 
 .counter {
   margin: 0;
@@ -339,9 +351,10 @@
 .error {
   margin: 0;
   font-size: .8125rem;
-  color: var(--warm-100);
+  font-weight: 500;
+  color: var(--error);
 }
-.error::before { content: "— "; color: var(--gold); }
+.error::before { content: "— "; }
 .topics .error { margin-top: var(--s-1); }
 
 .honeypot {
@@ -388,7 +401,8 @@
 .consent input:hover { border-color: var(--stone-300); }
 .consent input:checked { border-color: var(--warm-100); }
 .consent input:checked::after { transform: rotate(45deg) scale(1); }
-.consent.invalid input { border-color: var(--warm-100); }
+.consent.invalid input { border-color: var(--error); background: var(--error-soft); }
+.consent.invalid label { color: var(--error); }
 .consent label { cursor: pointer; }
 .consent a { color: var(--warm-100); text-decoration: underline; text-underline-offset: .2em; }
 .consent a:hover { text-decoration-color: var(--gold); }
@@ -466,9 +480,6 @@
 .doneTitle:focus { outline: none; }
 .doneText { margin: 0; max-width: 40ch; color: var(--stone-300); }
 .again {
-  padding: 0;
-  border: 0;
-  background: none;
   color: var(--warm-100);
   font-family: inherit;
   cursor: pointer;

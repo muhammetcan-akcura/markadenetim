@@ -101,7 +101,7 @@ export default async function ArticlePage({ params }: Params) {
         <article aria-labelledby="article-title">
           <header className={styles.intro}>
             <div className={`container grid ${styles.introGrid}`}>
-              <Link href="/guncel" className={`link-arrow ${styles.back}`}>
+              <Link href="/guncel" className={`link-arrow link-arrow--plain ${styles.back}`}>
                 <ArrowIcon className={`link-arrow__icon ${styles.backIcon}`} />
                 <span>{t.insights.article.back}</span>
               </Link>

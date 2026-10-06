@@ -23,14 +23,14 @@ export const tr = {
     playVideo: 'Arka plan videosunu oynat',
   },
   nav: [
-    { href: '/#hakkimizda', label: 'Hakkımızda' },
-    { href: '/#hizmetler', label: 'Hizmetler' },
+    { href: '/hakkimizda', label: 'Hakkımızda' },
+    { href: '/hizmetler', label: 'Hizmetler' },
     { href: '/#ekip', label: 'Ekibimiz' },
     { href: '/#yaklasim', label: 'Yaklaşımımız' },
     { href: '/#guncel', label: 'Güncel' },
-    { href: '/#iletisim', label: 'İletişim' },
+    { href: '/iletisim', label: 'İletişim' },
   ],
-  cta: { label: 'İletişime Geç', href: '/#iletisim' },
+  cta: { label: 'İletişime Geç', href: '/iletisim' },
   contact: {
     phoneLabel: 'Telefon',
     phone: '+90 535 029 79 13',
@@ -46,10 +46,128 @@ export const tr = {
     scenes: ['Kent', 'Enerji', 'Hasat'],
     hud: { scene: 'Sahne', pause: 'Durdur', play: 'Oynat' },
   },
-  statement: {
-    panorama: '/img/statement-fields-new.webp',
-    text: 'Rakamların ötesinde, işletmelerin geleceğine daha net bakmak.',
-    note: 'MarkaDenetim, yeminli mali müşavirlik ve bağımsız denetim alanında işletmelere eşlik eder. Her çalışmayı mevzuata uygunluk, belgelendirme ve açık iletişim üzerine kurarız. Amacımız, sayıların arkasındaki yapıyı yönetim için okunur hâle getirmek.',
+  // Hakkımızda sayfası (/hakkimizda). Mevzuat atıfları genel niteliktedir; yeni olgu eklenmez.
+  // Yetki ve sicil bilgileri trust.credentials'tan, ortaklar content/team.ts'ten gelir.
+  about: {
+    metaTitle: 'Hakkımızda: Yeminli Mali Müşavirlik ve Denetim',
+    metaDescription:
+      'MarkaDenetim; 3568 sayılı Kanun çerçevesinde yeminli mali müşavirlik, tam tasdik, KDV iadesi tasdiki ve bağımsız denetim yapan bir meslek kuruluşudur.',
+    hero: {
+      kicker: 'Hakkımızda',
+      lines: ['İmzamızın', 'arkasında', 'duruyoruz.'],
+      lead: 'MarkaDenetim, 3568 sayılı Kanun’a tabi yeminli mali müşavirlik ve bağımsız denetim kuruluşudur. Tasdik ettiğimiz her belgenin sorumluluğunu taşırız.',
+      facts: [
+        { label: 'Meslek', value: 'Yeminli mali müşavirlik' },
+        { label: 'Yasal dayanak', value: '3568 sayılı Kanun' },
+        { label: 'Denetim yetkisi', value: 'KGK lisanslı bağımsız denetim' },
+        { label: 'Ofisler', value: 'İstanbul · Mardin' },
+      ],
+      // Mühür kompozisyonunun çevresindeki yazı (dekoratif; ekran okuyucudan gizli)
+      seal: 'YEMİNLİ MALİ MÜŞAVİRLİK · TAM TASDİK · BAĞIMSIZ DENETİM · 3568 SAYILI KANUN · ',
+      sealCaption: 'İmza · Mühür · Tasdik',
+    },
+    lexicon: {
+      label: 'Unvan',
+      title: 'Unvanımız, işimizin tanımıdır.',
+      // Sözlük kısaltmaları TDK kullanımıyla: sf. sıfat, a. ad
+      words: [
+        {
+          word: 'Yeminli',
+          kind: 'sf.',
+          text: 'Mesleğe yeminle başlar. Dürüstlük, tarafsızlık ve sır saklama yükümlülüğü altında çalışır.',
+        },
+        {
+          word: 'Mali',
+          kind: 'sf.',
+          text: 'Konusu işletmenin defterleri, beyanları ve finansal tablolarıdır. Her tutar belgesiyle değerlendirilir.',
+        },
+        {
+          word: 'Müşavir',
+          kind: 'a.',
+          text: 'Yönetime görüş verir. Tespitlerini yazılı, dayanaklı ve anlaşılır biçimde paylaşır.',
+        },
+      ],
+    },
+    ledger: {
+      label: 'Tasdik ve denetim',
+      title: 'İmzamızın yer aldığı belgeler.',
+      intro: 'Her tasdik ve denetim görevi yazılı bir kapsamla başlar, belgelendirilmiş bir rapor ile sonuçlanır.',
+      columns: { subject: 'Konu', scope: 'Kapsam', basis: 'Dayanak', output: 'Çıktı' },
+      rows: [
+        {
+          subject: 'Tam tasdik',
+          scope: 'Kurumlar vergisi beyannamesinin yasal defter ve belgelerle uyumu',
+          basis: '3568 sayılı Kanun ve tasdik yönetmeliği',
+          output: 'Tam tasdik raporu',
+        },
+        {
+          subject: 'KDV iadesi tasdiki',
+          scope: 'İhracat, indirimli oran ve tevkifat kaynaklı iade talepleri',
+          basis: '3065 sayılı KDV Kanunu ve uygulama tebliği',
+          output: 'KDV iadesi tasdik raporu',
+        },
+        {
+          subject: 'Teşvik belgesi kapama',
+          scope: 'Teşvik belgesi kapsamındaki yatırım harcamaları ve kayıtları',
+          basis: 'Yatırımlarda devlet yardımları mevzuatı',
+          output: 'Tespit raporu',
+        },
+        {
+          subject: 'Özel amaçlı tasdik',
+          scope: 'Mevzuatın yeminli mali müşavir tasdiki aradığı diğer işlemler',
+          basis: 'İlgili özel mevzuat',
+          output: 'Özel amaçlı rapor',
+        },
+        {
+          subject: 'Bağımsız denetim',
+          scope: 'Finansal tabloların bağımsız denetim standartlarına göre denetimi',
+          basis: '6102 sayılı TTK ve KGK düzenlemeleri',
+          output: 'Bağımsız denetçi raporu',
+        },
+      ],
+      cta: 'Uzmanlık alanlarını incele',
+    },
+    responsibility: {
+      label: 'Sorumluluk',
+      statement: 'Bir tasdik, rakamların doğruluğuna verilmiş yazılı bir sözdür.',
+      lawMark: '3568 s. K. md. 12',
+      law: 'Yeminli mali müşavir, tasdik ettiği belgelerin doğruluğundan sorumludur. Gerçeğe aykırı tasdik hâlinde, ziyaa uğratılan vergi ve cezalardan mükellefle birlikte müştereken ve müteselsilen sorumlu tutulur.',
+      note: 'Bu yüzden her tasdiki, belgesiyle doğrulanmış ve izlenebilir bir çalışma dosyasına dayandırırız.',
+      principlesLabel: 'Çalışma ilkelerimiz',
+      principles: [
+        { title: 'Uzmanlık', text: 'Her görevi, konusunda yetkili bir meslek mensubu üstlenir ve imzalar.' },
+        { title: 'Güven', text: 'Edindiğimiz her bilgi mesleki sır yükümlülüğüyle korunur.' },
+        { title: 'Disiplin', text: 'Her çalışma aynı adımları izler; her adım kayda geçer.' },
+        { title: 'Şeffaflık', text: 'Bulgularımızı rapordan önce yönetimle açıkça paylaşırız.' },
+      ],
+    },
+    partners: {
+      label: 'Sorumlu ortaklar',
+      title: 'Her raporun altında bir isim vardır.',
+      intro: 'Her çalışma, sorumluluğu üstlenen bir yeminli mali müşavir veya sorumlu denetçinin gözetiminde yürür.',
+      profile: 'Profili incele',
+      all: 'Tüm ekibi gör',
+    },
+    authority: {
+      label: 'Yetki ve kayıt',
+      title: 'Kayıtlı, denetlenebilir bir yapı.',
+      scopeLabel: 'Bağımsız denetim yetki alanları',
+      // Kaynak: services.ts → denetim.basis. [BİLGİ GİRİLECEK] Yayın öncesi yetki belgeleriyle doğrulanmalı.
+      bodies: [
+        { abbr: 'KGK', name: 'Kamu Gözetimi, Muhasebe ve Denetim Standartları Kurumu' },
+        { abbr: 'SPK', name: 'Sermaye Piyasası Kurulu' },
+        { abbr: 'BDDK', name: 'Bankacılık Düzenleme ve Denetleme Kurumu' },
+        { abbr: 'EPDK', name: 'Enerji Piyasası Düzenleme Kurumu' },
+        { abbr: 'Sigorta', name: 'Sigortacılık alanı' },
+      ],
+      registryLabel: 'Sicil bilgileri',
+    },
+    closing: {
+      title: 'Rakamların arkasındaki yapıyı birlikte okuyalım.',
+      lead: 'Tasdik, denetim veya vergi konusundaki ihtiyacınızı kısa bir görüşmede birlikte netleştirelim.',
+      cta: 'Görüşme talep edin',
+      secondary: 'Uzmanlık alanlarımız',
+    },
   },
   services: {
     kicker: 'UZMANLIK ALANLARIMIZ',
@@ -62,8 +180,19 @@ export const tr = {
     cta: 'TÜM HİZMETLERİ GÖR',
     boardroomImage: '/img/services-boardroom.webp',
     // Hizmet içerikleri: src/content/services.ts
+    // Hizmetler sayfası (/hizmetler): sekiz alan, iki grup. Sayı vaadi ve üstünlük iddiası yok.
+    page: {
+      metaTitle: 'Hizmetler: Tasdik, Denetim, Vergi ve Danışmanlık',
+      metaDescription:
+        'Yeminli mali müşavirlik ve tasdik, bağımsız denetim, vergi danışmanlığı, KDV iadesi, bilgi sistemleri denetimi ve KVKK uyumu. İstanbul ve Mardin.',
+      kicker: 'Hizmetler',
+      lines: ['Uzmanlık', 'alanlarımız.'],
+      lead: 'Tasdikten bağımsız denetime, vergiden bilgi sistemlerine; her çalışma, sorumluluğu üstlenen bir meslek mensubunun gözetiminde yürür.',
+      groups: { temel: 'Temel alanlar', uzman: 'Uzmanlaşmış hizmetler' },
+      closing: { title: 'Hangi alan olduğundan emin değil misiniz?', cta: 'Birlikte belirleyelim' },
+    },
     detail: {
-      back: 'Uzmanlık alanlarımız',
+      back: 'Tüm hizmetler',
       kicker: 'Uzmanlık alanı',
       onThisPage: 'Bu sayfada',
       scope: 'Kapsam',
@@ -81,8 +210,6 @@ export const tr = {
   team: {
     title: 'Uzman Ekibimiz',
     intro: 'Her çalışma, sorumluluğu üstlenen bir yeminli mali müşavir veya sorumlu denetçinin gözetiminde yürür.',
-    leadLabel: 'Sorumlu ortaklar',
-    teamLabel: 'Ekip',
     profile: 'Profili incele',
     back: 'Uzman ekibimiz',
     about: 'Hakkında',
@@ -182,7 +309,7 @@ export const tr = {
       // Meslek kuralları: yazı danışmanlık yerine geçmez; okuru doğrudan görüşmeye yönlendirir
       disclaimer:
         'Bu yazı genel bilgilendirme amaçlıdır ve mesleki danışmanlık yerine geçmez. Kendi durumunuza ilişkin değerlendirme için bizimle görüşebilirsiniz.',
-      cta: { label: 'Görüşme talep edin', href: '/#iletisim' },
+      cta: { label: 'Görüşme talep edin', href: '/iletisim' },
     },
   },
   contactSection: {
@@ -238,9 +365,48 @@ export const tr = {
       },
     },
   },
+  // İletişim sayfası (/iletisim). Kanallar, saatler ve form metinleri contactSection'dan gelir;
+  // burada yalnızca sayfaya özgü giriş ve süreç metinleri durur. Süre/oran vaadi yok.
+  contactPage: {
+    metaTitle: 'İletişim: İstanbul ve Mardin Ofisleri',
+    metaDescription:
+      'MarkaDenetim ile görüşme talebinizi iletin. İstanbul ve Mardin ofislerimize telefon, e-posta, WhatsApp veya iletişim formuyla ulaşabilirsiniz.',
+    kicker: 'İletişim',
+    lines: ['Sorularınızı', 'birlikte', 'netleştirelim.'],
+    lead: 'Telefon, e-posta veya formla bize ulaşabilirsiniz. Talebiniz, konusuna göre ilgili sorumlu ortağa iletilir.',
+    offices: 'Ofis adresleri ve haritalar',
+    // Koordinat levhası (dekoratif; ekran okuyucudan gizli). İstanbul: ofis konumu (footer haritasıyla
+    // aynı nokta); Mardin: şehir merkezi. Derece-dakika, K = kuzey, D = doğu.
+    plate: {
+      points: [
+        { city: 'İSTANBUL', coords: '41°00′ K · 28°39′ D' },
+        { city: 'MARDİN', coords: '37°18′ K · 40°44′ D' },
+      ],
+      caption: 'İki ofis · Tek disiplin',
+    },
+    process: {
+      label: 'Görüşme nasıl ilerler',
+      title: 'Yazdığınız her talep bir kişiye ulaşır.',
+      steps: [
+        { title: 'Talebinizi alırız', text: 'Form, e-posta veya telefonla ilettiğiniz konu kayda alınır.' },
+        { title: 'İlgili ortağa iletilir', text: 'Konu; tasdik, denetim, vergi veya finansal danışmanlık alanına göre yönlendirilir.' },
+        { title: 'Ön görüşme yapılır', text: 'İhtiyacınızı ve kapsamı birlikte netleştiririz. Ön görüşme bir taahhüt doğurmaz.' },
+      ],
+      privacy: 'Paylaştığınız bilgiler meslek sırrı ve gizlilik ilkelerimiz çerçevesinde korunur.',
+    },
+  },
   footer: {
     // Marka tanımlayıcısı (header/footer imzası); resmi unvan legalName'de. Kısa tutulur: mobil header'a sığmalı
     descriptor: 'Yeminli Mali Müşavirlik ve Denetim A.Ş.',
+    // İmza cümlesi: YMM tasdikinin kişisel sorumluluğuna dayanır; üstünlük iddiası yok (BRIEF §06)
+    signature: 'Her tasdik bir sorumluluktur. İmzamızı bağımsızlık, gizlilik ve mesleki özenle atarız.',
+    socialLabel: 'Bizi takip edin',
+    // [BİLGİ GİRİLECEK] Gerçek hesap adresleri girilecek; şimdilik platform kök adresleri
+    social: [
+      { name: 'LinkedIn', href: 'https://www.linkedin.com/' },
+      { name: 'Instagram', href: 'https://www.instagram.com/' },
+      { name: 'X', href: 'https://x.com/' },
+    ],
     copyright: legalName,
     officesLabel: 'Ofislerimiz',
     officesTitle: 'İstanbul ve Mardin’de, aynı disiplinle.',
@@ -295,9 +461,9 @@ export const tr = {
     home: 'Ana sayfaya dön',
     linksLabel: 'Buradan devam edebilirsiniz',
     links: [
-      { href: '/#hizmetler', label: 'Uzmanlık alanlarımız' },
+      { href: '/hizmetler', label: 'Uzmanlık alanlarımız' },
       { href: '/guncel', label: 'Güncel yazılar' },
-      { href: '/#iletisim', label: 'İletişim' },
+      { href: '/iletisim', label: 'İletişim' },
     ],
     notFound: {
       code: '404',

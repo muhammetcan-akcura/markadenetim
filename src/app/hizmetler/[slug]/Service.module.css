@@ -55,8 +55,9 @@
 .word {
   display: inline-block;
   overflow: hidden;
-  padding-block: .1em .14em;
-  margin-block: -.1em -.14em;
+  /* Üst boşluk Ö Ü İ gibi büyük harf noktalarına göre: .1em "Özel"deki noktaları kırpıyordu */
+  padding-block: .24em .14em;
+  margin-block: -.24em -.14em;
   vertical-align: top;
 }
 .wordInner {

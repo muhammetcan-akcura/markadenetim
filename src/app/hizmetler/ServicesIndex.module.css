@@ -1,0 +1,241 @@
+/* ===================== HİZMETLER DİZİNİ ===================== */
+.main { overflow-x: clip; }
+
+/* --- 1. Giriş: kısa koyu bant ------------------------------------------------ */
+.hero {
+  --focus-ring: var(--gold);
+  padding-top: var(--header-h);
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+.heroGrid {
+  row-gap: var(--s-4);
+  padding-block: var(--s-6) var(--s-7);
+}
+.heroText,
+.lead { grid-column: 1 / -1; }
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0 0 var(--s-3);
+  color: var(--stone-300);
+}
+.kicker::before {
+  content: "";
+  width: var(--s-4);
+  height: 1px;
+  background: var(--gold);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-optical-sizing: auto;
+  font-size: clamp(3rem, 6.4vw, 6.75rem);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tracking-display);
+}
+/* Satır maskesi: İ noktası ve ğ kuyruğu kesilmesin diye iç boşlukla genişletilir */
+.line {
+  display: block;
+  overflow: hidden;
+  padding-block: .1em .14em;
+  margin-block: -.1em -.14em;
+}
+.lineInner {
+  display: block;
+  animation: rise var(--t-hero) var(--ease) both;
+}
+.line:last-child .lineInner { padding-left: .9em; }
+@keyframes rise {
+  from { transform: translateY(110%); }
+}
+
+.lead {
+  max-width: 44ch;
+  margin: 0;
+  font-size: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  line-height: 1.6;
+  color: var(--stone-300);
+}
+
+/* Masaüstü: giriş cümlesi başlığın son satırına hizalanır */
+@media (min-width: 1100px) {
+  .heroText { grid-column: 1 / span 7; }
+  .lead { grid-column: 9 / span 4; align-self: end; }
+}
+
+/* --- 2. Liste ---------------------------------------------------------------- */
+.body {
+  --focus-ring: var(--ink);
+  padding-block: var(--s-7) var(--section-tight);
+  background: var(--warm-100);
+  color: var(--ink);
+}
+.group { row-gap: var(--s-2); }
+.group + .group { margin-top: var(--s-6); }
+
+/* Grup etiketi: solunda kısa altın çizgi. Açık zeminde charcoal (AA) */
+.groupLabel {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+  color: var(--charcoal);
+}
+.groupLabel::before {
+  content: "";
+  width: var(--s-3);
+  height: 1px;
+  background: var(--gold);
+}
+
+/* Kartlar: en fazla iki sütun */
+.cards {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 768px) {
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Kart: bir ton açık zemin + 1px çizgi; radius 0, gölge yok (BRIEF §02).
+   Mobil/tablet dikey: fotoğraf üstte. Masaüstü yatay: fotoğraf solda 5/12 */
+.card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  background: var(--warm-50);
+  border: 1px solid var(--rule-light);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--t-hover) var(--ease);
+}
+/* Hover: alttan altın çizgi soldan uzar */
+.card::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 600ms var(--ease);
+}
+.card:hover { border-color: var(--stone-500); }
+.card:hover::after,
+.card:focus-visible::after { transform: scaleX(1); }
+
+.cardMedia {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--navy-800);
+}
+/* Görseller farklı kaynaklardan: hafif doygunluk düşümü tek aile gibi durmalarını sağlar */
+.cardImg {
+  object-fit: cover;
+  filter: saturate(.82);
+  transition: transform 700ms var(--ease);
+}
+.card:hover .cardImg { transform: scale(1.03); }
+
+.cardBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto 1fr;
+  column-gap: var(--s-2);
+  padding: var(--s-3);
+}
+.cardNum {
+  grid-column: 1;
+  margin-bottom: var(--s-1);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold);
+}
+.cardTitle {
+  grid-column: 1;
+  margin: 0 0 var(--s-1);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.375rem, 1.9vw, 1.75rem);
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.cardText {
+  grid-column: 1;
+  margin: 0;
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--charcoal);
+}
+.cardArrow {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  width: 32px;
+  color: var(--charcoal);
+}
+.card:hover .cardArrow { transform: translateX(6px); }
+
+@media (min-width: 1100px) {
+  .group { row-gap: 0; }
+  .groupLabel { grid-column: 1 / -1; margin-bottom: var(--s-3); }
+  .cards { gap: var(--s-4); }
+  .card {
+    grid-template-columns: 5fr 7fr;
+    grid-template-rows: none;
+    min-height: 15rem;
+  }
+  .cardMedia { aspect-ratio: auto; }
+  .cardBody { padding: var(--s-4) var(--s-3) var(--s-3); }
+  /* Özet kartın altına iner: yan yana kartlarda başlıklar üstte, metinler altta hizalı */
+  .cardText { grid-row: 3; align-self: end; }
+}
+
+/* Mobil: kart yatay ve kompakt; solda dar fotoğraf şeridi. Dikey kartlarla sekiz alan
+   ekranı fazla uzatıyordu */
+@media (max-width: 767px) {
+  .cards { gap: var(--s-2); }
+  .card {
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    grid-template-rows: none;
+  }
+  .cardMedia { aspect-ratio: auto; min-height: 100%; }
+  .cardBody { padding: var(--s-2); }
+  .cardNum { margin-bottom: 4px; }
+  .cardTitle { font-size: 1.25rem; }
+  .cardArrow { width: 24px; }
+}
+
+/* --- 3. Kapanış: listenin altında tek satır ---------------------------------- */
+.closing {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-4);
+  margin-top: var(--s-6);
+}
+.closingTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--fs-h3);
+  line-height: 1.15;
+}

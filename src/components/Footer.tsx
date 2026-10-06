@@ -1,9 +1,36 @@
+import type { ReactNode } from 'react';
 import Image from 'next/image';
 import type { Dictionary } from '@/content/tr';
 import { ArrowIcon } from './ArrowIcon';
 import { ConsentMap } from './ConsentMap';
 import { CookieSettingsButton } from './CookieNotice';
 import styles from './Footer.module.css';
+
+// Sosyal ikonlar: 1px çizgi, dolgusuz — sitenin ince çizgi diliyle aynı ağırlıkta, marka renkleri yok
+function SocialIcon({ name }: { name: string }) {
+  const paths: Record<string, ReactNode> = {
+    LinkedIn: (
+      <>
+        <rect x="3.5" y="9" width="3" height="11" />
+        <circle cx="5" cy="5" r="1.6" />
+        <path d="M10 20V9h3v1.6c.7-1.1 1.9-1.9 3.6-1.9 2.4 0 3.9 1.5 3.9 4.6V20h-3v-6.2c0-1.6-.6-2.4-1.9-2.4-1.4 0-2.6.9-2.6 2.8V20z" />
+      </>
+    ),
+    Instagram: (
+      <>
+        <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.2" cy="6.8" r=".6" />
+      </>
+    ),
+    X: <path d="M4 4l16 16M20 4l-6.6 7.2M10.6 12.8L4 20" />,
+  };
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      {paths[name]}
+    </svg>
+  );
+}
 
 // 4.11 Footer: sade. Wordmark + unvan, en fazla 5 bağlantı, yasal satır. Bağlantı duvarı yok.
 // Üç sütun (marka / bölümler / iletişim) 1px çizgilerle kurulur; kapanışta tam genişlik imza.
@@ -19,7 +46,7 @@ export function Footer({ t }: { t: Dictionary }) {
       {/* Ofisler: kart değil, numaralı editoryal bloklar. Harita lacivert palete çekilir
           (gri ton + ters çevirme); ikon yok, satırlar etiketle okunur. */}
       {f.offices.length > 0 && (
-        <section className={styles.offices} aria-labelledby="footer-offices">
+        <section id="ofisler" className={styles.offices} aria-labelledby="footer-offices">
           <div className="container">
             <div className={styles.officesHead}>
               <p className={`label ${styles.officesLabel}`}>{f.officesLabel}</p>
@@ -88,6 +115,25 @@ export function Footer({ t }: { t: Dictionary }) {
             />
           </a>
           <p className={styles.legalName}>{f.descriptor}</p>
+          {/* İmza: serif alıntı, solunda kısa altın çizgi — tasdik imzasına gönderme */}
+          <p className={styles.signature}>{f.signature}</p>
+          <div className={styles.social}>
+            <p className={`label ${styles.socialLabel}`} id="footer-social">
+              {f.socialLabel}
+            </p>
+            <ul className={styles.socialList} aria-labelledby="footer-social">
+              {f.social.map((item) => (
+                <li key={item.name}>
+                  <a href={item.href} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+                    <SocialIcon name={item.name} />
+                    <span className="sr-only">
+                      {item.name} ({t.contactSection.newTab})
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <nav className={`${styles.col} ${styles.colNav}`} aria-labelledby="footer-sections">

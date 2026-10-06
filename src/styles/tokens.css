@@ -18,6 +18,11 @@
   --gold: #B89B6A;
   --gold-soft: rgba(184, 155, 106, .35);
 
+  /* Form hata durumu (brief dışı, onaylı sapma): kısık kiremit, koyu panelde ~6.5:1.
+     Yalnızca hata mesajı ve hatalı alan çizgisinde kullanılır; dekoratif değil. */
+  --error: #E0907F;
+  --error-soft: rgba(224, 144, 127, .08);
+
   /* Türetilmiş: header zemini — brief "yarı opak, blur yok" diyor */
   --navy-900-veil: rgba(11, 20, 38, .94);
   /* Koyu zeminde yapıyı kuran 1px çizgi: stone-300'ün kısık hâli */

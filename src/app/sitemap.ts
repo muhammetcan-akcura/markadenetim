@@ -14,7 +14,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const newest = articles.map((a) => trDateToIso(a.date)).filter(Boolean).sort().at(-1);
   const routes: Route[] = [
     { path: '', priority: 1, lastModified: newest },
+    { path: '/hizmetler', priority: 0.9 },
     ...services.map((s) => ({ path: `/hizmetler/${s.slug}`, priority: 0.9, images: [s.image] })),
+    { path: '/hakkimizda', priority: 0.8 },
+    { path: '/iletisim', priority: 0.8 },
     { path: '/guncel', priority: 0.7, lastModified: newest },
     ...articles.map((a) => ({
       path: `/guncel/${a.slug}`,

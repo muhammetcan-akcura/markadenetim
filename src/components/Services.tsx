@@ -1,4 +1,4 @@
-import { services as items } from '@/content/services';
+import { coreServices as items } from '@/content/services';
 import type { Dictionary } from '@/content/tr';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -54,7 +54,7 @@ export function Services({ t }: { t: Dictionary }) {
             </div>
           </div>
 
-          <Link href="/#iletisim" className={styles.ctaLink}>
+          <Link href="/hizmetler" className={styles.ctaLink}>
             <span className={styles.ctaIconWrap} aria-hidden="true">
               <RightArrow className={styles.ctaIcon} />
             </span>

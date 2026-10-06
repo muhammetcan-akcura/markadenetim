@@ -140,16 +140,56 @@ section[id] { scroll-margin-top: var(--header-h); }
 .btn-frame:hover { border-color: var(--stone-300); }
 .btn-frame:hover::after { transform: scaleX(1); }
 
-/* Metin + ince ok. Kutu yok: CTA'nın ağırlığı tipografiden gelir. */
+/* Metin + ince ok, çerçeveli dikdörtgen içinde: çıplak metin buton olarak okunmuyordu.
+   Renkler currentColor'dan türer; açık ve koyu zeminde aynı sınıf çalışır.
+   Hover: zemin tonu soldan dolar, altta 1px altın çizgi uzar, ok ilerler. Radius 0. */
 .link-arrow {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
-  min-height: 44px;
+  min-height: 52px;
+  padding-inline: var(--s-3) var(--s-2);
+  border: 1px solid color-mix(in srgb, currentColor 55%, transparent);
+  border-radius: 0;
+  background: color-mix(in srgb, currentColor 5%, transparent);
   font-size: var(--fs-small);
   font-weight: 600;
   letter-spacing: .01em;
+  transition: border-color var(--t-hover) var(--ease);
 }
+.link-arrow::before,
+.link-arrow::after {
+  content: "";
+  position: absolute;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 400ms var(--ease);
+}
+.link-arrow::before {
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+.link-arrow::after {
+  left: -1px; right: -1px; bottom: -1px;
+  height: 1px;
+  background: var(--gold);
+}
+.link-arrow:hover { border-color: currentColor; }
+.link-arrow:hover::before,
+.link-arrow:hover::after { transform: scaleX(1); }
+
+/* Sade varyant: geri dönüş ve kart içi ikincil bağlantılar kutusuz kalır */
+.link-arrow--plain {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.link-arrow--plain::before,
+.link-arrow--plain::after { content: none; }
 .link-arrow__icon {
   width: 48px;
   height: 10px;

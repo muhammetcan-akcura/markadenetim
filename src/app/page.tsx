@@ -1,6 +1,5 @@
 import { SiteHeader } from '@/components/SiteHeader';
 import { Hero } from '@/components/Hero';
-import { Statement } from '@/components/Statement';
 import { Services } from '@/components/Services';
 import { TeamSection } from '@/components/TeamSection';
 import { Approach } from '@/components/Approach';
@@ -117,7 +116,6 @@ export default function Home() {
       <SiteHeader t={t} />
       <main id="main">
         <Hero t={t} />
-        <Statement t={t} />
         <Services t={t} />
         <TeamSection t={t} />
         <Approach t={t} />

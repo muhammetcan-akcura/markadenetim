@@ -79,7 +79,7 @@ export default async function ServicePage({ params }: Params) {
       },
       breadcrumbJsonLd([
         { name: 'Ana sayfa', path: '/' },
-        { name: d.back, path: '/#hizmetler' },
+        { name: d.back, path: '/hizmetler' },
         { name: service.title, path: `/hizmetler/${service.slug}` },
       ]),
     ],
@@ -94,7 +94,7 @@ export default async function ServicePage({ params }: Params) {
         <section className={styles.intro} aria-labelledby="service-title">
           <div className={`container grid ${styles.introGrid}`}>
             <div className={styles.introText}>
-              <Link href="/#hizmetler" className={`link-arrow ${styles.back}`}>
+              <Link href="/hizmetler" className={`link-arrow link-arrow--plain ${styles.back}`}>
                 <ArrowIcon className={`link-arrow__icon ${styles.backIcon}`} />
                 <span>{d.back}</span>
               </Link>
@@ -140,13 +140,15 @@ export default async function ServicePage({ params }: Params) {
               </nav>
             </div>
 
+            {/* sizes: masaüstünde alan dikey ve görsel yatay; cover kırpımında gereken kaynak genişliği
+                alan yüksekliği × görsel oranıdır (~ekran genişliği). 40vw denince görsel büyütülüp bulanıklaşıyordu */}
             <figure className={styles.media}>
               <Image
                 src={service.image}
                 alt=""
                 fill
                 preload
-                sizes="(min-width: 1100px) 40vw, 100vw"
+                sizes="100vw"
                 quality={75}
                 className={styles.mediaImg}
               />

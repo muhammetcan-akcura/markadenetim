@@ -15,8 +15,10 @@ export type TeamMember = {
   /** Uzmanlık alanları: biyografiden türetildi, yeni bilgi eklenmedi.
       [BİLGİ GİRİLECEK] Yayın öncesi her kişiye onaylatılmalı. */
   focus?: string[];
-  /** Kurucu / sorumlu ortaklar: bölümde büyük gösterilir */
+  /** Kurucu / sorumlu ortaklar: Hakkımızda'daki ortaklar bölümünde gösterilir */
   lead?: boolean;
+  /** Ekip dizininde isim yanındaki küçük etiket (ör. "Sorumlu ortak"); yoksa etiket çıkmaz */
+  badge?: string;
 };
 
 export const teamMembers: TeamMember[] = [
@@ -30,6 +32,7 @@ export const teamMembers: TeamMember[] = [
     email: 'info@markadenetim.com.tr',
     focus: ['Tam tasdik', 'Vergi denetimi ve uyuşmazlıkları', 'Şirket yapılandırmaları', 'Kurumsal vergi planlaması'],
     lead: true,
+    badge: 'Sorumlu ortak',
   },
   {
     slug: 'samet-koz',

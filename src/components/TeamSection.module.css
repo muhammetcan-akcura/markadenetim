@@ -1,9 +1,9 @@
 /* ===================== UZMAN EKİBİMİZ ===================== */
-/* Bilinçli olarak kısa bölüm: hizmetler ile yaklaşım arasında bir "dizin" anı.
-   Dikey boşluk section-tight; komşu bölümlerden farklı ritim. */
+/* Etkileşimli dizin: büyük serif isimler + tek portre sahnesi.
+   Dikey boşluk section-mid; komşu bölümlerden farklı ritim. */
 .team {
   --focus-ring: var(--ink);
-  padding-block: var(--section-tight);
+  padding-block: var(--section-mid);
   background: var(--warm-100);
   color: var(--ink);
 }
@@ -12,7 +12,7 @@
 .head {
   row-gap: var(--s-2);
   align-items: end;
-  margin-bottom: var(--s-5);
+  margin-bottom: var(--s-6);
 }
 
 .title { grid-column: 1 / -1; }
@@ -29,9 +29,8 @@
   .intro { grid-column: 8 / span 5; }
 }
 
-/* --- Liste ---------------------------------------------------------------
-   Mobil: küçük portreli dizin satırları (çizgiyle ayrılmış).
-   Tablet: aynı satırlar iki kolonda. Masaüstü: 6 kişilik tek şerit. */
+/* --- Dizin listesi --------------------------------------------------------
+   Mobil: küçük portre + numara + isim/unvan + ok; satırlar 1px çizgiyle ayrılır. */
 .list {
   list-style: none;
   margin: 0;
@@ -39,121 +38,197 @@
   border-top: 1px solid var(--rule-light);
 }
 
-.item { border-bottom: 1px solid var(--rule-light); }
+.item {
+  position: relative;
+  border-bottom: 1px solid var(--rule-light);
+}
 
 .member {
   display: grid;
-  grid-template-columns: 4.5rem 1fr auto;
+  grid-template-columns: 4.5rem auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: var(--s-2);
+  column-gap: var(--s-2);
   padding-block: var(--s-2);
   color: inherit;
   text-decoration: none;
 }
 
-/* Portre: köşe yok, çerçeve yok; ton hafif desatüre */
-.portrait {
+.thumb {
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
   background: var(--warm-50);
 }
-
-.img {
+.thumbImg {
   object-fit: cover;
   object-position: center top;
   filter: grayscale(1) contrast(1.04);
-  transition: filter 700ms var(--ease), transform 700ms var(--ease);
 }
 
-.info {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-/* Sıra numarası: küçük altın etiket (altın kullanımının izin verilen biçimi) */
+/* Sıra numarası: küçük altın etiket (altının izin verilen biçimi) */
 .num {
+  align-self: start;
+  padding-top: .5rem;
   color: var(--gold);
-  margin-bottom: 2px;
+  font-variant-numeric: tabular-nums;
 }
+
+.nameWrap { display: grid; gap: 4px; min-width: 0; }
 
 .name {
-  margin: 0;
   font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 1.375rem;
-  line-height: 1.15;
-  letter-spacing: -.015em;
-  text-decoration: underline 1px transparent;
-  text-underline-offset: .18em;
-  transition: text-decoration-color var(--t-hover) var(--ease);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 5.5vw, 1.875rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
 }
 
-.titles {
+.role {
   display: flex;
-  flex-direction: column;
-  margin: 2px 0 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px var(--s-1);
   font-size: .8125rem;
-  line-height: 1.45;
   color: var(--charcoal);
 }
 
-.titleItem:first-child { color: var(--ink); font-weight: 500; }
-
-.arrow {
-  width: 28px;
+/* Sorumlu ortak işareti: ince çerçeveli küçük etiket, dolgu yok */
+.lead {
+  padding: 1px 6px;
+  border: 1px solid var(--rule-light);
+  font-size: .6875rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
   color: var(--ink);
 }
 
-/* Hover: portre tona kavuşur, isim altı çizilir, ok altına döner ve kayar */
-.member:hover .img,
-.member:focus-visible .img { filter: grayscale(.15) contrast(1.02); transform: scale(1.03); }
-.member:hover .name,
-.member:focus-visible .name { text-decoration-color: currentColor; }
+.arrow { width: 28px; color: var(--ink); }
+
 .member:hover .arrow,
 .member:focus-visible .arrow { transform: translateX(6px); stroke: var(--gold); }
 
-/* --- Tablet: dizin satırları iki kolonda -------------------------------- */
-@media (min-width: 640px) {
+/* Sahne yalnızca masaüstünde */
+.stage { display: none; }
+
+/* --- Tablet: satırlar iki kolonda ----------------------------------------- */
+@media (min-width: 640px) and (max-width: 1023px) {
   .list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: var(--col-gap);
   }
-  /* Yan yana iki kişinin metni aynı hizadan başlasın */
-  .member { grid-template-columns: 5.5rem 1fr auto; align-items: start; }
-  .arrow { align-self: center; }
+  .member { grid-template-columns: 5.5rem auto minmax(0, 1fr) auto; }
 }
 
-/* --- Masaüstü: 6 kişilik tek şerit -------------------------------------
-   Satır çizgisi yerine her kişinin üstünde ince çizgi; ok numara hizasında
-   durur ki uzun isimler (1024px'te) okla çakışmasın. */
+/* --- Masaüstü: dizin (7 kolon) + sahne (5 kolon) -------------------------- */
 @media (min-width: 1024px) {
-  .list {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    border-top: 0;
+  .index {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    align-items: start;
   }
 
-  .item { border-bottom: 0; border-top: 1px solid var(--rule-light); }
+  .list { grid-column: 1 / span 7; }
+
+  .thumb { display: none; }
 
   .member {
-    grid-template-columns: 1fr auto;
-    align-items: start;
-    row-gap: var(--s-2);
-    column-gap: var(--s-1);
-    padding-block: var(--s-2) 0;
+    grid-template-columns: 3rem minmax(0, 1fr) auto;
+    column-gap: var(--s-3);
+    padding-block: var(--s-3);
+  }
+  .num { padding-top: 1.1rem; }
+
+  .name {
+    font-size: clamp(2.25rem, 3.6vw, 3.5rem);
+    line-height: 1;
+  }
+  .role { font-size: var(--fs-small); }
+
+  /* Altın çizgi: aktif satırın altında soldan uzar (yapıyı çizgiler kurar) */
+  .item::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 600ms var(--ease);
+  }
+  .item[data-active]::after { transform: scaleX(1); }
+
+  /* Aktif olmayan satırlar soluk; liste "okunan kişiyi" gösterir */
+  .member { opacity: .38; transition: opacity 400ms var(--ease); }
+  .item[data-active] .member { opacity: 1; }
+
+  .arrow { width: 40px; }
+
+  /* --- Sahne: sticky portre + altında unvan ve uzmanlık alanları --- */
+  .stage {
+    display: block;
+    grid-column: 9 / -1;
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-4));
   }
 
-  .portrait { grid-column: 1 / -1; }
-  .info { grid-column: 1 / -1; grid-row: 2; }
-  .arrow { grid-column: 2; grid-row: 2; align-self: start; margin-top: .25rem; }
-  .name { font-size: 1.25rem; }
+  .frame {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--warm-50);
+  }
+
+  /* Perde: aktif portre aşağıdan yukarı açılır; önceki altta kalır */
+  .shot {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 900ms var(--ease);
+  }
+  .shot[data-active] { z-index: 1; clip-path: inset(0 0 0 0); }
+
+  .shotImg {
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(1) contrast(1.05);
+  }
+
+
+  .caption {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--s-3);
+    padding-top: var(--s-2);
+    border-top: 1px solid var(--rule-light);
+    margin-top: var(--s-2);
+  }
+  /* Sayaç: 03/06 — hangi kişide olunduğunu sessizce söyler */
+  .frameNum {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    font-family: var(--font-serif);
+    font-size: 2.25rem;
+    font-weight: 300;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .frameNum span { font-size: .875rem; color: var(--charcoal); }
+  .captionTitles { margin: 0; font-size: var(--fs-small); font-weight: 500; }
+  .focus {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px var(--s-2);
+    margin: var(--s-1) 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: .8125rem;
+    color: var(--charcoal);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .member:hover .img,
-  .member:focus-visible .img { transform: none; }
   .member:hover .arrow,
   .member:focus-visible .arrow { transform: none; }
 }

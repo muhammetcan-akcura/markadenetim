@@ -1,0 +1,311 @@
+/* ===================== İLETİŞİM SAYFASI ===================== */
+.main { overflow-x: clip; }
+
+/* --- 1. Giriş ---------------------------------------------------------------
+   Koyu bant: solda başlık, sağda koordinat levhası, altta kanal şeridi.
+   Masaüstünde bant ekranı doldurur ama kanallar ilk görünümde kalır. */
+.hero {
+  --focus-ring: var(--gold);
+  padding-top: var(--header-h);
+  background: var(--navy-900);
+  color: var(--warm-100);
+}
+.heroGrid {
+  row-gap: var(--s-5);
+  padding-top: var(--s-6);
+}
+.heroText,
+.plate,
+.channels { grid-column: 1 / -1; }
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0 0 var(--s-3);
+  color: var(--stone-300);
+}
+.kicker::before {
+  content: "";
+  width: var(--s-4);
+  height: 1px;
+  background: var(--gold);
+}
+
+/* Başlık ana sayfa hero'sundan küçük: odak kanallar ve form. En uzun satır
+   "netleştirelim." 360px'te tek satıra sığacak alt sınır */
+.title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-optical-sizing: auto;
+  font-size: clamp(2.625rem, 6.2vw, 6.75rem);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tracking-display);
+}
+/* Satır maskesi: İ noktası ve ğ kuyruğu kesilmesin diye iç boşlukla genişletilir */
+.line {
+  display: block;
+  overflow: hidden;
+  padding-block: .1em .14em;
+  margin-block: -.1em -.14em;
+}
+.lineInner {
+  display: block;
+  animation: rise var(--t-hero) var(--ease) both;
+}
+.line:last-child .lineInner { padding-left: .9em; }
+@keyframes rise {
+  from { transform: translateY(110%); }
+}
+
+.lead {
+  max-width: 44ch;
+  margin: var(--s-4) 0 0;
+  font-size: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  line-height: 1.6;
+  color: var(--stone-300);
+}
+.toOffices { margin-top: var(--s-2); color: var(--warm-100); }
+
+/* --- Koordinat levhası --------------------------------------------------------
+   Hakkımızda'daki mührün karşılığı: dekoratif, metin taşımaz (aria-hidden).
+   Altın yalnızca yay ve noktalarda; ızgara kısık çizgi. */
+.plate {
+  margin: 0;
+  animation: fadeIn var(--t-hero) var(--ease) 400ms both;
+}
+.plateSvg { display: block; width: 100%; height: auto; overflow: visible; }
+.plateFrame { fill: none; stroke: var(--stone-300); stroke-opacity: .45; stroke-width: 1; }
+.plateGrid { stroke: var(--rule-dark); stroke-width: 1; }
+.plateTick {
+  fill: var(--stone-500);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+.plateArc { fill: none; stroke: var(--gold); stroke-width: 1; }
+.plateCross { stroke: var(--stone-300); stroke-opacity: .6; stroke-width: 1; }
+.platePoint { fill: var(--navy-900); stroke: var(--gold); stroke-width: 1; }
+.plateCity {
+  fill: var(--warm-100);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .24em;
+}
+.plateCoords {
+  fill: var(--stone-300);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: .06em;
+  font-variant-numeric: tabular-nums;
+}
+/* Sol girinti = çerçevenin viewBox'taki konumu (40 / 480): yazı çerçeve kenarıyla hizalanır */
+.plateCaption {
+  margin-top: var(--s-2);
+  padding-left: 8.333%;
+  color: var(--stone-500);
+}
+@keyframes fadeIn { from { opacity: 0; } }
+
+/* Mobil/tablet: levha metnin altında, sağa yaslı ve sınırlı genişlikte */
+@media (max-width: 1023px) {
+  .plate { justify-self: end; width: min(100%, 28rem); }
+}
+
+/* Kanallar: mobilde alt alta büyük satırlar; tablette 2×2; masaüstünde tek şerit */
+.channels {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule-dark);
+}
+.channel {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: center;
+  column-gap: var(--s-2);
+  row-gap: var(--s-1);
+  min-height: 96px;
+  padding-block: var(--s-3);
+  border-bottom: 1px solid var(--rule-dark);
+  color: var(--warm-100);
+  text-decoration: none;
+}
+/* Hover: altın çizgi soldan uzar, değer hafifçe kayar (ana sayfadaki kanallarla aynı dil) */
+.channel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 600ms var(--ease);
+}
+.channelLabel { grid-column: 1; color: var(--stone-300); }
+.channelValue {
+  grid-column: 1;
+  font-size: clamp(1.1875rem, 1.6vw, 1.5rem);
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  transition: transform var(--t-hover) var(--ease);
+}
+.channelArrow {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  width: 32px;
+  color: var(--stone-500);
+}
+.channel:hover::after,
+.channel:focus-visible::after { transform: scaleX(1); }
+.channel:hover .channelValue { transform: translateX(8px); }
+.channel:hover .channelArrow { transform: translateX(6px); stroke: var(--gold); }
+
+@media (min-width: 768px) {
+  .heroText { grid-column: 1 / span 9; }
+  .channels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 0;
+  }
+  .channels li { border-top: 1px solid var(--rule-dark); }
+  .channels li:nth-child(even) .channel {
+    padding-left: var(--s-3);
+    border-left: 1px solid var(--rule-dark);
+  }
+  .channels li:nth-child(odd) .channel { padding-right: var(--s-3); }
+  .channel { border-bottom: 0; }
+}
+
+/* Masaüstü: metin 7 kolon, levha 5 kolon dikey ortada; kanal şeridi bandın altına oturur */
+@media (min-width: 1024px) {
+  .heroGrid {
+    min-height: calc(min(100svh, 60rem) - var(--header-h));
+    grid-template-rows: 1fr auto;
+    row-gap: 0;
+    padding-top: 0;
+  }
+  .heroText {
+    grid-column: 1 / span 7;
+    align-self: center;
+    padding-block: var(--s-6);
+  }
+  .plate {
+    grid-column: 8 / -1;
+    align-self: center;
+    padding-block: var(--s-6);
+  }
+  .channels { grid-row: 2; }
+}
+
+/* Dört kanal tek şeritte: altında değerler (özellikle e-posta) kırılıyor, 2×2 kalır.
+   E-posta en uzun değer; tek satırda kalsın diye üçüncü hücre daha geniş. */
+@media (min-width: 1280px) {
+  .channels { grid-template-columns: 1fr 1fr 1.45fr 1fr; }
+  .channelValue { font-size: clamp(1.1875rem, 1.45vw, 1.375rem); }
+  .channels li .channel { padding-inline: var(--s-3); }
+  .channels li:first-child .channel { padding-left: 0; }
+  .channels li + li .channel { border-left: 1px solid var(--rule-dark); }
+}
+
+/* --- 2. Süreç + form --------------------------------------------------------
+   Açık "kâğıt" zemin: uzun okuma ve yazma burada yapılır, göz yorulmaz. */
+.write {
+  padding-block: var(--section-mid);
+  background: var(--warm-100);
+  color: var(--ink);
+}
+.writeGrid { row-gap: var(--s-7); }
+.process,
+.formSlot { grid-column: 1 / -1; }
+
+/* Bölüm etiketi: küçük altın numara + etiket (Hakkımızda ile aynı dil).
+   Açık zeminde stone-500 AA'yı tutmaz, charcoal kullanılır */
+.sectionLabel {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  margin: 0 0 var(--s-3);
+  color: var(--charcoal);
+}
+.sectionLabel span { color: var(--gold); }
+.processTitle {
+  max-width: 16em;
+  margin: 0 0 var(--s-5);
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-optical-sizing: auto;
+  font-size: clamp(1.875rem, 3vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+
+/* Adımlar: ikon yok; altın numara + kısa başlık + tek cümle, 1px çizgiyle ayrılır */
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule-light);
+}
+.steps li {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  column-gap: var(--s-2);
+  padding-block: var(--s-3);
+  border-bottom: 1px solid var(--rule-light);
+}
+.stepNum {
+  grid-row: 1 / span 2;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  line-height: 1.9;
+  color: var(--gold);
+}
+.stepTitle {
+  margin: 0 0 4px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.stepText {
+  margin: 0;
+  max-width: 44ch;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--charcoal);
+}
+
+.meta { margin: var(--s-5) 0 0; }
+.meta dt { margin-bottom: var(--s-1); color: var(--charcoal); }
+.meta dd { margin: 0; font-size: 1.125rem; }
+
+.privacy {
+  max-width: 44ch;
+  margin: var(--s-4) 0 0;
+  padding-left: var(--s-2);
+  border-left: 1px solid var(--gold);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--charcoal);
+}
+
+/* Form paneli koyu zemin taşır; metin rengi açık tona çevrilir */
+.formSlot {
+  --focus-ring: var(--gold);
+  color: var(--warm-100);
+}
+
+@media (min-width: 1100px) {
+  .process { grid-column: 1 / span 5; }
+  .formSlot { grid-column: 7 / span 6; }
+  /* Süreç sütunu form doldurulurken görünür kalır */
+  .process { position: sticky; top: calc(var(--header-h) + var(--s-4)); align-self: start; }
+}

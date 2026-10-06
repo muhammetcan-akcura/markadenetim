@@ -16,7 +16,7 @@ import { SCENE_JUMP_TO } from '@/lib/heroScenes';
 /*
   Hero'nun tek client kabuğu. Metin ve düzen sunucuda render edilip children olarak gelir.
   Burada iki şey yönetilir:
-  - video: oynat/durdur, ekran dışında durma, hareket azaltma / veri tasarrufunda otomatik oynatmama
+  - video: oynat/durdur, ekran dışında durma, hareket azaltmada otomatik oynatmama
   - sahne durumu: videodaki üç sahne; HUD aynı durumu paylaşır
 */
 type HeroContextValue = {
@@ -59,7 +59,7 @@ export function HeroStage({
   const [scene, setScene] = useState(0);
 
   /*
-    Video: hareket azaltma veya veri tasarrufu açıksa otomatik oynamaz (poster görünür).
+    Video: hareket azaltma açıksa otomatik oynamaz (poster görünür).
     Hero ekran dışındayken durur. Sayfa yüklendikten ve tarayıcı boşa çıktıktan sonra başlar:
     ilk boyamayla bant genişliği yarışmaz. 5 sn'den uzun otomatik hareket için durdurma
     kontrolü zorunludur (WCAG 2.2.2): HeroHud'daki düğme.
@@ -73,16 +73,37 @@ export function HeroStage({
     video.addEventListener('play', onPlay);
     video.addEventListener('pause', onPause);
 
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-    if (reduce || saveData) userPausedRef.current = true;
+    // Mobil otomatik oynatma yalnızca sessiz videoda izinlidir. React `muted`'ı SSR HTML'ine
+    // yazmaz ve hydration'da özelliği de ayarlamaz; iOS Safari / mobil Chrome bu yüzden
+    // play()'i reddeder. Özellik ve nitelik burada açıkça set edilir.
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute('muted', '');
+
+    // Hareket azaltma açıksa otomatik oynamaz (erişilebilirlik). Veri tasarrufu bilinçli olarak
+    // dikkate alınmaz: mobilde zaten 720p (~2,7 MB) sürüm yüklenir.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) userPausedRef.current = true;
+
+    // Tarayıcı yine de reddederse (ör. iOS düşük güç modu) ilk dokunuş/kaydırmada tekrar denenir.
+    const gestureEvents = ['pointerdown', 'touchstart', 'scroll', 'keydown'] as const;
+    const removeGestureRetry = () =>
+      gestureEvents.forEach((e) => window.removeEventListener(e, retryOnGesture));
+    const retryOnGesture = () => {
+      removeGestureRetry();
+      playIfAllowed();
+    };
 
     // Video (preload="none") ancak sayfa yüklenip tarayıcı boşa çıkınca istenir:
     // LCP/TBT penceresinde ağ ve ana iş parçacığı metin ile stile kalır.
     let ready = false;
     let inView = true;
     const playIfAllowed = () => {
-      if (ready && inView && !userPausedRef.current) video.play().catch(() => {});
+      if (!ready || !inView || userPausedRef.current) return;
+      video.play().catch(() => {
+        gestureEvents.forEach((e) =>
+          window.addEventListener(e, retryOnGesture, { once: true, passive: true }),
+        );
+      });
     };
 
     const io = new IntersectionObserver(([entry]) => {
@@ -105,6 +126,7 @@ export function HeroStage({
 
     return () => {
       io.disconnect();
+      removeGestureRetry();
       window.removeEventListener('load', whenIdle);
       (window.cancelIdleCallback ?? window.clearTimeout)(idleId);
       video.removeEventListener('play', onPlay);

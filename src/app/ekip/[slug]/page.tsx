@@ -86,7 +86,7 @@ export default async function MemberPage({ params }: Params) {
         <section className={styles.profile} aria-labelledby="member-name">
           <div className={`container grid ${styles.profileGrid}`}>
             <div className={styles.intro}>
-              <Link href="/#ekip" className={`link-arrow ${styles.back}`}>
+              <Link href="/#ekip" className={`link-arrow link-arrow--plain ${styles.back}`}>
                 <ArrowIcon className={`link-arrow__icon ${styles.backIcon}`} />
                 <span>{t.team.back}</span>
               </Link>
@@ -176,7 +176,7 @@ export default async function MemberPage({ params }: Params) {
 
               {/* Eylemler: dolu birincil buton + çerçeveli ikincil; ikisi de 56px, net basılma hissi */}
               <div className={styles.actions}>
-                <a className={styles.primary} href="/#iletisim">
+                <a className={styles.primary} href="/iletisim">
                   <span>{t.team.cta}</span>
                   <ArrowIcon className={`link-arrow__icon ${styles.actionIcon}`} />
                 </a>
