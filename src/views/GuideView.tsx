@@ -6,6 +6,7 @@ import { ArrowIcon } from '@/components/ArrowIcon';
 import { DocHeader } from '@/components/DocHeader';
 import { EndMark } from '@/components/EndMark';
 import { Footer } from '@/components/Footer';
+import { PrintMasthead, PrintSource } from '@/components/Print';
 import { ProseBlocks } from '@/components/ProseBlocks';
 import { SiteHeader } from '@/components/SiteHeader';
 import { blocksMinutes, type ArticleBlock } from '@/content/insights';
@@ -63,8 +64,9 @@ export function GuideView({ t, slug }: { t: Dictionary; slug: string }) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
       <SiteHeader t={t} />
-      <main id="main" className={styles.main}>
+      <main id="main" className={styles.main} data-print="doc">
         <article aria-labelledby="doc-title">
+          <PrintMasthead />
           <DocHeader
             back={{ href: r.guides, label: p.back }}
             kicker={`${p.title} · ${g.num}`}
@@ -121,6 +123,7 @@ export function GuideView({ t, slug }: { t: Dictionary; slug: string }) {
                   <ArrowIcon />
                 </Link>
               </footer>
+              <PrintSource t={t} path={r.guide(g.slug)} />
             </div>
           </div>
         </article>

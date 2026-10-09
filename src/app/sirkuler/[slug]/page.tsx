@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { ArrowIcon } from '@/components/ArrowIcon';
 import { DocHeader } from '@/components/DocHeader';
 import { Footer } from '@/components/Footer';
+import { PrintMasthead, PrintSource } from '@/components/Print';
 import { ProseBlocks } from '@/components/ProseBlocks';
 import { SiteHeader } from '@/components/SiteHeader';
 import { circulars, getCircular } from '@/content/circulars';
@@ -76,8 +77,9 @@ export default async function CircularPage({ params }: Params) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
       <SiteHeader t={t} />
-      <main id="main" className={styles.main}>
+      <main id="main" className={styles.main} data-print="doc">
         <article aria-labelledby="doc-title">
+          <PrintMasthead />
           {/* Künye paneli bandın sağında: numara, tarih, konu ve yayımlayan (resmî yazı anteti gibi) */}
           <DocHeader
             back={{ href: '/sirkuler', label: p.back }}
@@ -160,6 +162,7 @@ export default async function CircularPage({ params }: Params) {
                   <ArrowIcon />
                 </Link>
               </footer>
+              <PrintSource t={t} path={`/sirkuler/${c.slug}`} />
             </div>
           </div>
         </article>

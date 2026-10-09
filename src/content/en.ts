@@ -17,6 +17,7 @@ export const en: Dictionary = {
       'Sworn-in CPA (YMM) services, full certification, independent audit, tax and financial advisory in Istanbul and Mardin, Türkiye.',
     ogDescription: 'Sworn-in CPA (YMM) services, independent audit, tax and financial advisory. Istanbul and Mardin.',
   },
+  print: { source: 'Source' },
   a11y: {
     skip: 'Skip to content',
     breadcrumbHome: 'Home',

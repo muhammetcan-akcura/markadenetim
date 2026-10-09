@@ -200,12 +200,43 @@ section[id] { scroll-margin-top: var(--header-h); }
 }
 .link-arrow:hover .link-arrow__icon { transform: translateX(6px); stroke: var(--gold); }
 
-/* Wordmark: işaret yok, yalnızca geniş harf aralıklı sans */
-.wordmark {
-  font-size: .875rem;
-  font-weight: 600;
-  letter-spacing: .3em;
-  text-transform: uppercase;
-  line-height: 1;
-  padding-block: var(--s-2);
+
+/* ===================== Yazdırma (sirküler, rehber, makale) =====================
+   Kapsam: <main data-print="doc">. Belge, kurumun resmî yazısı gibi basılır: site kabuğu
+   (menü, footer, çerez bandı, sabit sekmeler) ve ekran etkileşimleri düşer; antet ve kaynak
+   satırı components/Print.tsx'ten gelir. Mürekkep tasarrufu için zemin beyaz, metin tek renk;
+   yalnızca logo kendi renklerini korur. */
+@media print {
+  @page { margin: 16mm 18mm; }
+  html, body { background: #fff; }
+
+  body:has(> main[data-print="doc"]) > :not(main) { display: none !important; }
+  [data-print="doc"] > :not(article) { display: none !important; }
+  [data-print="doc"] { background: #fff !important; padding: 0 !important; }
+
+  /* Reveal animasyonları kâğıtta "görünmeden" kalmasın */
+  [data-print="doc"] * {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    color: var(--ink) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  /* Ekran araçları: geri/CTA bağlantıları, içindekiler, fotoğraflar (logolar kalır) */
+  [data-print="doc"] .link-arrow,
+  [data-print="doc"] nav,
+  [data-print="doc"] figure,
+  [data-print="doc"] :is(div, figure):has(> img:not([src*="brand"])) { display: none !important; }
+
+  /* Ekran ızgarası yerine tek sütun; bölüm boşlukları kâğıda göre */
+  [data-print="doc"] .container { max-width: none; padding-inline: 0; }
+  [data-print="doc"] .grid { display: block; }
+  [data-print="doc"] header { min-height: 0 !important; padding: 0 0 6mm !important; }
+  [data-print="doc"] aside { margin-bottom: 6mm; }
+  [data-print="doc"] h1 { font-size: 24pt !important; line-height: 1.15 !important; }
+  [data-print="doc"] h2, [data-print="doc"] h3 { break-after: avoid; }
+  [data-print="doc"] p, [data-print="doc"] li { orphans: 3; widows: 3; }
 }

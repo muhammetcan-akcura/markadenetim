@@ -1,0 +1,25 @@
+/* Ekranda yok; yalnızca yazdırırken (bkz. globals.css "Yazdırma") */
+.masthead,
+.source { display: none; }
+
+@media print {
+  /* Antet: yatay logo solda, altında 1px çizgi — resmî yazı başlığı gibi */
+  .masthead {
+    display: block;
+    padding-bottom: 6mm;
+    margin-bottom: 8mm;
+    border-bottom: 1px solid var(--ink);
+  }
+  /* Kılavuzdaki yatay logo asgari baskı genişliği 40mm; antet bunun üstünde */
+  .logo { display: block; width: 62mm; height: auto; }
+
+  .source {
+    display: block;
+    margin-top: 10mm;
+    padding-top: 3mm;
+    border-top: 1px solid var(--ink);
+    font-size: 9pt;
+    color: var(--ink);
+    word-break: break-all;
+  }
+}

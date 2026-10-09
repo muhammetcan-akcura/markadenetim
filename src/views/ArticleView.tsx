@@ -6,6 +6,7 @@ import { ArrowIcon } from '@/components/ArrowIcon';
 import { ArticleIndex } from '@/components/ArticleIndex';
 import { EndMark } from '@/components/EndMark';
 import { Footer } from '@/components/Footer';
+import { PrintMasthead, PrintSource } from '@/components/Print';
 import { ProseBlocks } from '@/components/ProseBlocks';
 import { SiteHeader } from '@/components/SiteHeader';
 import { readingMinutes, type ArticleBlock } from '@/content/insights';
@@ -75,8 +76,9 @@ export function ArticleView({ t, slug }: { t: Dictionary; slug: string }) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
       <SiteHeader t={t} />
-      <main id="main" className={styles.main}>
+      <main id="main" className={styles.main} data-print="doc">
         <article aria-labelledby="article-title">
+          <PrintMasthead />
           <header className={styles.intro}>
             <div className={`container grid ${styles.introGrid}`}>
               <Link href={r.insights} className={`link-arrow link-arrow--plain ${styles.back}`}>
@@ -151,6 +153,7 @@ export function ArticleView({ t, slug }: { t: Dictionary; slug: string }) {
                   <ArrowIcon />
                 </Link>
               </footer>
+              <PrintSource t={t} path={r.article(article.slug)} />
             </div>
           </div>
         </article>

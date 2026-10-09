@@ -14,6 +14,8 @@ export const tr = {
       'İstanbul ve Mardin’de yeminli mali müşavirlik, tam tasdik, bağımsız denetim, vergi ve finansal danışmanlık. Kararlarınızı sağlam bir mali zemine oturtuyoruz.',
     ogDescription: 'Yeminli mali müşavirlik, bağımsız denetim, vergi ve finansal danışmanlık. İstanbul ve Mardin.',
   },
+  // Yazdırılan belgelerin (sirküler, rehber, makale) sonundaki kaynak satırı
+  print: { source: 'Kaynak' },
   a11y: {
     skip: 'İçeriğe geç',
     // Breadcrumb (JSON-LD) ilk halkası
