@@ -82,7 +82,7 @@ export const tr = {
     phoneLabel: 'Telefon',
     phone: '+90 535 029 79 13',
     emailLabel: 'E-posta',
-    email: 'info@markadenetim.com.tr',
+    email: 'info@markadenetim.tr',
   },
   hero: {
     // Tasdik sürecinin üç fiili: mesleğin özü (imza ve kişisel sorumluluk, 3568 s. K. md. 12); iddiasız
@@ -378,7 +378,7 @@ export const tr = {
     channels: [
       { label: 'Telefon · İstanbul', value: '+90 535 029 79 13', href: 'tel:+905350297913' },
       { label: 'Telefon · Mardin', value: '+90 541 811 80 86', href: 'tel:+905418118086' },
-      { label: 'E-posta', value: 'info@markadenetim.com.tr', href: 'mailto:info@markadenetim.com.tr' },
+      { label: 'E-posta', value: 'info@markadenetim.tr', href: 'mailto:info@markadenetim.tr' },
       {
         label: 'WhatsApp',
         value: 'Mesaj gönderin',
@@ -665,7 +665,7 @@ export const tr = {
         address: 'Barış Mah. Necip Fazıl Kısakürek Sokak No:1 Lotus İş Merkezi C Blok Kat:5 Ofis No:15, Beylikdüzü / İstanbul',
         phone: '+90 535 029 79 13',
         phoneHref: 'tel:+905350297913',
-        email: 'info@markadenetim.com.tr',
+        email: 'info@markadenetim.tr',
         mapUrl: 'https://maps.google.com/maps?q=41.0094323,28.6538803+(Marka%20Denetim%20%C4%B0stanbul%20Merkez%20Ofis)&t=&z=16&ie=UTF8&iwloc=&output=embed',
         directionsUrl: 'https://maps.google.com/?q=41.0094323,28.6538803',
       },
@@ -674,7 +674,7 @@ export const tr = {
         address: 'Sanayi Mah. 705 Sokak Biriz Yapı İş Merkezi No:2 Ofis No:28 Merkez / Mardin',
         phone: '+90 541 811 80 86',
         phoneHref: 'tel:+905418118086',
-        email: 'info@markadenetim.com.tr',
+        email: 'info@markadenetim.tr',
         mapUrl: 'https://maps.google.com/maps?q=Sanayi+Mah.+705+Sokak+Biriz+Yap%C4%B1+%C4%B0%C5%9F+Merkezi+No:2+Merkez+Mardin&t=&z=15&ie=UTF8&iwloc=&output=embed',
         directionsUrl: 'https://maps.google.com/?q=Sanayi+Mah.+705+Sokak+Biriz+Yap%C4%B1+%C4%B0%C5%9F+Merkezi+No:2+Merkez+Mardin',
       },
