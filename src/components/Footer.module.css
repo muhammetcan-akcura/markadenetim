@@ -131,12 +131,18 @@
 }
 
 .brand { grid-column: 1 / -1; }
-.brandLink { display: inline-block; text-decoration: none; }
-.brandLogo {
-  height: 44px;
-  width: auto;
-  object-fit: contain;
-  display: block;
+/* Oranlar header'daki logoyla aynı (SiteHeader.module.css); yalnızca --logo-h büyür */
+.brandLink {
+  --logo-h: 48px;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--logo-h) * 0.22);
+  text-decoration: none;
+}
+.brandMonogram { height: var(--logo-h); width: auto; display: block; flex-shrink: 0; }
+.brandWordmark { height: calc(var(--logo-h) * 0.348); width: auto; display: block; transform: translateY(-15%); }
+@media (min-width: 1024px) {
+  .brandLink { --logo-h: 56px; }
 }
 .legalName { margin: var(--s-1) 0 0; color: var(--stone-500); }
 

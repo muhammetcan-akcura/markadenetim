@@ -38,7 +38,7 @@ const jsonLd = {
       name: legalName,
       alternateName: brandName,
       url: `${siteUrl}/`,
-      logo: { '@type': 'ImageObject', url: `${siteUrl}/favicon/web-app-manifest-512x512.png`, width: 512, height: 512 },
+      logo: { '@type': 'ImageObject', url: `${siteUrl}/brand/markadenetim-logo-512.png`, width: 512, height: 512 },
       image: `${siteUrl}/img/og-image.jpg`,
       email: tr.contact.email,
       telephone: tr.contact.phone,

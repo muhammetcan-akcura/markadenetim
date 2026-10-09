@@ -144,27 +144,23 @@ export function SiteHeaderClient({ t, menus, languages }: { t: Dictionary; menus
       <header className={headerClass}>
         <div className={`container ${styles.inner}`}>
           <a className={styles.brandLink} href={routes[t.locale].top} aria-label={`MarkaDenetim - ${t.footer.descriptor}`}>
+            {/* Kaşe monogramı + yazı: kılavuzdaki yatay logonun oranları (unvan bu boyutta okunmaz; aria-label'da) */}
             <Image
-              src="/brand/logo-monogram.svg"
-              alt="MarkaDenetim Monogram"
-              width={64}
-              height={35}
+              src="/brand/markadenetim-monogram-kucuk-koyu-zemin.svg"
+              alt=""
+              width={42}
+              height={34}
               priority
               className={styles.brandMonogram}
             />
-            <div className={styles.brandTextGroup}>
-              <Image
-                src="/brand/logo-wordmark.svg"
-                alt="MarkaDenetim"
-                width={130}
-                height={20}
-                priority
-                className={styles.brandWordmark}
-              />
-              <span className={styles.brandSubtitle}>
-                {t.footer.descriptor}
-              </span>
-            </div>
+            <Image
+              src="/brand/markadenetim-yazi-koyu-zemin.svg"
+              alt="MarkaDenetim"
+              width={128}
+              height={12}
+              priority
+              className={styles.brandWordmark}
+            />
           </a>
 
           <nav className={styles.nav} aria-label={t.a11y.mainNav}>
@@ -271,25 +267,21 @@ export function SiteHeaderClient({ t, menus, languages }: { t: Dictionary; menus
       >
         <div className={`container ${styles.menuTop}`}>
           <a className={styles.brandLink} href={routes[t.locale].top} aria-label={`MarkaDenetim - ${t.footer.descriptor}`} onClick={() => closeMenu(false)}>
+            {/* Kaşe monogramı + yazı: kılavuzdaki yatay logonun oranları (unvan bu boyutta okunmaz; aria-label'da) */}
             <Image
-              src="/brand/logo-monogram.svg"
-              alt="MarkaDenetim Monogram"
-              width={60}
-              height={33}
+              src="/brand/markadenetim-monogram-kucuk-koyu-zemin.svg"
+              alt=""
+              width={42}
+              height={34}
               className={styles.brandMonogram}
             />
-            <div className={styles.brandTextGroup}>
-              <Image
-                src="/brand/logo-wordmark.svg"
-                alt="MarkaDenetim"
-                width={120}
-                height={19}
-                className={styles.brandWordmark}
-              />
-              <span className={styles.brandSubtitle}>
-                {t.footer.descriptor}
-              </span>
-            </div>
+            <Image
+              src="/brand/markadenetim-yazi-koyu-zemin.svg"
+              alt="MarkaDenetim"
+              width={128}
+              height={12}
+              className={styles.brandWordmark}
+            />
           </a>
           <button ref={closeBtnRef} className={styles.close} type="button" onClick={() => closeMenu()}>
             <span className="sr-only">{t.a11y.closeMenu}</span>

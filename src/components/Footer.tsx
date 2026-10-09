@@ -106,12 +106,20 @@ export function Footer({ t }: { t: Dictionary }) {
       <div className={`container grid ${styles.top}`}>
         <div className={styles.brand}>
           <a className={styles.brandLink} href={routes[t.locale].top} aria-label={t.a11y.home}>
+            {/* Header'daki kurgunun büyük hâli; unvan aşağıda gerçek metin olarak durur */}
             <Image
-              src="/brand/logo-horizontal.svg"
+              src="/brand/markadenetim-monogram-kucuk-koyu-zemin.svg"
+              alt=""
+              width={69}
+              height={56}
+              className={styles.brandMonogram}
+            />
+            <Image
+              src="/brand/markadenetim-yazi-koyu-zemin.svg"
               alt="MarkaDenetim"
-              width={240}
-              height={50}
-              className={styles.brandLogo}
+              width={211}
+              height={19}
+              className={styles.brandWordmark}
             />
           </a>
           <p className={styles.legalName}>{f.descriptor}</p>

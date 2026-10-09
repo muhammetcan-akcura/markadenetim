@@ -33,7 +33,9 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false, email: false, address: false },
   icons: {
     icon: [
-      { url: '/favicon/favicon.ico' },
+      { url: '/favicon/favicon.ico', sizes: '16x16 32x32 48x48' },
+      // SVG favicon: keskin, tek dosya; desteklemeyen tarayıcı ICO/PNG'ye düşer
+      { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
     ],
     shortcut: '/favicon/favicon.ico',
