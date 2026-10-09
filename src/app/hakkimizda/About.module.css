@@ -86,10 +86,10 @@
 }
 
 /* --- Kaşe ---------------------------------------------------------------- */
-/* Logonun monogramı; mobilde metnin altında sağa yaslı, masaüstünde metnin karşısında dikey ortada */
+/* Logonun monogramı; mobilde metnin altında ortada, masaüstünde metnin karşısında dikey ortada */
 .seal {
   grid-column: 1 / -1;
-  justify-self: end;
+  justify-self: center;
   width: min(56vw, 15rem);
   animation: fadeIn var(--t-hero) var(--ease) 400ms both;
 }
