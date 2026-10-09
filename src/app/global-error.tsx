@@ -28,6 +28,7 @@ export default function GlobalError({
           <StatusPage
             t={tr}
             kind="error"
+            brand
             note={error.digest ? `${e.digest}: ${error.digest}` : undefined}
             actions={
               <button type="button" className="btn-frame" onClick={() => retry()}>

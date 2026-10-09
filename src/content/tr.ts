@@ -108,12 +108,8 @@ export const tr = {
         { label: 'Denetim yetkisi', value: 'KGK lisanslı bağımsız denetim' },
         { label: 'Ofisler', value: 'İstanbul · Mardin' },
       ],
-      // Mühür kompozisyonunun çevresindeki yazı (dekoratif; ekran okuyucudan gizli)
-      seal: 'YEMİNLİ MALİ MÜŞAVİRLİK · TAM TASDİK · BAĞIMSIZ DENETİM · 3568 SAYILI KANUN · ',
+      // Kaşe monogramının altındaki alt yazı
       sealCaption: 'İmza · Mühür · Tasdik',
-      // Mührün içindeki iki kısa yazı (üstte marka, altta eylem)
-      sealTop: 'MARKADENETİM',
-      sealBottom: 'TASDİK',
     },
     lexicon: {
       label: 'Unvan',

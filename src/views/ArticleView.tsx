@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowIcon } from '@/components/ArrowIcon';
 import { ArticleIndex } from '@/components/ArticleIndex';
+import { EndMark } from '@/components/EndMark';
 import { Footer } from '@/components/Footer';
 import { ProseBlocks } from '@/components/ProseBlocks';
 import { SiteHeader } from '@/components/SiteHeader';
@@ -141,6 +142,7 @@ export function ArticleView({ t, slug }: { t: Dictionary; slug: string }) {
 
             <div className={styles.prose}>
               <ProseBlocks blocks={article.body} />
+              <EndMark />
 
               <footer className={styles.closing}>
                 <p className={styles.disclaimer}>{t.insights.article.disclaimer}</p>

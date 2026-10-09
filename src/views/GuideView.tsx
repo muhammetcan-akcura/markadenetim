@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowIcon } from '@/components/ArrowIcon';
 import { DocHeader } from '@/components/DocHeader';
+import { EndMark } from '@/components/EndMark';
 import { Footer } from '@/components/Footer';
 import { ProseBlocks } from '@/components/ProseBlocks';
 import { SiteHeader } from '@/components/SiteHeader';
@@ -112,6 +113,7 @@ export function GuideView({ t, slug }: { t: Dictionary; slug: string }) {
 
             <div className={styles.prose}>
               <ProseBlocks blocks={g.body} />
+              <EndMark />
               <footer className={styles.closing}>
                 <p className={styles.disclaimer}>{p.disclaimer}</p>
                 <Link className="link-arrow" href={t.cta.href}>

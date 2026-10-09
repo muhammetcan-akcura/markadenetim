@@ -85,55 +85,20 @@
   color: var(--stone-300);
 }
 
-/* --- Mühür ------------------------------------------------------------- */
-/* Mobilde sağ kenara taşan büyük işaret; masaüstünde metnin karşısında dikey ortada */
+/* --- Kaşe ---------------------------------------------------------------- */
+/* Logonun monogramı; mobilde metnin altında sağa yaslı, masaüstünde metnin karşısında dikey ortada */
 .seal {
   grid-column: 1 / -1;
   justify-self: end;
-  width: min(78vw, 22rem);
-  margin-right: calc(var(--gutter) * -0.5);
+  width: min(56vw, 15rem);
   animation: fadeIn var(--t-hero) var(--ease) 400ms both;
 }
-.sealSvg { width: 100%; height: auto; overflow: visible; }
-
-.sealAxis { stroke: var(--rule-dark); stroke-width: 1; }
-.sealRing { fill: none; stroke: var(--stone-300); stroke-width: 1; opacity: .55; }
-.sealRingFaint { fill: none; stroke: var(--rule-dark); stroke-width: 1; }
-.sealRingGold { fill: none; stroke: var(--gold); stroke-width: 1; }
-
-.sealText {
-  fill: var(--stone-300);
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: .2em;
-}
-/* Yalnızca transform; 120 saniyede bir tur: göz hareketi değil, canlılığı fark eder */
-.sealSpin {
-  transform-box: view-box;
-  transform-origin: 200px 200px;
-  animation: spin 120s linear infinite;
-}
-.sealCore {
-  fill: var(--warm-100);
-  font-family: var(--font-serif);
-  font-size: 64px;
-  font-weight: var(--fw-serif);
-  letter-spacing: .06em;
-}
-.sealSub {
-  fill: var(--gold);
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .28em;
-}
+.sealMark { width: 100%; height: auto; display: block; }
 .sealCaption {
-  margin-top: var(--s-2);
+  margin-top: var(--s-3);
   text-align: center;
   color: var(--stone-500);
 }
-@keyframes spin { to { transform: rotate(360deg); } }
 @keyframes fadeIn { from { opacity: 0; } }
 
 /* --- Künye şeridi -------------------------------------------------------- */
@@ -180,8 +145,7 @@
     grid-column: 8 / -1;
     align-self: center;
     justify-self: center;
-    width: min(100%, 30rem);
-    margin-right: 0;
+    width: min(100%, 19rem);
   }
   .facts { grid-row: 2; }
 }
@@ -621,7 +585,7 @@
 
 /* ================================================================ Hareket azaltma */
 @media (prefers-reduced-motion: reduce) {
-  .sealSpin { animation: none; }
+  .seal { animation: none; }
   :global(.js) .dutyWord { opacity: 1 !important; }
   :global(.js) .entry::before,
   :global(.js) .entryWordInner,

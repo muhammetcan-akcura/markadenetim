@@ -96,10 +96,7 @@ export const en: Dictionary = {
         { label: 'Audit authorisation', value: 'KGK-licensed independent audit' },
         { label: 'Offices', value: 'Istanbul · Mardin' },
       ],
-      seal: 'SWORN-IN CPA · FULL CERTIFICATION · INDEPENDENT AUDIT · LAW NO. 3568 · ',
       sealCaption: 'Signature · Seal · Certification',
-      sealTop: 'MARKADENETIM',
-      sealBottom: 'CERTIFIED',
     },
     lexicon: {
       label: 'The title',

@@ -218,11 +218,16 @@
 /* --- İmza bloğu (sirküler): ad, unvan, profil bağlantısı --- */
 .signature {
   display: grid;
-  gap: 4px;
+  grid-template-columns: 1fr auto;
+  column-gap: var(--s-4);
+  row-gap: 4px;
   margin-top: var(--s-6);
   padding-top: var(--s-3);
   border-top: 1px solid var(--ink);
 }
+.signature > * { grid-column: 1; }
+/* Kaşe imza bloğunun sağında, son satırla aynı tabanda */
+.signature > .signatureSeal { grid-column: 2; grid-row: 1 / span 4; align-self: end; height: 56px; width: auto; }
 .signatureLabel { margin: 0 0 var(--s-1); color: var(--charcoal); }
 .signatureName {
   margin: 0;

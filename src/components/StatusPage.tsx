@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { ReactNode } from 'react';
 import type { Dictionary } from '@/content/tr';
 import { routes } from '@/lib/routes';
@@ -16,6 +17,7 @@ export function StatusPage({
   kind,
   actions,
   note,
+  brand,
 }: {
   t: Dictionary;
   kind: 'notFound' | 'error';
@@ -23,12 +25,20 @@ export function StatusPage({
   actions?: ReactNode;
   /** Başlığın altında küçük gri satır (hata kodu gibi) */
   note?: ReactNode;
+  /** Header'ın olmadığı sayfada (global-error) logoyu header konumunda göster */
+  brand?: boolean;
 }) {
   const s = t.status;
   const c = s[kind];
   return (
     <section className={styles.page} aria-labelledby="status-title">
       <div className={`container ${styles.inner}`}>
+        {brand && (
+          <a className={styles.brand} href={routes[t.locale].home} aria-label={`MarkaDenetim - ${t.footer.descriptor}`}>
+            <Image src="/brand/markadenetim-monogram-kucuk-koyu-zemin.svg" alt="" width={42} height={34} className={styles.brandMonogram} />
+            <Image src="/brand/markadenetim-yazi-koyu-zemin.svg" alt="MarkaDenetim" width={128} height={12} className={styles.brandWordmark} />
+          </a>
+        )}
         <p className={styles.head}>
           <span className={`label ${styles.code}`}>{c.code}</span>
           <span className={`label ${styles.label}`}>{c.label}</span>

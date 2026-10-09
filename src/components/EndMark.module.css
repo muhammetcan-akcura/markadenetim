@@ -1,0 +1,4 @@
+/* Metnin son paragrafından sonra, metin kolonunun solunda; altındaki kapanış çizgisinden
+   önce kısa bir duraklama yaratır. Küçük boyut monogramı: 28px'te çift çizgi seçilir kalır. */
+.mark { margin-top: var(--s-5); }
+.img { height: 28px; width: auto; display: block; }

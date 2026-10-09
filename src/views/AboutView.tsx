@@ -74,7 +74,7 @@ export function AboutView({ t }: { t: Dictionary }) {
               <p className={styles.lead}>{a.hero.lead}</p>
             </div>
 
-            <Seal text={a.hero.seal} caption={a.hero.sealCaption} top={a.hero.sealTop} bottom={a.hero.sealBottom} />
+            <Seal caption={a.hero.sealCaption} />
 
             <dl className={styles.facts}>
               {a.hero.facts.map((f) => (
@@ -335,45 +335,21 @@ export function AboutView({ t }: { t: Dictionary }) {
 }
 
 /*
-  Meslek mührü: yeminli mali müşavir raporlarının imza ve mühürle tasdik edilmesine gönderme.
-  Gerçek bir mührün taklidi değil; sicil no veya isim taşımaz, tamamen tipografik bir işarettir.
-  Dış halka yazısı çok yavaş döner (fark edilmeyecek hızda); artı işaretli eksen çizgileri
-  teknik çizim / belge kılavuzu hissi verir.
+  Kaşe: logonun monogramı, hero'da büyük ölçekte. YMM raporlarının imza ve kaşeyle tasdik
+  edilmesine gönderme; sitedeki tek mühür dili budur (logo kılavuzu, docs/brand).
+  Sicil no veya isim taşımaz; dekoratif olduğu için ekran okuyucudan gizlidir.
 */
-function Seal({ text, caption, top, bottom }: { text: string; caption: string; top: string; bottom: string }) {
+function Seal({ caption }: { caption: string }) {
   return (
     <figure className={styles.seal} aria-hidden="true">
-      <svg viewBox="0 0 400 400" className={styles.sealSvg} focusable="false">
-        <defs>
-          <path id="seal-ring" d="M200,200 m-158,0 a158,158 0 1,1 316,0 a158,158 0 1,1 -316,0" />
-        </defs>
-        {/* Eksen çizgileri */}
-        <line x1="0" y1="200" x2="400" y2="200" className={styles.sealAxis} />
-        <line x1="200" y1="0" x2="200" y2="400" className={styles.sealAxis} />
-        {/* Halkalar */}
-        <circle cx="200" cy="200" r="190" className={styles.sealRing} />
-        <circle cx="200" cy="200" r="182" className={styles.sealRingFaint} />
-        <circle cx="200" cy="200" r="132" className={styles.sealRingGold} />
-        <circle cx="200" cy="200" r="124" className={styles.sealRingFaint} />
-        <g className={styles.sealSpin}>
-          <text className={styles.sealText}>
-            <textPath href="#seal-ring" textLength="990" lengthAdjust="spacing">
-              {text}
-            </textPath>
-          </text>
-        </g>
-        {/* Merkez: mesleğin kısaltması */}
-        <text x="200" y="214" textAnchor="middle" className={styles.sealCore}>
-          YMM
-        </text>
-        <line x1="166" y1="236" x2="234" y2="236" className={styles.sealRingGold} />
-        <text x="200" y="258" textAnchor="middle" className={styles.sealSub}>
-          {bottom}
-        </text>
-        <text x="200" y="160" textAnchor="middle" className={styles.sealSub}>
-          {top}
-        </text>
-      </svg>
+      <Image
+        src="/brand/markadenetim-monogram-koyu-zemin.svg"
+        alt=""
+        width={1465}
+        height={1123}
+        priority
+        className={styles.sealMark}
+      />
       <figcaption className={`label ${styles.sealCaption}`}>{caption}</figcaption>
     </figure>
   );

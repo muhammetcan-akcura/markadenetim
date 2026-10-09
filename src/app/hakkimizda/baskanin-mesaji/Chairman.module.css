@@ -92,7 +92,7 @@
 .message p { margin: 0; font-size: 1.125rem; line-height: 1.7; color: var(--charcoal); }
 .message p + p { margin-top: var(--s-3); }
 /* İlk paragraf mektubun girişi: serif ve daha büyük */
-.message p:first-child {
+.message > p:first-child {
   font-family: var(--font-serif);
   font-weight: var(--fw-serif);
   font-size: clamp(1.5rem, 2.2vw, 2rem);
@@ -100,14 +100,22 @@
   letter-spacing: -.01em;
   color: var(--ink);
 }
+.signBlock {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s-4);
+  margin-top: var(--s-6);
+}
 .message .sign {
   display: grid;
   gap: 4px;
-  margin-top: var(--s-6);
+  margin: 0;
   padding-top: var(--s-3);
   border-top: 1px solid var(--ink);
-  max-width: 22rem;
+  flex: 0 1 22rem;
 }
+/* Kaşe imza satırının sağında, imza ile aynı tabanda */
+.signSeal { height: 56px; width: auto; display: block; flex-shrink: 0; }
 .signName {
   font-family: var(--font-serif);
   font-style: italic;

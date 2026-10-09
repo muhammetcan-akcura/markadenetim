@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowIcon } from '@/components/ArrowIcon';
@@ -141,6 +142,14 @@ export default async function CircularPage({ params }: Params) {
                     <span>{p.profile}</span>
                     <ArrowIcon />
                   </Link>
+                  {/* İmzalı sirküler kaşeyle kapanır: YMM tasdikinin imza + kaşe düzeni */}
+                  <Image
+                    src="/brand/markadenetim-monogram-kucuk-acik-zemin.svg"
+                    alt=""
+                    width={69}
+                    height={56}
+                    className={styles.signatureSeal}
+                  />
                 </div>
               )}
 

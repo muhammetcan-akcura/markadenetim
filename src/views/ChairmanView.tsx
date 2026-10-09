@@ -100,10 +100,20 @@ export function ChairmanView({ t }: { t: Dictionary }) {
               {c.message.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
-              <p className={styles.sign}>
-                <span className={styles.signName}>{person.name}</span>
-                <span className={styles.signTitle}>{person.titles.slice(0, 2).join(' · ')}</span>
-              </p>
+              {/* İmza + kaşe: YMM'nin tasdik eylemi; mektup bir rapor gibi imzalanıp kaşelenir */}
+              <div className={styles.signBlock}>
+                <p className={styles.sign}>
+                  <span className={styles.signName}>{person.name}</span>
+                  <span className={styles.signTitle}>{person.titles.slice(0, 2).join(' · ')}</span>
+                </p>
+                <Image
+                  src="/brand/markadenetim-monogram-kucuk-acik-zemin.svg"
+                  alt=""
+                  width={69}
+                  height={56}
+                  className={styles.signSeal}
+                />
+              </div>
             </div>
           </div>
         </section>

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import type { Dictionary } from '@/content/tr';
 import { routes } from '@/lib/routes';
@@ -145,7 +146,14 @@ export function ContactForm({
   if (status === 'success') {
     return (
       <div className={`${styles.panel} ${styles.done}`} id={id(routes[t.locale].ids.contactForm)}>
-        <span className={styles.doneRule} aria-hidden="true" />
+        {/* Gönderim tamam: kaşe monogramı, "kapandı, alındı" anlamında (logo kılavuzu, kesin toplam) */}
+        <Image
+          src="/brand/markadenetim-monogram-kucuk-koyu-zemin.svg"
+          alt=""
+          width={59}
+          height={48}
+          className={styles.doneSeal}
+        />
         <h3 className={styles.doneTitle} ref={doneRef} tabIndex={-1}>
           {f.successTitle}
         </h3>
